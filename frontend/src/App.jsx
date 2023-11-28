@@ -3,6 +3,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import CustomerLayout from "./layouts/customer/CustomerLayout";
 import AdminLayout from "./layouts/admin/AdminLayout";
 import HomePage from "./pages/customer/HomePage";
+import CategoryPage from "./pages/customer/CategoryPage";
 import FoodDetailPage from "./pages/customer/FoodDetailPage";
 import CartPage from "./pages/customer/CartPage";
 import OrderPage from "./pages/customer/OrderPage";
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
                     {
                         path: "/",
                         element: <HomePage />,
+                    },
+                    {
+                        path: "/category/:id",
+                        element: <CategoryPage />,
                     },
                     {
                         path: "/food/:id",
