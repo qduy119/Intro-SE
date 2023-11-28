@@ -48,7 +48,7 @@ export default function ProfilePage() {
                                 <input type="email" id='email' className='rounded-[4px] py-2 px-3 border-none outline-none' />
                             </div>
                         </div>
-                        <button className='mt-4 uppercase font-bold text-2xl text-center py-3 bg-blue-800 hover:bg-blue-800/90 w-full rounded-[4px] text-white'>
+                        <button className='mt-4 uppercase font-bold text-2xl text-center py-3 bg-primary hover:bg-primary-dark w-full rounded-[4px] text-white'>
                             SAVE
                         </button>
                     </div>

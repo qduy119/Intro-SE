@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { useNavigate } from "react-router-dom";
+
 import SearchIcon from "@mui/icons-material/Search";
 
 export default function Header() {
@@ -21,7 +20,7 @@ export default function Header() {
                 onSubmit={(e) => handleSubmit(e)}
                 className="flex items-center "
             >
-                <div className="h-[42px] py-2 px-5 rounded-l-full border-solid border-[1px] border-gray-300 focus-within:border-sky-200">
+                <div className="h-[42px] py-2 px-5 rounded-l-full border-solid border-[1px] border-gray-300 focus-within:border-primary">
                     <label htmlFor="search" className="hidden"></label>
                     <input
                         id="search"
@@ -39,11 +38,7 @@ export default function Header() {
                     <SearchIcon />
                 </button>
             </form>
-            <p>
-                <Link to="/cart">
-                    <ShoppingCartOutlinedIcon />
-                </Link>
-            </p>
+            
         </div>
     );
 }

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from '@mui/material';
 import { useState } from "react";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Header from "../Header/Header";
 
 
@@ -14,7 +15,7 @@ export default function Navbar() {
                         hcmus@canteen
                     </Link>
                 </div>
-                <Header/>
+                <Header />
                 <div className="flex items-center sm:gap-x-0 md:gap-x-[6px] lg:gap-x-2">
                     <Button>
                         <Link to="/login" className="text-primary">Login</Link>
@@ -22,6 +23,11 @@ export default function Navbar() {
                     <Button>
                         <Link to="/signup" className="text-primary">Sign up</Link>
                     </Button>
+                    <p className="hidden">
+                        <Link to="/cart">
+                            <ShoppingCartOutlinedIcon />
+                        </Link>
+                    </p>
                 </div>
             </div>
         </div>
