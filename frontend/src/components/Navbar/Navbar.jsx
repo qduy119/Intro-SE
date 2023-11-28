@@ -10,17 +10,17 @@ export default function Navbar() {
         <div className="border-b-2 py-2 px-3">
             <div className="flex items-center justify-between">
                 <div className="inline">
-                    <Link to="/" className="text-3xl font-bold text-blue-800">
+                    <Link to="/" className="text-3xl font-bold text-primary">
                         hcmus@canteen
                     </Link>
                 </div>
                 <Header/>
                 <div className="flex items-center sm:gap-x-0 md:gap-x-[6px] lg:gap-x-2">
-                    <Button className="sm:">
-                        <Link to="/login">Login</Link>
+                    <Button>
+                        <Link to="/login" className="text-primary">Login</Link>
                     </Button>
                     <Button>
-                        <Link to="/signup">Sign up</Link>
+                        <Link to="/signup" className="text-primary">Sign up</Link>
                     </Button>
                 </div>
             </div>

@@ -1,14 +1,18 @@
 import { Link } from "react-router-dom";
+import { bg } from "../../assets";
 
 export default function SignupPage() {
     return (
-        <div className="h-screen w-full">
-            <form className="flex gap-y-4">
-                <div className="flex flex-col w-[35%] mt-[50px] p-4 pl-[80px]">
-                    <p className="text-center text-3xl font-bold text-blue-800">
+        <div
+            className="relative h-screen w-full bg-contain"
+            style={{ backgroundImage: `url(${bg})` }}
+        >
+            <form className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex gap-y-4 bg-white px-10 py-5 rounded-md">
+                <div className="flex flex-col">
+                    <p className="text-center text-3xl font-bold text-primary">
                         <Link to="/">hcmus@canteen</Link>
                     </p>
-                    <h2 className="text-center text-2xl font-bold pt-5 sm:pt-12">
+                    <h2 className="text-center text-2xl font-bold pt-5 sm:pt-12 text-primary-dark">
                         Create a new account
                     </h2>
                     <p className="text-center text-gray-600 text-[12px] mt-2">
@@ -48,9 +52,19 @@ export default function SignupPage() {
                                 placeholder="Your Password"
                             />
                         </div>
-
-                        <button className="max-w-full rounded-[4px] border-none outline-non text-white font-bold text-xl bg-blue-800 hover:bg-blue-800/95 py-2">
-                            Signup
+                        <div className="flex flex-col">
+                            <label className="mb-1" htmlFor="confirm-password">
+                                Confirm Password
+                            </label>
+                            <input
+                                className="w-[100%] border-none outline-none px-3 py-2 rounded-[4px] bg-gray-200"
+                                type="confirm-password"
+                                id="confirm-password"
+                                placeholder="Your Password Confirmation"
+                            />
+                        </div>
+                        <button className="max-w-full rounded-[4px] border-none outline-non text-white font-bold text-xl bg-primary hover:bg-primary-dark py-2">
+                            Sign up
                         </button>
                     </div>
 
@@ -58,14 +72,11 @@ export default function SignupPage() {
                         Already have an account?
                         <Link
                             to="/login"
-                            className="text-blue-500 font-semibold ml-1 hover:underline"
+                            className="text-primary-light font-semibold ml-1 hover:underline"
                         >
                             Log in
                         </Link>
                     </p>
-                </div>
-                <div className="w-[65%]">
-                    <img src="" alt="" />
                 </div>
             </form>
         </div>

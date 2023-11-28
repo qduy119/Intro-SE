@@ -7,7 +7,15 @@ export default {
         "./src/layouts/*.{js,jsx}",
     ],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                primary: {
+                    light: "#fc8a42",
+                    DEFAULT: "#f57e33",
+                    dark: "#e6732c",
+                },
+            },
+        },
     },
     plugins: [],
 };

@@ -4,7 +4,7 @@ export default function SearchPage() {
     const [searchParams] = useSearchParams();
 
     return (
-        <div>
+        <div className="min-h-[600px]">
             <p>Result for: {searchParams.get("query")}</p>
             <h1 className="text-2xl">SearchPage</h1>
         </div>
