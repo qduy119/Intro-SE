@@ -163,7 +163,8 @@ const foods = [
 export default function Food() {
     return (
         <div className="">
-            <h1 className="font-semibold text-3xl mb-5">List Food Today</h1>
+            <h1 className="font-semibold text-3xl mb-2">List Food Today</h1>
+            <div className="w-[13.5rem] h-[4px] rounded-md bg-primary-light mb-6" />
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
                 {foods.map((food, index) => (
                     <FoodItem key={index} food={food} />
