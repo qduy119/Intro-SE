@@ -12,7 +12,7 @@ namespace IntroSEProject.Models
         public int ItemId { get; set; }
         public Item Item { get; set; }
         [ForeignKey(nameof(User))]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public AppUser User { get; set; }
     }
 }
