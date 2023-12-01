@@ -14,7 +14,7 @@ namespace IntroSEProject.Models
         public int OrderItemId { get; set; }
         public OrderItem OrderItem { get; set; }
         [ForeignKey(nameof(User))]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public AppUser User { get; set; }
 
         public virtual ICollection<Image> Images { get; set; }

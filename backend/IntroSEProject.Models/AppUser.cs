@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IntroSEProject.Models
 {
-    [Table("Users")]
-    public class AppUser : IdentityUser<int>
+    public class AppUser : IdentityUser
     {
         [StringLength(100)] 
         public string Email { get; set; }

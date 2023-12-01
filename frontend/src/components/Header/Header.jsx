@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from "@mui/icons-material/Search";
 
 export default function Header() {
@@ -20,25 +20,31 @@ export default function Header() {
                 onSubmit={(e) => handleSubmit(e)}
                 className="flex items-center "
             >
-                <div className="h-[42px] py-2 px-5 rounded-l-full border-solid border-[1px] border-gray-300 focus-within:border-primary">
+                <div className="flex items-center h-[42px] py-2 px-5 rounded-l-full border-solid border-[1px] border-gray-300 focus-within:border-primary focus-within:shadow-primary-light">
                     <label htmlFor="search" className="hidden"></label>
                     <input
                         id="search"
                         type="text"
                         placeholder="Search..."
-                        className="border-none outline-none w-[300px]"
+                        className="border-none outline-none w-[300px] bg-transparent"
                         value={searchString}
                         onChange={(e) => setSearchString(e.target.value)}
                     />
+                    {searchString ? (
+                        <button className="p-1 rounded-full bg-gray-200" onClick={()=>setSearchString("")}>
+                            <CloseIcon className="w-2 h-2"/>
+                        </button>
+                    ) : null}
                 </div>
                 <button
                     type="submit"
-                    className="h-[42px] rounded-r-full border-l-0 border-solid border-[1px] py-[7px] px-4 border-gray-300 bg-gray-100 hover:bg-gray-200"
+                    className="h-[42px] rounded-r-full border-l-0 border-solid border-[1px] py-[7px] px-4 border-gray-300 bg-gray-100 hover:bg-gray-20"
+                    onClick={(e) => handleSubmit(e)}
                 >
                     <SearchIcon />
                 </button>
             </form>
-            
+
         </div>
     );
 }
