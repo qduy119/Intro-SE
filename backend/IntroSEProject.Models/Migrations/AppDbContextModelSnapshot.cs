@@ -112,8 +112,8 @@ namespace IntroSEProject.Models.Migrations
                             Id = "1",
                             AccessFailedCount = 0,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/753.jpg",
-                            ConcurrencyStamp = "01bb6939-148d-4a83-9543-66e5131601e9",
-                            DateOfBirth = new DateTime(2023, 1, 21, 16, 21, 7, 346, DateTimeKind.Local).AddTicks(4386),
+                            ConcurrencyStamp = "b6321481-7376-447e-a2c7-3ff4e03ee7db",
+                            DateOfBirth = new DateTime(2023, 1, 22, 8, 25, 18, 410, DateTimeKind.Local).AddTicks(3100),
                             Email = "ClarkFadel.Stark@gmail.com",
                             EmailConfirmed = false,
                             FullName = "Clark Fadel",
@@ -122,7 +122,7 @@ namespace IntroSEProject.Models.Migrations
                             Password = "BRHDGI6qra",
                             PhoneNumber = "1-498-765-3374 x93306",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "45072f16-4129-4c45-8a62-6dc811b078f7",
+                            SecurityStamp = "79d291e8-a00e-45b4-88b8-b8c34158db89",
                             TwoFactorEnabled = false,
                             UserName = "ClarkFadel_West82"
                         },
@@ -131,8 +131,8 @@ namespace IntroSEProject.Models.Migrations
                             Id = "2",
                             AccessFailedCount = 0,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/764.jpg",
-                            ConcurrencyStamp = "c9e9b595-4ae5-41a5-9225-09fb33c56a8e",
-                            DateOfBirth = new DateTime(2023, 3, 23, 11, 41, 56, 701, DateTimeKind.Local).AddTicks(2063),
+                            ConcurrencyStamp = "72558ab8-8807-4f7f-886e-df0010a96ad1",
+                            DateOfBirth = new DateTime(2023, 3, 24, 3, 46, 7, 765, DateTimeKind.Local).AddTicks(2436),
                             Email = "ConorDaniel_Reinger90@gmail.com",
                             EmailConfirmed = false,
                             FullName = "Conor Daniel",
@@ -141,7 +141,7 @@ namespace IntroSEProject.Models.Migrations
                             Password = "PeJbP8ks3z",
                             PhoneNumber = "(629) 275-2249",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5588eadc-60a4-423c-aa39-9f2192ad31c9",
+                            SecurityStamp = "9664dc50-8eb8-4074-ace9-8279213c6dbd",
                             TwoFactorEnabled = false,
                             UserName = "ConorDaniel_Hudson"
                         },
@@ -150,8 +150,8 @@ namespace IntroSEProject.Models.Migrations
                             Id = "3",
                             AccessFailedCount = 0,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/842.jpg",
-                            ConcurrencyStamp = "b3113980-248a-4cce-b68a-25425295c506",
-                            DateOfBirth = new DateTime(2023, 7, 27, 10, 0, 0, 389, DateTimeKind.Local).AddTicks(1191),
+                            ConcurrencyStamp = "4430e35a-e981-451c-89d0-0bde4834b479",
+                            DateOfBirth = new DateTime(2023, 7, 28, 2, 4, 11, 453, DateTimeKind.Local).AddTicks(1885),
                             Email = "BudRogahn_Schulist90@yahoo.com",
                             EmailConfirmed = false,
                             FullName = "Bud Rogahn",
@@ -160,7 +160,7 @@ namespace IntroSEProject.Models.Migrations
                             Password = "y4JuoXIhC0",
                             PhoneNumber = "(448) 272-0448 x49112",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a6c8342b-a345-4b0f-ad5c-9f82559c884f",
+                            SecurityStamp = "12ffbe17-6649-4949-8db6-fc4ff3602d77",
                             TwoFactorEnabled = false,
                             UserName = "BudRogahn57"
                         },
@@ -169,8 +169,8 @@ namespace IntroSEProject.Models.Migrations
                             Id = "4",
                             AccessFailedCount = 0,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/42.jpg",
-                            ConcurrencyStamp = "18f183c8-722d-4480-83ad-9f22ad8355c7",
-                            DateOfBirth = new DateTime(2023, 7, 29, 7, 39, 31, 443, DateTimeKind.Local).AddTicks(3449),
+                            ConcurrencyStamp = "1e4e38bb-bd62-4a68-99a3-b8c541a9db95",
+                            DateOfBirth = new DateTime(2023, 7, 29, 23, 43, 42, 507, DateTimeKind.Local).AddTicks(4297),
                             Email = "EribertoCartwright32@yahoo.com",
                             EmailConfirmed = false,
                             FullName = "Eriberto Cartwright",
@@ -179,7 +179,7 @@ namespace IntroSEProject.Models.Migrations
                             Password = "prg7dkT30Z",
                             PhoneNumber = "(354) 967-1122 x76284",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e40ccdfc-5d02-4de6-807d-3e7ac2ca74d7",
+                            SecurityStamp = "a4b07db4-500f-4a76-92b5-f6fdaa60f5c7",
                             TwoFactorEnabled = false,
                             UserName = "EribertoCartwright.Wunsch72"
                         },
@@ -188,8 +188,8 @@ namespace IntroSEProject.Models.Migrations
                             Id = "5",
                             AccessFailedCount = 0,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/669.jpg",
-                            ConcurrencyStamp = "785ea063-0e55-418b-a98f-1d42e03a276e",
-                            DateOfBirth = new DateTime(2023, 9, 2, 0, 5, 6, 444, DateTimeKind.Local).AddTicks(5891),
+                            ConcurrencyStamp = "ca93c65c-6508-4fa3-a1bf-e68129d2dd16",
+                            DateOfBirth = new DateTime(2023, 9, 2, 16, 9, 17, 508, DateTimeKind.Local).AddTicks(6856),
                             Email = "BernadineWalker_Medhurst41@yahoo.com",
                             EmailConfirmed = false,
                             FullName = "Bernadine Walker",
@@ -198,7 +198,7 @@ namespace IntroSEProject.Models.Migrations
                             Password = "fM5Lp3i7Ks",
                             PhoneNumber = "288-228-4631",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a221a22a-3d6b-4c43-b07b-0f3006819a90",
+                            SecurityStamp = "34ddcddf-67c0-4034-98d2-f873d52e73bb",
                             TwoFactorEnabled = false,
                             UserName = "BernadineWalker_Weissnat"
                         },
@@ -207,8 +207,8 @@ namespace IntroSEProject.Models.Migrations
                             Id = "6",
                             AccessFailedCount = 0,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1138.jpg",
-                            ConcurrencyStamp = "7964def6-29ed-47ed-9022-c962a1d90372",
-                            DateOfBirth = new DateTime(2023, 3, 14, 13, 58, 9, 478, DateTimeKind.Local).AddTicks(6512),
+                            ConcurrencyStamp = "09e10432-7b20-4a3a-95da-d54d2a9d7130",
+                            DateOfBirth = new DateTime(2023, 3, 15, 6, 2, 20, 542, DateTimeKind.Local).AddTicks(7578),
                             Email = "SybleHilll.Emard@hotmail.com",
                             EmailConfirmed = false,
                             FullName = "Syble Hilll",
@@ -217,7 +217,7 @@ namespace IntroSEProject.Models.Migrations
                             Password = "mKfX5cv9N2",
                             PhoneNumber = "838.848.3427 x080",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "861a1b8d-6794-483b-8ed6-d3b01e490c07",
+                            SecurityStamp = "2d8c4f66-bcd7-467d-bbd9-9bafcbfbca6e",
                             TwoFactorEnabled = false,
                             UserName = "SybleHilll16"
                         },
@@ -226,8 +226,8 @@ namespace IntroSEProject.Models.Migrations
                             Id = "7",
                             AccessFailedCount = 0,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/651.jpg",
-                            ConcurrencyStamp = "5941c08d-61fc-4fb6-90ba-3efc3515a968",
-                            DateOfBirth = new DateTime(2023, 7, 25, 1, 50, 59, 712, DateTimeKind.Local).AddTicks(8448),
+                            ConcurrencyStamp = "6418462e-c44e-47ac-851b-b932cd3c1231",
+                            DateOfBirth = new DateTime(2023, 7, 25, 17, 55, 10, 777, DateTimeKind.Local).AddTicks(5),
                             Email = "DeltaDavis50@hotmail.com",
                             EmailConfirmed = false,
                             FullName = "Delta Davis",
@@ -236,7 +236,7 @@ namespace IntroSEProject.Models.Migrations
                             Password = "0UZyB6Lpp_",
                             PhoneNumber = "(530) 315-2805 x618",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "02835498-c958-4d63-9b8e-d9373e398fff",
+                            SecurityStamp = "41b3fce0-b248-4d8c-9562-c72889323370",
                             TwoFactorEnabled = false,
                             UserName = "DeltaDavis.Heathcote"
                         },
@@ -245,8 +245,8 @@ namespace IntroSEProject.Models.Migrations
                             Id = "8",
                             AccessFailedCount = 0,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/361.jpg",
-                            ConcurrencyStamp = "7f087f80-182f-4586-b2fa-ffe50ca90238",
-                            DateOfBirth = new DateTime(2023, 10, 16, 13, 37, 24, 921, DateTimeKind.Local).AddTicks(6898),
+                            ConcurrencyStamp = "30010be9-1640-4d19-9ec7-d16e6d364c49",
+                            DateOfBirth = new DateTime(2023, 10, 17, 5, 41, 35, 985, DateTimeKind.Local).AddTicks(8817),
                             Email = "ElyssaLarkin91@gmail.com",
                             EmailConfirmed = false,
                             FullName = "Elyssa Larkin",
@@ -255,7 +255,7 @@ namespace IntroSEProject.Models.Migrations
                             Password = "uG0c4HdN1L",
                             PhoneNumber = "1-931-875-7509",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "10d7012c-172d-4a83-b4de-db4e53a90607",
+                            SecurityStamp = "5323ab41-9cab-4821-81ac-735c6cb5751b",
                             TwoFactorEnabled = false,
                             UserName = "ElyssaLarkin_Barton"
                         },
@@ -264,8 +264,8 @@ namespace IntroSEProject.Models.Migrations
                             Id = "9",
                             AccessFailedCount = 0,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/661.jpg",
-                            ConcurrencyStamp = "39914e35-bdde-4437-85ab-626ae26cc6e3",
-                            DateOfBirth = new DateTime(2023, 11, 13, 12, 44, 51, 788, DateTimeKind.Local).AddTicks(8974),
+                            ConcurrencyStamp = "6da250e0-da29-42aa-a03b-8e98e2de0a90",
+                            DateOfBirth = new DateTime(2023, 11, 14, 4, 49, 2, 853, DateTimeKind.Local).AddTicks(1066),
                             Email = "SkylaHessel.Jakubowski@hotmail.com",
                             EmailConfirmed = false,
                             FullName = "Skyla Hessel",
@@ -274,7 +274,7 @@ namespace IntroSEProject.Models.Migrations
                             Password = "Zqx3bsawSF",
                             PhoneNumber = "598-673-0073",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "93645236-f97f-4773-a4f8-21e93852b6da",
+                            SecurityStamp = "d945c2b3-88e1-46c2-b829-0fedffb68a06",
                             TwoFactorEnabled = false,
                             UserName = "SkylaHessel5"
                         },
@@ -283,8 +283,8 @@ namespace IntroSEProject.Models.Migrations
                             Id = "10",
                             AccessFailedCount = 0,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1232.jpg",
-                            ConcurrencyStamp = "e4e81bbe-b4b6-423c-a8fc-ec295ce020d3",
-                            DateOfBirth = new DateTime(2023, 10, 1, 14, 15, 12, 89, DateTimeKind.Local).AddTicks(719),
+                            ConcurrencyStamp = "bd6a358b-d590-4dce-86f9-27adf8072bf2",
+                            DateOfBirth = new DateTime(2023, 10, 2, 6, 19, 23, 153, DateTimeKind.Local).AddTicks(2990),
                             Email = "FionaChristiansen54@yahoo.com",
                             EmailConfirmed = false,
                             FullName = "Fiona Christiansen",
@@ -293,7 +293,7 @@ namespace IntroSEProject.Models.Migrations
                             Password = "zRF7QgPlRh",
                             PhoneNumber = "1-742-904-3233 x336",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c1ee6c1e-9ce7-46ad-a60e-c353b939689c",
+                            SecurityStamp = "4fed2cd6-8631-4ac5-9d7e-1611cdb6484f",
                             TwoFactorEnabled = false,
                             UserName = "FionaChristiansen.Cassin"
                         });
@@ -321,7 +321,7 @@ namespace IntroSEProject.Models.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("CartItem");
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("IntroSEProject.Models.Category", b =>
@@ -347,7 +347,7 @@ namespace IntroSEProject.Models.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
 
                     b.HasData(
                         new
@@ -434,7 +434,7 @@ namespace IntroSEProject.Models.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("CategoryItem");
+                    b.ToTable("CategoryItems");
 
                     b.HasData(
                         new
@@ -963,7 +963,7 @@ namespace IntroSEProject.Models.Migrations
 
                     b.HasIndex("ReviewId");
 
-                    b.ToTable("Image");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("IntroSEProject.Models.Item", b =>
@@ -998,7 +998,7 @@ namespace IntroSEProject.Models.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Item");
+                    b.ToTable("Items");
 
                     b.HasData(
                         new
@@ -2031,7 +2031,7 @@ namespace IntroSEProject.Models.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Order");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("IntroSEProject.Models.OrderItem", b =>
@@ -2055,7 +2055,7 @@ namespace IntroSEProject.Models.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("IntroSEProject.Models.Payment", b =>
@@ -2093,7 +2093,7 @@ namespace IntroSEProject.Models.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Payment");
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("IntroSEProject.Models.Review", b =>
@@ -2123,7 +2123,7 @@ namespace IntroSEProject.Models.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Review");
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

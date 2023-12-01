@@ -85,15 +85,7 @@ namespace IntroSEProject.API
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapControllerRoute(
-                name : "myroute",
-                pattern : "{controller=Item}/{action=GetItemById}/{id?}"
-            );
-
-            app.MapControllerRoute(
-                name : "default",
-                pattern : "{controller=Item}/{action=Index}/{id?}"
-            );
+            app.MapControllers();
 
             app.Run();
         }

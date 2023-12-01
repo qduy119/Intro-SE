@@ -100,15 +100,15 @@ namespace IntroSEProject.Models
             //seed data for 
         }
 
-        public DbSet<Item> Item { set; get; }
-        public DbSet<CartItem> CartItem { set; get; }
-        public DbSet<Category> Category { set; get; }  
-        public DbSet<Image> Image { set; get; }
-        public DbSet<Order> Order { set; get; }
-        public DbSet<OrderItem> OrderItem { set; get; }
-        public DbSet<Review> Review { set; get; }
-        public DbSet<AppUser> User { set; get; }
-        public DbSet<Payment> Payment { set; get; }
-        public DbSet<CategoryItem> CategoryItem { set; get; }
+        public DbSet<Item> Items { set; get; }
+        public DbSet<CartItem> CartItems { set; get; }
+        public DbSet<Category> Categories { set; get; }  
+        public DbSet<Image> Images { set; get; }
+        public DbSet<Order> Orders { set; get; }
+        public DbSet<OrderItem> OrderItems { set; get; }
+        public DbSet<Review> Reviews { set; get; }
+        public DbSet<AppUser> Users { set; get; }
+        public DbSet<Payment> Payments { set; get; }
+        public DbSet<CategoryItem> CategoryItems { set; get; }
     }
 }
