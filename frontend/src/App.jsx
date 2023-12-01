@@ -8,8 +8,8 @@ import {
 import CustomerLayout from "./layouts/customer/CustomerLayout";
 import AdminLayout from "./layouts/admin/AdminLayout";
 import HomePage from "./pages/customer/HomePage";
-import CategoryPage from "./pages/customer/CategoryPage";
-import FoodDetailPage from "./pages/customer/FoodDetailPage";
+import CategoryPage, { fetchCategoryById } from "./pages/customer/CategoryPage";
+import ProductPage, { fetchProductById } from "./pages/customer/ProductPage";
 import CartPage from "./pages/customer/CartPage";
 import OrderPage from "./pages/customer/OrderPage";
 import SearchPage from "./pages/customer/SearchPage";
@@ -18,6 +18,7 @@ import LoginPage from "./pages/customer/LoginPage";
 import SignupPage from "./pages/customer/SignupPage";
 import ProfilePage from "./pages/customer/ProfilePage";
 import CheckoutPage from "./pages/customer/CheckoutPage";
+import ErrorPage from "./pages/customer/ErrorPage";
 import DashboardPage from "./pages/admin/DashboardPage";
 import AdminCategoryPage from "./pages/admin/CategoryPage";
 import MenuPage from "./pages/admin/MenuPage";
@@ -41,10 +42,14 @@ const router = createBrowserRouter([
                     {
                         path: "category/:id",
                         element: <CategoryPage />,
+                        loader: { fetchCategoryById },
+                        errorElement: <ErrorPage />,
                     },
                     {
                         path: "food/:id",
-                        element: <FoodDetailPage />,
+                        element: <ProductPage />,
+                        loader: { fetchProductById },
+                        errorElement: <ErrorPage />,
                     },
                     {
                         path: "cart",
@@ -113,6 +118,10 @@ const router = createBrowserRouter([
                         element: <RevenuePage />,
                     },
                 ],
+            },
+            {
+                path: "*",
+                element: <p>404 NOT FOUND</p>,
             },
         ],
     },
