@@ -5,7 +5,7 @@ export default function AdminLayout() {
     return (
         <div className="flex">
             <Sidebar />
-            <div className="flex-1 p-2 mr-[200px]">
+            <div className="flex-1 py-2 px-5 mr-[200px]">
                 <Outlet />
             </div>
         </div>

@@ -20,7 +20,7 @@ export default function Header() {
                 onSubmit={(e) => handleSubmit(e)}
                 className="flex items-center "
             >
-                <div className="flex items-center h-[42px] py-2 px-5 rounded-l-full border-solid border-[1px] border-gray-300 focus-within:border-primary focus-within:shadow-primary-light">
+                <div className="flex items-center h-[42px] py-2 pl-5 pr-2 rounded-l-full border-solid border-[1px] border-gray-300 focus-within:border-primary focus-within:shadow-primary-light">
                     <label htmlFor="search" className="hidden"></label>
                     <input
                         id="search"
@@ -31,10 +31,14 @@ export default function Header() {
                         onChange={(e) => setSearchString(e.target.value)}
                     />
                     {searchString ? (
-                        <button className="p-1 rounded-full bg-gray-200" onClick={()=>setSearchString("")}>
-                            <CloseIcon className="w-2 h-2"/>
+                        <button className=" p-1 rounded-full bg-gray-200 opacity-100" onClick={() => setSearchString("")}>
+                            <CloseIcon className="w-2 h-2" />
                         </button>
-                    ) : null}
+                    ) : (
+                        <button className=" p-1 rounded-full bg-gray-200 opacity-0" onClick={() => setSearchString("")}>
+                            <CloseIcon className="w-2 h-2" />
+                        </button>
+                    )}
                 </div>
                 <button
                     type="submit"
