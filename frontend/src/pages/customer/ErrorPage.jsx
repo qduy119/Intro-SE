@@ -3,7 +3,6 @@ import { useRouteError, useNavigate } from "react-router-dom";
 export default function Error() {
     const error = useRouteError();
     const navigate = useNavigate();
-    console.log(error);
 
     return (
         <section className="px-6 md:px-12 mt-[150px]">

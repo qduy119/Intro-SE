@@ -17,7 +17,6 @@ export default function Sidebar() {
                     HCMUS
                 </Link>
             </div>
-            <div className="bg-white w-full h-[2px] rounded-sm" />
             <ul className="mt-10 flex flex-col items-center gap-8 uppercase text-xl font-semibold text-white">
                 {navigationLinks.map(({ to, label }) => (
                     <li key={to}>

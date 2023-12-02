@@ -34,5 +34,5 @@ export async function fetchCategoryById({ params, request }) {
         throw new Error("Fetching products by category failed");
     }
     const { products } = res.data;
-    return products;
+    return products ?? [];
 }
