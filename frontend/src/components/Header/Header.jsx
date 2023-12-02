@@ -14,7 +14,7 @@ export default function Header() {
         }
     }
     return (
-        <div className="flex justify-end gap-2 py-4 items-center">
+        <div className="flex gap-2 py-2 items-center">
             <Search
                 search={searchString}
                 onSetSearch={setSearchString}
