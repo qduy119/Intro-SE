@@ -42,13 +42,13 @@ const router = createBrowserRouter([
                     {
                         path: "category/:id",
                         element: <CategoryPage />,
-                        loader: { fetchCategoryById },
+                        loader: fetchCategoryById,
                         errorElement: <ErrorPage />,
                     },
                     {
                         path: "food/:id",
                         element: <ProductPage />,
-                        loader: { fetchProductById },
+                        loader: fetchProductById,
                         errorElement: <ErrorPage />,
                     },
                     {

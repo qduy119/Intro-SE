@@ -110,5 +110,5 @@ export async function fetchProductById({ params, request }) {
         throw new Error("Fetching product failed");
     }
     const { product } = res.data;
-    return product;
+    return product ?? [];
 }
