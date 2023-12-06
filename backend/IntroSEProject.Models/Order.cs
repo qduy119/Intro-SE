@@ -16,9 +16,10 @@ namespace IntroSEProject.Models
 
         public virtual ICollection<OrderItem> OrderItems { get; set; }
         [ForeignKey(nameof(User))]
-        public string UserId { get; set; }
-        public AppUser User { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
 
         public virtual ICollection<Payment> Payments { get; set; }
+        public virtual ICollection<SeatReservation> SeatReservations { get; set; }
     }
 }

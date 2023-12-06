@@ -1,16 +1,17 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace IntroSEProject.Models
 {
-    public class AppUser : IdentityUser
+    public class User
     {
+        [Key]
+        public int Id { get; set; }
         [StringLength(100)] 
         public string Email { get; set; }
         [StringLength(100)]
         [Required]
         public string Password { get; set; }
+        public string PhoneNumber { get; set; }
         [StringLength(100)]
         [Required]
         public string FullName { get; set; }
@@ -19,9 +20,17 @@ namespace IntroSEProject.Models
         [StringLength(10)]
         public string Gender { get; set; }
         public DateTime? DateOfBirth { get; set; }
+        public Role Role { get; set; }
         public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
+    }
+
+    public enum Role
+    {
+        Admin,
+        Employee,
+        Customer,
     }
 }
