@@ -14,8 +14,8 @@ namespace IntroSEProject.Models
         [StringLength(20)]
         public string Status { get; set; }
         [ForeignKey(nameof(User))]
-        public string UserId { get; set; }
-        public AppUser User { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
         [ForeignKey(nameof(Order))]
         public int OrderId { get; set; }
         public Order Order { get; set; }

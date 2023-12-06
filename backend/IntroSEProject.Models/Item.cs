@@ -16,9 +16,10 @@ namespace IntroSEProject.Models
         public decimal Price { get; set; }
         public decimal Discount { get; set; }
         public int Stock { get; set; }
+        public string? Images { get; set; }
         public virtual ICollection<CategoryItem> CategoryItems { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; }
         public virtual ICollection<CartItem> CartItems { get; set; }
-        public virtual ICollection<Image> Images { get; set; }
+        
     }
 }

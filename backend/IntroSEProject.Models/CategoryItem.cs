@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace IntroSEProject.Models
+﻿namespace IntroSEProject.Models
 {
     public class CategoryItem
     {
