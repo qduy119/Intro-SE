@@ -6,16 +6,6 @@
 
 **Register:** **POST** /register
 
-**Login:** **POST** /authenticate
-
-```js
-{
-  "email": "string",
-  "password": "string"
-}
-```
-
-
 **Request**
 ```js
 {
@@ -26,6 +16,15 @@
   "avatar": "string",
   "gender": "string",
   "dateOfBirth": "2023-12-07T16:05:47.439Z"
+}
+```
+
+**Login:** **POST** /authenticate
+
+```js
+{
+  "email": "string",
+  "password": "string"
 }
 ```
 
