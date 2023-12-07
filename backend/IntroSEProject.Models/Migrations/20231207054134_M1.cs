@@ -9,7 +9,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace IntroSEProject.Models.Migrations
 {
     /// <inheritdoc />
-    public partial class init1 : Migration
+    public partial class M1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -66,7 +66,7 @@ namespace IntroSEProject.Models.Migrations
                     Avatar = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: false),
                     Gender = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    Role = table.Column<int>(type: "int", nullable: false)
+                    Role = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -390,16 +390,16 @@ namespace IntroSEProject.Models.Migrations
                 columns: new[] { "Id", "Avatar", "DateOfBirth", "Email", "FullName", "Gender", "Password", "PhoneNumber", "Role" },
                 values: new object[,]
                 {
-                    { 1, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/753.jpg", new DateTime(2023, 1, 27, 15, 59, 57, 226, DateTimeKind.Local).AddTicks(3750), "ClarkFadel.Stark@gmail.com", "Clark Fadel", "Female", "DZBRHDGI6q", "1-889-737-9865 x33749", 0 },
-                    { 2, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/76.jpg", new DateTime(2023, 3, 17, 4, 45, 7, 686, DateTimeKind.Local).AddTicks(8429), "BethNicolas17@hotmail.com", "Beth Nicolas", "Female", "7JyPeJbP8k", "1-666-934-7051 x29752", 0 },
-                    { 3, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/789.jpg", new DateTime(2023, 2, 13, 1, 38, 36, 336, DateTimeKind.Local).AddTicks(7434), "AylaEbert74@hotmail.com", "Ayla Ebert", "Female", "FGtKv09y4J", "(663) 951-5830 x4872", 0 },
-                    { 4, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/947.jpg", new DateTime(2023, 7, 22, 4, 54, 25, 253, DateTimeKind.Local).AddTicks(2069), "EstevanBogisich.Skiles@yahoo.com", "Estevan Bogisich", "Female", "yNeq0uPIe4", "1-713-316-9030", 0 },
-                    { 5, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1062.jpg", new DateTime(2023, 1, 24, 19, 35, 21, 997, DateTimeKind.Local).AddTicks(513), "PhilipPollich_Terry@gmail.com", "Philip Pollich", "Male", "GR7yOwso6s", "317.752.1611 x9359", 0 },
-                    { 6, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/49.jpg", new DateTime(2023, 10, 28, 23, 42, 41, 901, DateTimeKind.Local).AddTicks(9392), "LibbieHeathcote.Bins14@gmail.com", "Libbie Heathcote", "Male", "o4vdUhkpIn", "319.502.8272 x48793", 0 },
-                    { 7, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1020.jpg", new DateTime(2023, 11, 23, 18, 59, 51, 221, DateTimeKind.Local).AddTicks(4422), "HildaGraham.Balistreri6@hotmail.com", "Hilda Graham", "Male", "1zF6OQAGJL", "597-752-7924 x0122", 0 },
-                    { 8, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/109.jpg", new DateTime(2023, 6, 1, 1, 5, 29, 225, DateTimeKind.Local).AddTicks(6759), "EulaliaBartell87@gmail.com", "Eulalia Bartell", "Male", "_nP5wBstle", "(315) 869-1332 x0488", 0 },
-                    { 9, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/88.jpg", new DateTime(2023, 3, 21, 15, 17, 44, 788, DateTimeKind.Local).AddTicks(3904), "PaoloMcCullough.Weimann17@gmail.com", "Paolo McCullough", "Female", "I7RR7JTvse", "541-747-8384", 0 },
-                    { 10, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1170.jpg", new DateTime(2023, 10, 13, 1, 29, 11, 40, DateTimeKind.Local).AddTicks(8572), "AndreaneBogisich_Hintz@hotmail.com", "Andreane Bogisich", "Male", "SFATDQgzLK", "238-766-1993", 0 }
+                    { 1, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/753.jpg", new DateTime(2023, 1, 28, 2, 39, 54, 596, DateTimeKind.Local).AddTicks(3506), "ClarkFadel.Stark@gmail.com", "Clark Fadel", "Female", "DZBRHDGI6q", "1-889-737-9865 x33749", "Customer" },
+                    { 2, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/76.jpg", new DateTime(2023, 3, 17, 15, 25, 5, 56, DateTimeKind.Local).AddTicks(8202), "BethNicolas17@hotmail.com", "Beth Nicolas", "Female", "7JyPeJbP8k", "1-666-934-7051 x29752", "Customer" },
+                    { 3, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/789.jpg", new DateTime(2023, 2, 13, 12, 18, 33, 706, DateTimeKind.Local).AddTicks(7182), "AylaEbert74@hotmail.com", "Ayla Ebert", "Female", "FGtKv09y4J", "(663) 951-5830 x4872", "Customer" },
+                    { 4, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/947.jpg", new DateTime(2023, 7, 22, 15, 34, 22, 623, DateTimeKind.Local).AddTicks(1802), "EstevanBogisich.Skiles@yahoo.com", "Estevan Bogisich", "Female", "yNeq0uPIe4", "1-713-316-9030", "Customer" },
+                    { 5, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1062.jpg", new DateTime(2023, 1, 25, 6, 15, 19, 367, DateTimeKind.Local).AddTicks(380), "PhilipPollich_Terry@gmail.com", "Philip Pollich", "Male", "GR7yOwso6s", "317.752.1611 x9359", "Customer" },
+                    { 6, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/49.jpg", new DateTime(2023, 10, 29, 10, 22, 39, 271, DateTimeKind.Local).AddTicks(9308), "LibbieHeathcote.Bins14@gmail.com", "Libbie Heathcote", "Male", "o4vdUhkpIn", "319.502.8272 x48793", "Customer" },
+                    { 7, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1020.jpg", new DateTime(2023, 11, 24, 5, 39, 48, 591, DateTimeKind.Local).AddTicks(4296), "HildaGraham.Balistreri6@hotmail.com", "Hilda Graham", "Male", "1zF6OQAGJL", "597-752-7924 x0122", "Customer" },
+                    { 8, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/109.jpg", new DateTime(2023, 6, 1, 11, 45, 26, 595, DateTimeKind.Local).AddTicks(6618), "EulaliaBartell87@gmail.com", "Eulalia Bartell", "Male", "_nP5wBstle", "(315) 869-1332 x0488", "Customer" },
+                    { 9, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/88.jpg", new DateTime(2023, 3, 22, 1, 57, 42, 158, DateTimeKind.Local).AddTicks(3749), "PaoloMcCullough.Weimann17@gmail.com", "Paolo McCullough", "Female", "I7RR7JTvse", "541-747-8384", "Customer" },
+                    { 10, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1170.jpg", new DateTime(2023, 10, 13, 12, 9, 8, 410, DateTimeKind.Local).AddTicks(8416), "AndreaneBogisich_Hintz@hotmail.com", "Andreane Bogisich", "Male", "SFATDQgzLK", "238-766-1993", "Customer" }
                 });
 
             migrationBuilder.InsertData(

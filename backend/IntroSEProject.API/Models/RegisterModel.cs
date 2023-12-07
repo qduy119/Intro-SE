@@ -1,12 +1,9 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace IntroSEProject.Models
+namespace IntroSEProject.API.Models
 {
-    public class User
+    public class RegisterModel
     {
-        [Key]
-        public int Id { get; set; }
         [StringLength(100)]
         public string Email { get; set; }
         [StringLength(100)]
@@ -21,12 +18,5 @@ namespace IntroSEProject.Models
         [StringLength(10)]
         public string Gender { get; set; }
         public DateTime? DateOfBirth { get; set; }
-        [StringLength(20)]
-        public string Role { get; set; } = "Customer";
-        public virtual ICollection<CartItem> CartItems { get; set; }
-        public virtual ICollection<Review> Reviews { get; set; }
-        public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<Payment> Payments { get; set; }
     }
-
 }

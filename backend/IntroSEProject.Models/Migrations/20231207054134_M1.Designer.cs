@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IntroSEProject.Models.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231206190136_init1")]
-    partial class init1
+    [Migration("20231207054134_M1")]
+    partial class M1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1882,8 +1882,10 @@ namespace IntroSEProject.Models.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
 
                     b.HasKey("Id");
 
@@ -1894,121 +1896,121 @@ namespace IntroSEProject.Models.Migrations
                         {
                             Id = 1,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/753.jpg",
-                            DateOfBirth = new DateTime(2023, 1, 27, 15, 59, 57, 226, DateTimeKind.Local).AddTicks(3750),
+                            DateOfBirth = new DateTime(2023, 1, 28, 2, 39, 54, 596, DateTimeKind.Local).AddTicks(3506),
                             Email = "ClarkFadel.Stark@gmail.com",
                             FullName = "Clark Fadel",
                             Gender = "Female",
                             Password = "DZBRHDGI6q",
                             PhoneNumber = "1-889-737-9865 x33749",
-                            Role = 0
+                            Role = "Customer"
                         },
                         new
                         {
                             Id = 2,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/76.jpg",
-                            DateOfBirth = new DateTime(2023, 3, 17, 4, 45, 7, 686, DateTimeKind.Local).AddTicks(8429),
+                            DateOfBirth = new DateTime(2023, 3, 17, 15, 25, 5, 56, DateTimeKind.Local).AddTicks(8202),
                             Email = "BethNicolas17@hotmail.com",
                             FullName = "Beth Nicolas",
                             Gender = "Female",
                             Password = "7JyPeJbP8k",
                             PhoneNumber = "1-666-934-7051 x29752",
-                            Role = 0
+                            Role = "Customer"
                         },
                         new
                         {
                             Id = 3,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/789.jpg",
-                            DateOfBirth = new DateTime(2023, 2, 13, 1, 38, 36, 336, DateTimeKind.Local).AddTicks(7434),
+                            DateOfBirth = new DateTime(2023, 2, 13, 12, 18, 33, 706, DateTimeKind.Local).AddTicks(7182),
                             Email = "AylaEbert74@hotmail.com",
                             FullName = "Ayla Ebert",
                             Gender = "Female",
                             Password = "FGtKv09y4J",
                             PhoneNumber = "(663) 951-5830 x4872",
-                            Role = 0
+                            Role = "Customer"
                         },
                         new
                         {
                             Id = 4,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/947.jpg",
-                            DateOfBirth = new DateTime(2023, 7, 22, 4, 54, 25, 253, DateTimeKind.Local).AddTicks(2069),
+                            DateOfBirth = new DateTime(2023, 7, 22, 15, 34, 22, 623, DateTimeKind.Local).AddTicks(1802),
                             Email = "EstevanBogisich.Skiles@yahoo.com",
                             FullName = "Estevan Bogisich",
                             Gender = "Female",
                             Password = "yNeq0uPIe4",
                             PhoneNumber = "1-713-316-9030",
-                            Role = 0
+                            Role = "Customer"
                         },
                         new
                         {
                             Id = 5,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1062.jpg",
-                            DateOfBirth = new DateTime(2023, 1, 24, 19, 35, 21, 997, DateTimeKind.Local).AddTicks(513),
+                            DateOfBirth = new DateTime(2023, 1, 25, 6, 15, 19, 367, DateTimeKind.Local).AddTicks(380),
                             Email = "PhilipPollich_Terry@gmail.com",
                             FullName = "Philip Pollich",
                             Gender = "Male",
                             Password = "GR7yOwso6s",
                             PhoneNumber = "317.752.1611 x9359",
-                            Role = 0
+                            Role = "Customer"
                         },
                         new
                         {
                             Id = 6,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/49.jpg",
-                            DateOfBirth = new DateTime(2023, 10, 28, 23, 42, 41, 901, DateTimeKind.Local).AddTicks(9392),
+                            DateOfBirth = new DateTime(2023, 10, 29, 10, 22, 39, 271, DateTimeKind.Local).AddTicks(9308),
                             Email = "LibbieHeathcote.Bins14@gmail.com",
                             FullName = "Libbie Heathcote",
                             Gender = "Male",
                             Password = "o4vdUhkpIn",
                             PhoneNumber = "319.502.8272 x48793",
-                            Role = 0
+                            Role = "Customer"
                         },
                         new
                         {
                             Id = 7,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1020.jpg",
-                            DateOfBirth = new DateTime(2023, 11, 23, 18, 59, 51, 221, DateTimeKind.Local).AddTicks(4422),
+                            DateOfBirth = new DateTime(2023, 11, 24, 5, 39, 48, 591, DateTimeKind.Local).AddTicks(4296),
                             Email = "HildaGraham.Balistreri6@hotmail.com",
                             FullName = "Hilda Graham",
                             Gender = "Male",
                             Password = "1zF6OQAGJL",
                             PhoneNumber = "597-752-7924 x0122",
-                            Role = 0
+                            Role = "Customer"
                         },
                         new
                         {
                             Id = 8,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/109.jpg",
-                            DateOfBirth = new DateTime(2023, 6, 1, 1, 5, 29, 225, DateTimeKind.Local).AddTicks(6759),
+                            DateOfBirth = new DateTime(2023, 6, 1, 11, 45, 26, 595, DateTimeKind.Local).AddTicks(6618),
                             Email = "EulaliaBartell87@gmail.com",
                             FullName = "Eulalia Bartell",
                             Gender = "Male",
                             Password = "_nP5wBstle",
                             PhoneNumber = "(315) 869-1332 x0488",
-                            Role = 0
+                            Role = "Customer"
                         },
                         new
                         {
                             Id = 9,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/88.jpg",
-                            DateOfBirth = new DateTime(2023, 3, 21, 15, 17, 44, 788, DateTimeKind.Local).AddTicks(3904),
+                            DateOfBirth = new DateTime(2023, 3, 22, 1, 57, 42, 158, DateTimeKind.Local).AddTicks(3749),
                             Email = "PaoloMcCullough.Weimann17@gmail.com",
                             FullName = "Paolo McCullough",
                             Gender = "Female",
                             Password = "I7RR7JTvse",
                             PhoneNumber = "541-747-8384",
-                            Role = 0
+                            Role = "Customer"
                         },
                         new
                         {
                             Id = 10,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1170.jpg",
-                            DateOfBirth = new DateTime(2023, 10, 13, 1, 29, 11, 40, DateTimeKind.Local).AddTicks(8572),
+                            DateOfBirth = new DateTime(2023, 10, 13, 12, 9, 8, 410, DateTimeKind.Local).AddTicks(8416),
                             Email = "AndreaneBogisich_Hintz@hotmail.com",
                             FullName = "Andreane Bogisich",
                             Gender = "Male",
                             Password = "SFATDQgzLK",
                             PhoneNumber = "238-766-1993",
-                            Role = 0
+                            Role = "Customer"
                         });
                 });
 
