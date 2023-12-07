@@ -11,12 +11,12 @@ namespace IntroSEProject.API.Controllers
     //[Authorize(Roles = "Customer, Admin")]
     [ApiController]
     [Route("/api/[controller]")]
-    public class CategoriesController : ControllerBase
+    public class ItemsController : ControllerBase
     {
         private AppDbContext dbContext;
         private IMapper mapper;
 
-        public CategoriesController(AppDbContext dbContext, IMapper mapper)
+        public ItemsController(AppDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
             this.mapper = mapper;
@@ -25,80 +25,80 @@ namespace IntroSEProject.API.Controllers
         public async Task<IActionResult> GetPaging(int page = 1, int per_page = 0, string keyword = "")
         {
             
-            IEnumerable<Category> list;
+            IEnumerable<Item> list;
             if (string.IsNullOrEmpty(keyword))
             {
-                list = await dbContext.Categories.ToListAsync();
+                list = await dbContext.Items.ToListAsync();
             }
             else
             {
-                list = await dbContext.Categories.Where(x => x.Name.Contains(keyword)).ToListAsync();
+                list = await dbContext.Items.Where(x => x.Name.Contains(keyword)).ToListAsync();
             }
             if (per_page == 0)
             {
                 per_page = list.Count();
             }
-            var model = mapper.Map<IEnumerable<CategoryModel>>(list);
-            var pager = new Pager<CategoryModel>(model, page, per_page);
+            var model = mapper.Map<IEnumerable<ItemModel>>(list);
+            var pager = new Pager<ItemModel>(model, page, per_page);
             return Ok(pager);
         }
         [HttpPost]
-        public async Task<IActionResult> Create(CategoryModel model)
+        public async Task<IActionResult> Create(ItemModel model)
         {
-            var category = mapper.Map<Category>(model);
+            var item = mapper.Map<Item>(model);
             try
             {
-                await dbContext.Categories.AddAsync(category);
+                await dbContext.Items.AddAsync(item);
                 await dbContext.SaveChangesAsync();
             }
             catch (Exception)
             {
                 return BadRequest();
             }
-            model.Id = category.Id;
+            model.Id = item.Id;
             return Ok(model);
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Edit(int id, CategoryModel model)
+        public async Task<IActionResult> Edit(int id, ItemModel model)
         {
             if (id != model.Id)
             {
                 return BadRequest();
             }
-            var category = mapper.Map<Category>(model);
-            var foundCategory = dbContext.Categories.Find(id);
-            if (foundCategory == null)
+            var item = mapper.Map<Item>(model);
+            var foundItem = dbContext.Items.Find(id);
+            if (foundItem == null)
             {
                 return NotFound();
             }
-            dbContext.Entry(foundCategory).CurrentValues.SetValues(category);
+            dbContext.Entry(foundItem).CurrentValues.SetValues(item);
             try
             {
                 await dbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!dbContext.Categories.Any(e => e.Id == id))
+                if (!dbContext.Items.Any(e => e.Id == id))
                 {
                     return NotFound();
                 }    
                 throw;
             }
-            return Ok(category);
+            return Ok(item);
         }
 
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var category = dbContext.Categories.Find(id);
-            if (category == null)
+            var item = dbContext.Items.Find(id);
+            if (item == null)
             {
                 return NotFound();
             }
-            dbContext.Categories.Remove(category);
+            dbContext.Items.Remove(item);
             await dbContext.SaveChangesAsync();
-            return Ok(category);
+            return Ok(item);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using IntroSEProject.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -11,10 +12,6 @@ namespace IntroSEProject.API.Services
     {
         private readonly IConfiguration configuration;
         private readonly AppDbContext dbContext;
-
-        public TokenManager()
-        {
-        }
 
         public TokenManager(IConfiguration configuration, AppDbContext dbContext)
         {
@@ -34,7 +31,7 @@ namespace IntroSEProject.API.Services
                 new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),
                 new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(expiresAt).ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim("Role", user.Role)
+                new Claim(ClaimTypes.Role, user.Role)
             };
             // generate the JWT 
             
@@ -95,7 +92,7 @@ namespace IntroSEProject.API.Services
             if (identity.FindFirst(ClaimTypes.Email) != null)
             {
                 var email = identity.FindFirst(ClaimTypes.Email).Value;
-                var user = dbContext.Users.SingleOrDefault(x => x.Email == email);
+                var user = await dbContext.Users.SingleOrDefaultAsync(x => x.Email == email);
                 if (user == null)
                 {
                     context.Fail("Invalid token");
