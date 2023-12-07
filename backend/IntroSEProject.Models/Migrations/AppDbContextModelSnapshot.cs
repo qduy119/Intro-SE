@@ -1893,7 +1893,7 @@ namespace IntroSEProject.Models.Migrations
                         {
                             Id = 1,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/753.jpg",
-                            DateOfBirth = new DateTime(2023, 1, 28, 2, 39, 54, 596, DateTimeKind.Local).AddTicks(3506),
+                            DateOfBirth = new DateTime(2023, 1, 28, 6, 6, 15, 845, DateTimeKind.Local).AddTicks(9754),
                             Email = "ClarkFadel.Stark@gmail.com",
                             FullName = "Clark Fadel",
                             Gender = "Female",
@@ -1905,7 +1905,7 @@ namespace IntroSEProject.Models.Migrations
                         {
                             Id = 2,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/76.jpg",
-                            DateOfBirth = new DateTime(2023, 3, 17, 15, 25, 5, 56, DateTimeKind.Local).AddTicks(8202),
+                            DateOfBirth = new DateTime(2023, 3, 17, 18, 51, 26, 306, DateTimeKind.Local).AddTicks(4699),
                             Email = "BethNicolas17@hotmail.com",
                             FullName = "Beth Nicolas",
                             Gender = "Female",
@@ -1917,7 +1917,7 @@ namespace IntroSEProject.Models.Migrations
                         {
                             Id = 3,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/789.jpg",
-                            DateOfBirth = new DateTime(2023, 2, 13, 12, 18, 33, 706, DateTimeKind.Local).AddTicks(7182),
+                            DateOfBirth = new DateTime(2023, 2, 13, 15, 44, 54, 956, DateTimeKind.Local).AddTicks(3687),
                             Email = "AylaEbert74@hotmail.com",
                             FullName = "Ayla Ebert",
                             Gender = "Female",
@@ -1929,7 +1929,7 @@ namespace IntroSEProject.Models.Migrations
                         {
                             Id = 4,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/947.jpg",
-                            DateOfBirth = new DateTime(2023, 7, 22, 15, 34, 22, 623, DateTimeKind.Local).AddTicks(1802),
+                            DateOfBirth = new DateTime(2023, 7, 22, 19, 0, 43, 872, DateTimeKind.Local).AddTicks(8351),
                             Email = "EstevanBogisich.Skiles@yahoo.com",
                             FullName = "Estevan Bogisich",
                             Gender = "Female",
@@ -1941,7 +1941,7 @@ namespace IntroSEProject.Models.Migrations
                         {
                             Id = 5,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1062.jpg",
-                            DateOfBirth = new DateTime(2023, 1, 25, 6, 15, 19, 367, DateTimeKind.Local).AddTicks(380),
+                            DateOfBirth = new DateTime(2023, 1, 25, 9, 41, 40, 616, DateTimeKind.Local).AddTicks(6766),
                             Email = "PhilipPollich_Terry@gmail.com",
                             FullName = "Philip Pollich",
                             Gender = "Male",
@@ -1953,7 +1953,7 @@ namespace IntroSEProject.Models.Migrations
                         {
                             Id = 6,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/49.jpg",
-                            DateOfBirth = new DateTime(2023, 10, 29, 10, 22, 39, 271, DateTimeKind.Local).AddTicks(9308),
+                            DateOfBirth = new DateTime(2023, 10, 29, 13, 49, 0, 521, DateTimeKind.Local).AddTicks(5689),
                             Email = "LibbieHeathcote.Bins14@gmail.com",
                             FullName = "Libbie Heathcote",
                             Gender = "Male",
@@ -1965,7 +1965,7 @@ namespace IntroSEProject.Models.Migrations
                         {
                             Id = 7,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1020.jpg",
-                            DateOfBirth = new DateTime(2023, 11, 24, 5, 39, 48, 591, DateTimeKind.Local).AddTicks(4296),
+                            DateOfBirth = new DateTime(2023, 11, 24, 9, 6, 9, 841, DateTimeKind.Local).AddTicks(691),
                             Email = "HildaGraham.Balistreri6@hotmail.com",
                             FullName = "Hilda Graham",
                             Gender = "Male",
@@ -1977,7 +1977,7 @@ namespace IntroSEProject.Models.Migrations
                         {
                             Id = 8,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/109.jpg",
-                            DateOfBirth = new DateTime(2023, 6, 1, 11, 45, 26, 595, DateTimeKind.Local).AddTicks(6618),
+                            DateOfBirth = new DateTime(2023, 6, 1, 15, 11, 47, 845, DateTimeKind.Local).AddTicks(3015),
                             Email = "EulaliaBartell87@gmail.com",
                             FullName = "Eulalia Bartell",
                             Gender = "Male",
@@ -1989,7 +1989,7 @@ namespace IntroSEProject.Models.Migrations
                         {
                             Id = 9,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/88.jpg",
-                            DateOfBirth = new DateTime(2023, 3, 22, 1, 57, 42, 158, DateTimeKind.Local).AddTicks(3749),
+                            DateOfBirth = new DateTime(2023, 3, 22, 5, 24, 3, 408, DateTimeKind.Local).AddTicks(146),
                             Email = "PaoloMcCullough.Weimann17@gmail.com",
                             FullName = "Paolo McCullough",
                             Gender = "Female",
@@ -2001,7 +2001,7 @@ namespace IntroSEProject.Models.Migrations
                         {
                             Id = 10,
                             Avatar = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1170.jpg",
-                            DateOfBirth = new DateTime(2023, 10, 13, 12, 9, 8, 410, DateTimeKind.Local).AddTicks(8416),
+                            DateOfBirth = new DateTime(2023, 10, 13, 15, 35, 29, 660, DateTimeKind.Local).AddTicks(4844),
                             Email = "AndreaneBogisich_Hintz@hotmail.com",
                             FullName = "Andreane Bogisich",
                             Gender = "Male",

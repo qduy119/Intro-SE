@@ -51,12 +51,12 @@ namespace IntroSEProject.API.Controllers
                 (string accessToken, DateTime accessTokenExpiresAt) = tokenManager.CreateAccessToken(user);
                 (string refreshToken, DateTime refreshTokenExpiresAt) = tokenManager.CreateRefreshToken(user);
 
-                return Ok(new Token
+                return Ok(new
                 {
-                    AccessToken = accessToken,
-                    RefreshToken = refreshToken,
-                    AccessTokenExpiryDate = accessTokenExpiresAt,
-                    RefreshTokenExpiryDate = refreshTokenExpiresAt
+                    access_token = accessToken,
+                    refresh_token = refreshToken,
+                    access_token_expirydate = accessTokenExpiresAt,
+                    refresh_token_expirydate = refreshTokenExpiresAt
                 });
             }
 

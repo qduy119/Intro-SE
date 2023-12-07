@@ -117,7 +117,7 @@ namespace IntroSEProject.API.Services
 
         }
 
-        public Token ValidateRefreshToken(string refreshToken)
+        public object ValidateRefreshToken(string refreshToken)
         {
             var secretKey = Encoding.ASCII.GetBytes(configuration.GetValue<string>("AuthToken:SecretKey") ?? "");
             var claimPrincipal = new JwtSecurityTokenHandler().ValidateToken(
@@ -142,12 +142,12 @@ namespace IntroSEProject.API.Services
             (string newAccessToken, DateTime accessTokenExpiresAt) = CreateAccessToken(user);
             (string newRefreshToken, DateTime refreshTokenExpiresAt) = CreateRefreshToken(user);
 
-            return new Token
+            return new
             {
-                AccessToken = newAccessToken,
-                RefreshToken = newRefreshToken,
-                AccessTokenExpiryDate = accessTokenExpiresAt,
-                RefreshTokenExpiryDate = refreshTokenExpiresAt
+                access_token = newAccessToken,
+                refresh_token = newRefreshToken,
+                access_token_expirydate = accessTokenExpiresAt,
+                refresh_token_expirydate = refreshTokenExpiresAt
             };
         }
     }

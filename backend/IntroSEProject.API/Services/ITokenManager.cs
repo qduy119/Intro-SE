@@ -8,6 +8,6 @@ namespace IntroSEProject.API.Services
         (string, DateTime) CreateAccessToken(User user);
         (string, DateTime) CreateRefreshToken(User user);
         Task ValidateAccessToken(TokenValidatedContext context);
-        Token ValidateRefreshToken(string refreshToken);
+        object ValidateRefreshToken(string refreshToken);
     }
 }
