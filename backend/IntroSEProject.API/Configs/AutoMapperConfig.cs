@@ -9,6 +9,7 @@ namespace IntroSEProject.API.Configs
         public AutoMapperConfig()
         {
             CreateMap<RegisterModel, User>().ReverseMap();
+            CreateMap<CategoryModel, Category>().ReverseMap();
         }
        
     }

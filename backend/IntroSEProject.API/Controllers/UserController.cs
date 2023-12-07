@@ -12,9 +12,9 @@ namespace IntroSEProject.API.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly AppDbContext context;
-        private readonly IMapper mapper;
-        private readonly ITokenManager tokenManager;
+        private AppDbContext context;
+        private IMapper mapper;
+        private ITokenManager tokenManager;
 
         public UserController(AppDbContext context, IMapper mapper, ITokenManager tokenManager)
         {
