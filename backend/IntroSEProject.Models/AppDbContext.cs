@@ -16,8 +16,6 @@ namespace IntroSEProject.Models
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<CategoryItem>().HasKey(x => new { x.ItemId, x.CategoryId });
-
             builder.Entity<OrderItem>().HasOne<Item>(x => x.Item)
                 .WithMany(x => x.OrderItems)
                 .HasForeignKey(x => x.ItemId);
@@ -49,6 +47,18 @@ namespace IntroSEProject.Models
 
             builder.Entity<User>()
                 .HasData(userDataFaker.GenerateBetween(10, 10));
+
+            //seed data category
+            var categoryId = 1;
+            var dataCategoryFaker = new Faker<Category>()
+                .RuleFor(c => c.Id, f => categoryId++)
+                .RuleFor(c => c.Thumbnail, f => f.Image.PicsumUrl())
+                .RuleFor(c => c.Name, f => f.Lorem.Sentence(3))
+                .RuleFor(c => c.Description, f => f.Lorem.Paragraph(1))
+                .FinishWith((f, c) => System.Console.WriteLine("Successfully"));
+            builder.Entity<Category>()
+                .HasData(dataCategoryFaker.GenerateBetween(10, 10));
+
             //seed data item table 
             var itemId = 1;
             var dataItemFaker = new Faker<Item>()
@@ -62,24 +72,8 @@ namespace IntroSEProject.Models
                 .FinishWith((f, i) => System.Console.WriteLine("Item was create success fully"));
             builder.Entity<Item>()
                 .HasData(dataItemFaker.GenerateBetween(100, 100));
-            //seed data category
-            var categoryId = 1;
-            var dataCategoryFaker = new Faker<Category>()
-                .RuleFor(c => c.Id, f => categoryId++)
-                .RuleFor(c => c.Thumbnail, f => f.Image.PicsumUrl())
-                .RuleFor(c => c.Name, f => f.Lorem.Sentence(3))
-                .RuleFor(c => c.Description, f => f.Lorem.Paragraph(1))
-                .FinishWith((f, c) => System.Console.WriteLine("Successfully"));
-            builder.Entity<Category>()
-                .HasData(dataCategoryFaker.GenerateBetween(10, 10));
-            //seed data for categoryItem
-            var idItem = 1;
-            var dataCategoryItem = new Faker<CategoryItem>()
-                .RuleFor(c => c.ItemId, f => idItem++)
-                .RuleFor(c => c.CategoryId, f => f.Random.Int(1, 10))
-                .FinishWith((f, c) => System.Console.WriteLine("successfully"));
-            builder.Entity<CategoryItem>()
-                .HasData(dataCategoryItem.GenerateBetween(100, 100));
+            
+
             //seed data for 
         }
 
@@ -91,6 +85,5 @@ namespace IntroSEProject.Models
         public DbSet<Review> Reviews { set; get; }
         public DbSet<User> Users { set; get; }
         public DbSet<Payment> Payments { set; get; }
-        public DbSet<CategoryItem> CategoryItems { set; get; }
     }
 }

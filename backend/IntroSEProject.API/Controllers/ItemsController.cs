@@ -45,6 +45,11 @@ namespace IntroSEProject.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ItemModel model)
         {
+            var category = await dbContext.Categories.FindAsync(model.CategoryId);
+            if (category == null)
+            {
+                return BadRequest(new { error = $"Category with id {model.CategoryId} does not exist" });
+            }
             var item = mapper.Map<Item>(model);
             try
             {
@@ -66,6 +71,11 @@ namespace IntroSEProject.API.Controllers
             {
                 return BadRequest();
             }
+            var category = await dbContext.Categories.FindAsync(model.CategoryId);
+            if (category == null)
+            {
+                return BadRequest(new { error = $"Category with id {model.CategoryId} does not exist" });
+            }
             var item = mapper.Map<Item>(model);
             var foundItem = dbContext.Items.Find(id);
             if (foundItem == null)
@@ -85,7 +95,7 @@ namespace IntroSEProject.API.Controllers
                 }    
                 throw;
             }
-            return Ok(item);
+            return Ok(model);
         }
 
         [HttpDelete("{id:int}")]
@@ -98,7 +108,7 @@ namespace IntroSEProject.API.Controllers
             }
             dbContext.Items.Remove(item);
             await dbContext.SaveChangesAsync();
-            return Ok(item);
+            return Ok(item.Name);
         }
     }
 }

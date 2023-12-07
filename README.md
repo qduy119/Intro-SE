@@ -21,6 +21,7 @@
 
 **Login:** **POST** /authenticate
 
+**Request**
 ```js
 {
   "email": "string",
@@ -81,12 +82,11 @@
 }
 ```
 
-
-
 **Create:** **POST** /api/categories
 
 **Edit:** **PUT** /api/categories/1
 
+**Request**
 ```js
 {
   "id": 1, // chỉ cho edit
@@ -120,7 +120,8 @@
       "price": 10.27,
       "discount": 10.12,
       "stock": 4,
-      "images": null
+      "images": null,
+      "categoryId": null
     },
   ]
 }
@@ -131,6 +132,7 @@
 
 **Edit:** **PUT** /api/items/1
 
+**Request**
 ```js
 {
   "id": 1, // chỉ cho Edit
@@ -140,7 +142,8 @@
   "price": 0,
   "discount": 0,
   "stock": 0,
-  "images": "string"
+  "images": "string",
+  "categoryId": 1
 }
 ```
 

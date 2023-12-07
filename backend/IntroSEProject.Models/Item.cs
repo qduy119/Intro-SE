@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IntroSEProject.Models
 {
@@ -17,7 +18,9 @@ namespace IntroSEProject.Models
         public decimal Discount { get; set; }
         public int Stock { get; set; }
         public string? Images { get; set; }
-        public virtual ICollection<CategoryItem> CategoryItems { get; set; }
+        [ForeignKey(nameof(Category))]
+        public int? CategoryId { get; set; }
+        public Category? Category { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; }
         public virtual ICollection<CartItem> CartItems { get; set; }
         

@@ -16,5 +16,6 @@ namespace IntroSEProject.API.Models
         public decimal Discount { get; set; }
         public int Stock { get; set; }
         public string? Images { get; set; }
+        public int? CategoryId { get; set; }
     }
 }

@@ -85,7 +85,7 @@ namespace IntroSEProject.API.Controllers
                 }    
                 throw;
             }
-            return Ok(category);
+            return Ok(model);
         }
 
         [HttpDelete("{id:int}")]
@@ -98,7 +98,7 @@ namespace IntroSEProject.API.Controllers
             }
             dbContext.Categories.Remove(category);
             await dbContext.SaveChangesAsync();
-            return Ok(category);
+            return Ok(category.Name);
         }
     }
 }
