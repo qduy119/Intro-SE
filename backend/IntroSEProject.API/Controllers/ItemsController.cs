@@ -2,7 +2,6 @@
 using IntroSEProject.API.Models;
 using IntroSEProject.API.Services;
 using IntroSEProject.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,6 +41,20 @@ namespace IntroSEProject.API.Controllers
             var pager = new Pager<ItemModel>(model, page, per_page);
             return Ok(pager);
         }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var item = dbContext.Items.Find(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            var model = mapper.Map<ItemModel>(item);
+            return Ok(model);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Create(ItemModel model)
         {

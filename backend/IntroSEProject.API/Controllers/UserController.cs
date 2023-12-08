@@ -5,6 +5,7 @@ using IntroSEProject.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace IntroSEProject.API.Controllers
 {
@@ -50,14 +51,9 @@ namespace IntroSEProject.API.Controllers
             {
                 (string accessToken, DateTime accessTokenExpiresAt) = tokenManager.CreateAccessToken(user);
                 (string refreshToken, DateTime refreshTokenExpiresAt) = tokenManager.CreateRefreshToken(user);
-
-                return Ok(new
-                {
-                    access_token = accessToken,
-                    refresh_token = refreshToken,
-                    access_token_expirydate = accessTokenExpiresAt,
-                    refresh_token_expirydate = refreshTokenExpiresAt
-                });
+                SetAccessTokenCookie(accessToken, accessTokenExpiresAt);
+                SetRefreshTokenCookie(refreshToken, refreshTokenExpiresAt);
+                return Ok();
             }
 
             return Unauthorized();
@@ -68,7 +64,44 @@ namespace IntroSEProject.API.Controllers
         [AllowAnonymous]
         public IActionResult RefreshToken([FromBody] RefreshTokenModel refreshTokenModel)
         {
-            return Ok(tokenManager.ValidateRefreshToken(refreshTokenModel.RefreshToken));
+            (string accessToken, DateTime accessTokenExpiresAt) = 
+                tokenManager.ValidateRefreshToken(refreshTokenModel.RefreshToken);
+
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                return BadRequest();
+            }
+            SetAccessTokenCookie(accessToken, accessTokenExpiresAt);
+            return Ok();
+        }
+
+        [HttpPost("/logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("access_token");
+            Response.Cookies.Delete("refresh_token");
+            return Ok();    
+        }
+
+        private void SetAccessTokenCookie(string token, DateTime expiresAt)
+        {
+            Response.Cookies.Append("access_token", token, 
+                new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = expiresAt,
+            });
+            
+        }
+        private void SetRefreshTokenCookie(string token, DateTime expiresAt)
+        {
+            Response.Cookies.Append("refresh_token", token,
+                new CookieOptions
+                {
+                    HttpOnly = true,
+                    Expires = expiresAt,
+                });
+
         }
     }
 }

@@ -23,7 +23,7 @@ namespace IntroSEProject.API.Services
             var issuer = configuration.GetValue<string>("AuthToken:Issuer");
             var audience = configuration.GetValue<string>("AuthToken:Audience");
             var secretKey = Encoding.ASCII.GetBytes(configuration.GetValue<string>("AuthToken:SecretKey") ?? "");
-            var expiresAt = DateTime.UtcNow.AddMinutes(1);
+            var expiresAt = DateTime.UtcNow.AddMinutes(15);
             var claims = new List<Claim>()
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString(), ClaimValueTypes.String, issuer),
@@ -33,8 +33,7 @@ namespace IntroSEProject.API.Services
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.Role)
             };
-            // generate the JWT 
-            
+
             var jwtSecurityToken = new JwtSecurityToken(
               issuer: issuer,
               audience: audience,
@@ -92,7 +91,7 @@ namespace IntroSEProject.API.Services
             if (identity.FindFirst(ClaimTypes.Email) != null)
             {
                 var email = identity.FindFirst(ClaimTypes.Email).Value;
-                var user = await dbContext.Users.SingleOrDefaultAsync(x => x.Email == email);
+                var user = await dbContext.Users.FirstOrDefaultAsync(x => x.Email == email);
                 if (user == null)
                 {
                     context.Fail("Invalid token");
@@ -114,7 +113,7 @@ namespace IntroSEProject.API.Services
 
         }
 
-        public object ValidateRefreshToken(string refreshToken)
+        public (string, DateTime) ValidateRefreshToken(string refreshToken)
         {
             var secretKey = Encoding.ASCII.GetBytes(configuration.GetValue<string>("AuthToken:SecretKey") ?? "");
             var claimPrincipal = new JwtSecurityTokenHandler().ValidateToken(
@@ -132,20 +131,13 @@ namespace IntroSEProject.API.Services
                   ClockSkew = TimeSpan.Zero
               }, out _
             );
-            if (claimPrincipal == null) return null;
+            if (claimPrincipal == null) return ("", default);
             var email = claimPrincipal.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-            if (string.IsNullOrEmpty(email)) return null;
+            if (string.IsNullOrEmpty(email)) return ("", default);
             var user = dbContext.Users.SingleOrDefault(x => x.Email == email);  
-            (string newAccessToken, DateTime accessTokenExpiresAt) = CreateAccessToken(user);
-            (string newRefreshToken, DateTime refreshTokenExpiresAt) = CreateRefreshToken(user);
 
-            return new
-            {
-                access_token = newAccessToken,
-                refresh_token = newRefreshToken,
-                access_token_expirydate = accessTokenExpiresAt,
-                refresh_token_expirydate = refreshTokenExpiresAt
-            };
+            return CreateAccessToken(user);
         }
+
     }
 }

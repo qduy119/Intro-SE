@@ -85,6 +85,9 @@ namespace IntroSEProject.API
 
             app.UseHttpsRedirection();
             app.UseRouting();
+
+            app.UseMiddleware<ReadAccessTokenFromCookieMiddleware>();
+
             app.UseAuthentication();
             app.UseAuthorization();
 

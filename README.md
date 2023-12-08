@@ -29,15 +29,7 @@
 }
 ```
 
-**Response**
-```js
-{
-    "access_token": "ndFEk",
-    "refresh_token": "Wlt",
-    "access_token_expirydate": "2023-12-07T17:54:43.9672826Z",
-    "refresh_token_expirydate": "2023-12-07T21:53:43.9945353Z"
-}
-```
+**Logout:** **POST** /logout
 
 **Refresh Token:** **POST** /refresh-token
 
@@ -48,15 +40,9 @@
 }
 ```
 
-**Response**
-```js
-{
-    "access_token": "ndFEk",
-    "refresh_token": "Wlt",
-    "access_token_expirydate": "2023-12-07T17:54:43.9672826Z",
-    "refresh_token_expirydate": "2023-12-07T21:53:43.9945353Z"
-}
-```
+**Lưu trong cookie refresh_token**
+
+**Gọi khi gặp 401 -> nếu vẫn trả về 401 -> Login lại**
 
 ## Category
 
@@ -127,6 +113,22 @@
 }
 ```
 
+
+**Get Item by Id:** **GET** /api/items/3
+
+```js
+{
+  "id": 3,
+  "thumbnail": "https://picsum.photos/640/480/?image=5",
+  "name": "Sit commodi voluptatem.",
+  "description": "Quis ut in odit voluptatem necessitatibus qui laudantium velit necessitatibus labore maxime voluptatibus eum in e",
+  "price": 10.73,
+  "discount": 10.88,
+  "stock": 1,
+  "images": null,
+  "categoryId": null
+}
+```
 
 **Create:** **POST** /api/items
 
