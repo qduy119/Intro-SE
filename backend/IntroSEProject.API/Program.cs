@@ -1,10 +1,13 @@
 ﻿
 using IntroSEProject.API.Configs;
+using IntroSEProject.API.Middlewares;
 using IntroSEProject.API.Services;
 using IntroSEProject.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Stripe;
 using System.Text;
 
 namespace IntroSEProject.API
@@ -73,6 +76,13 @@ namespace IntroSEProject.API
             });
 
             builder.Services.AddAuthorization();
+            builder.Services.AddTransient<IEmailSender, SendGridEmailSender>();
+            builder.Services.Configure<SendGridEmailSenderOptions>(options =>
+            {
+                options.ApiKey = builder.Configuration.GetValue<string>("SendGrid:ApiKey");
+                options.SenderEmail = builder.Configuration.GetValue<string>("SendGrid:SenderEmail");
+                options.SenderName = builder.Configuration.GetValue<string>("SendGrid:SenderName");
+            });
 
             var app = builder.Build();
 

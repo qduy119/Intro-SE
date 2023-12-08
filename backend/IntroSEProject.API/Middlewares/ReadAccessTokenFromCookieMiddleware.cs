@@ -1,4 +1,4 @@
-﻿namespace IntroSEProject.API.Services
+﻿namespace IntroSEProject.API.Middlewares
 {
     public class ReadAccessTokenFromCookieMiddleware
     {
