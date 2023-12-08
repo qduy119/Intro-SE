@@ -15,7 +15,8 @@
   "fullName": "string",
   "avatar": "string",
   "gender": "string",
-  "dateOfBirth": "2023-12-07T16:05:47.439Z"
+  "dateOfBirth": "2023-12-07T16:05:47.439Z",
+  "emailConfirmSuccessPage": "string"
 }
 ```
 
