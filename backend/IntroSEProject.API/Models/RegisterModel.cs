@@ -17,6 +17,6 @@ namespace IntroSEProject.API.Models
         [StringLength(10)]
         public string? Gender { get; set; }
         public DateTime? DateOfBirth { get; set; }
-        public string EmailConfirmSuccessPage { get; set; }
+        //public string EmailConfirmSuccessPage { get; set; }
     }
 }
