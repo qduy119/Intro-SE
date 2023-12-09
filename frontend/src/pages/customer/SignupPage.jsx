@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../../services/auth";
+import { toast } from "react-toastify";
+import Toast from "../../components/Toast/Toast";
 import { bg } from "../../assets";
 
 export default function SignupPage() {
     const navigate = useNavigate();
     const [credentials, setCredentials] = useState({});
     const [errors, setErrors] = useState(null);
-    const [register, { data, isLoading, isSuccess, isError, error }] =
+    const [register, { isLoading, isSuccess, isError, error }] =
         useRegisterMutation();
     function handleChange(e) {
         setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -17,7 +19,9 @@ export default function SignupPage() {
         if (
             credentials.email === "" ||
             credentials.password === "" ||
-            credentials.confirmPassword === ""
+            credentials.confirmPassword === "" ||
+            credentials.fullName === "" ||
+            credentials.phoneNumber === ""
         ) {
             return;
         }
@@ -39,15 +43,24 @@ export default function SignupPage() {
         }
         if (!flag) return;
         setErrors(null);
-        register({ email: credentials.email, password: credentials.password });
+        register({
+            email: credentials.email,
+            password: credentials.password,
+            fullName: credentials.fullName,
+            phoneNumber: credentials.phoneNumber,
+        });
     }
     useEffect(() => {
         if (isSuccess) {
             setCredentials({});
-            navigate("/login");
+            toast.success("Sign up successfully !", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            });
+            setTimeout(() => {
+                navigate("/login");
+            }, 2000);
         }
-        console.log(data);
-    }, [isSuccess, data, navigate]);
+    }, [isSuccess, navigate, error]);
 
     return (
         <div
@@ -58,17 +71,14 @@ export default function SignupPage() {
                 action="/"
                 method="post"
                 onSubmit={(e) => handleSubmit(e)}
-                className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-white px-8 py-6 rounded-md shadow-lg w-[60%] max-w-md"
+                className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-white px-8 py-6 rounded-md shadow-lg w-[80%] sm:w-[60%] max-w-md"
             >
-                <p className="text-center text-3xl font-bold text-primary">
+                <p className="text-center text-2xl sm:text-3xl font-bold text-primary">
                     <Link to="/">hcmus@canteen</Link>
                 </p>
-                <h2 className="text-center text-2xl font-bold pt-5 sm:pt-12 text-primary-dark">
+                <h2 className="text-center text-xl sm:text-2xl font-bold pt-4 sm:pt-6 text-primary-dark">
                     Create a new account
                 </h2>
-                <p className="text-center text-gray-600 text-[12px] mt-2">
-                    To use hcmuscanteen, please enter your details
-                </p>
                 <div className="flex flex-col gap-y-3 w-full mt-4">
                     <div className="flex flex-col">
                         <label className="mb-1" htmlFor="email">
@@ -80,6 +90,32 @@ export default function SignupPage() {
                             id="email"
                             placeholder="Your Email"
                             value={credentials.email ?? ""}
+                            onChange={(e) => handleChange(e)}
+                        />
+                    </div>
+                    <div className="flex flex-col">
+                        <label className="mb-1" htmlFor="fullName">
+                            Full Name
+                        </label>
+                        <input
+                            className="w-[100%] border-none outline-none px-3 py-2 rounded-[4px] bg-gray-200"
+                            type="text"
+                            id="fullName"
+                            placeholder="Your Full Name"
+                            value={credentials.fullName ?? ""}
+                            onChange={(e) => handleChange(e)}
+                        />
+                    </div>
+                    <div className="flex flex-col">
+                        <label className="mb-1" htmlFor="phoneNumber">
+                            Phone Number
+                        </label>
+                        <input
+                            className="w-[100%] border-none outline-none px-3 py-2 rounded-[4px] bg-gray-200"
+                            type="text"
+                            id="phoneNumber"
+                            placeholder="Your Phone Number"
+                            value={credentials.phoneNumber ?? ""}
                             onChange={(e) => handleChange(e)}
                         />
                     </div>
@@ -113,22 +149,22 @@ export default function SignupPage() {
                         ? Object.values(errors).map((error, index) => (
                               <p
                                   key={index}
-                                  className="mt-2 font-semibold text-red-600"
+                                  className="font-semibold text-red-600"
                               >
                                   {error}
                               </p>
                           ))
                         : null}
                     {isError ? (
-                        <p className="mt-2 font-semibold text-red-600">
-                            {error.message}
+                        <p className="font-semibold text-red-600">
+                            {error.data.error}
                         </p>
                     ) : null}
                     <button
                         type="submit"
                         className="flex justify-center items-center gap-2 mt-3 max-w-full rounded-[4px] border-none outline-non text-white font-bold text-xl bg-primary hover:bg-primary-dark py-2"
                     >
-                        Sign up{" "}
+                        SIGN UP{" "}
                         <span className={`bar ${isLoading ? "" : "hidden"}`} />
                     </button>
                 </div>
@@ -143,6 +179,7 @@ export default function SignupPage() {
                     </Link>
                 </p>
             </form>
+            <Toast />
         </div>
     );
 }
