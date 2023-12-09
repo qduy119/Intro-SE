@@ -87,7 +87,7 @@ export default function CheckoutPage() {
                             className="mt-10 mb-3 uppercase font-bold text-xl text-center py-[10px] bg-primary hover:bg-primary-dark w-full rounded-[4px] text-white"
                             onClick={handleCheckout}
                         >
-                            CHECKOUT
+                            PAY
                         </button>
                     </div>
                 </div>

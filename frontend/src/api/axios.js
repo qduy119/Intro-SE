@@ -33,7 +33,7 @@ const createAxiosInstance = () => {
             if (user.exp < new Date().getTime() / 1000) {
                 const res = await refreshToken();
                 const { accessToken: newAccessToken } = res.data;
-                store.dispatch(updateAccessToken(newAccessToken));
+                store.dispatch(updateAccessToken({ newAccessToken }));
                 config.headers["Authorization"] = `Bearer ${newAccessToken}`;
             }
             return config;
@@ -43,7 +43,6 @@ const createAxiosInstance = () => {
         }
     );
     axiosInstance.interceptors.response.use((response) => {
-        console.log(response);
         return response;
     });
     return axiosInstance;
