@@ -1,13 +1,19 @@
 import { Link } from "react-router-dom";
+// import { useLoginMutation } from "../../services/auth";
 import { bg } from "../../assets";
 
 export default function LoginPage() {
+    // const regex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,5}$/g;
     return (
         <div
             className="relative h-screen w-full bg-contain"
             style={{ backgroundImage: `url(${bg})` }}
         >
-            <form className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] gap-y-4 bg-white px-8 py-6 rounded-md shadow-lg w-[60%] max-w-md">
+            <form
+                action="/"
+                method="post"
+                className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] gap-y-4 bg-white px-8 py-6 rounded-md shadow-lg w-[60%] max-w-md"
+            >
                 <div className="flex flex-col justify-center">
                     <p className="text-center text-3xl font-bold text-primary">
                         <Link to="/">hcmus@canteen</Link>
@@ -41,9 +47,12 @@ export default function LoginPage() {
                                 placeholder="Your Password"
                             />
                         </div>
-
-                        <button className="mt-5 max-w-full rounded-[4px] border-none outline-non text-white font-bold text-xl bg-primary hover:bg-primary-dark py-2">
-                            Login
+                        
+                        <button
+                            type="submit"
+                            className="flex justify-center items-center gap-2 mt-3 max-w-full rounded-[4px] border-none outline-non text-white font-bold text-xl bg-primary hover:bg-primary-dark py-2"
+                        >
+                            Login <span className="bar hidden" />
                         </button>
                     </div>
 

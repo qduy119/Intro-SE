@@ -5,8 +5,8 @@ import Header from "../Header/Header";
 
 export default function Navbar() {
     return (
-        <div className="border-b-2 py-4 px-3">
-            <div className="flex items-center justify-between">
+        <div className="border-b-[1px] py-4 px-3 w-full z-50 fixed top-0 left-0 flex items-center h-[100px] bg-white">
+            <div className="flex-1 flex items-center justify-between">
                 <div className="inline">
                     <Link to="/" className="text-3xl font-bold text-primary">
                         hcmus@canteen
