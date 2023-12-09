@@ -39,7 +39,10 @@ export default function SignupPage() {
         }
         if (!flag) return;
         setErrors(null);
-        register({ email: credentials.email, password: credentials.password });
+        register({
+            email: credentials.email,
+            password: credentials.password,
+        });
     }
     useEffect(() => {
         if (isSuccess) {
@@ -128,7 +131,7 @@ export default function SignupPage() {
                         type="submit"
                         className="flex justify-center items-center gap-2 mt-3 max-w-full rounded-[4px] border-none outline-non text-white font-bold text-xl bg-primary hover:bg-primary-dark py-2"
                     >
-                        Sign up{" "}
+                        SIGN UP{" "}
                         <span className={`bar ${isLoading ? "" : "hidden"}`} />
                     </button>
                 </div>
