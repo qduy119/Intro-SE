@@ -10,8 +10,8 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         loginSuccess: (state, action) => {
-            state.user = action.payload;
-            state.accessToken = action.payload;
+            state.user = action.payload.user;
+            state.accessToken = action.payload.accessToken;
         },
         logoutSuccess: (state) => {
             state.user = null;
@@ -21,13 +21,12 @@ const authSlice = createSlice({
             state.accessToken = action.payload.newAccessToken;
         },
     },
-    extraReducers: (builder) => {
-        builder.addCase();
-    },
+    // extraReducers: (builder) => {
+    //     builder.addCase();
+    // },
 });
 
 const { reducer, actions } = authSlice;
 
 export const { loginSuccess, logoutSuccess, updateAccessToken } = actions;
-
 export default reducer;

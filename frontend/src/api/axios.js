@@ -3,7 +3,7 @@ import jwt_decode from "jwt-decode";
 import { updateAccessToken } from "../features/auth/authSlice";
 
 let store;
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://localhost:7190";
 
 export const injectStore = (_store) => {
     store = _store;
@@ -11,7 +11,7 @@ export const injectStore = (_store) => {
 
 const refreshToken = () => {
     return axios.post(
-        `${BASE_URL}/api/v1/users/refresh`,
+        `${BASE_URL}/refresh-token`,
         {},
         {
             withCredentials: true,
