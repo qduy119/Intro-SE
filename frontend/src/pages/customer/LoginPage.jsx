@@ -20,14 +20,14 @@ export default function LoginPage() {
                     </p>
                     <div className="flex flex-col gap-y-3 w-full mt-4 ">
                         <div className="flex flex-col">
-                            <label className="mb-1" htmlFor="phone">
-                                Number
+                            <label className="mb-1" htmlFor="email">
+                                Email
                             </label>
                             <input
                                 className="w-[100%] border-none outline-none px-3 py-2 rounded-[4px] bg-gray-200"
-                                type="text"
-                                id="phone"
-                                placeholder="Your phone number"
+                                type="email"
+                                id="email"
+                                placeholder="Your Email"
                             />
                         </div>
                         <div className="flex flex-col">
@@ -48,7 +48,7 @@ export default function LoginPage() {
                     </div>
 
                     <p className="text-small-regular text-light-2 text-center mt-2">
-                        Don't have an account yet?
+                        Don{"'"}t have an account yet?
                         <Link
                             to="/signup"
                             className="text-primary-light font-semibold ml-1 hover:underline"

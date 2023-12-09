@@ -19,24 +19,13 @@ export default function SignupPage() {
                 </p>
                 <div className="flex flex-col gap-y-3 w-full mt-4">
                     <div className="flex flex-col">
-                        <label className="mb-1" htmlFor="phone">
-                            Number
+                        <label className="mb-1" htmlFor="email">
+                            Email
                         </label>
                         <input
                             className="w-[100%] border-none outline-none px-3 py-2 rounded-[4px] bg-gray-200"
-                            type="text"
-                            id="phone"
-                            placeholder="Your phone number"
-                        />
-                    </div>
-                    <div className="flex flex-col">
-                        <label className="mb-1" htmlFor="name">
-                            Name
-                        </label>
-                        <input
-                            className="w-[100%] border-none outline-none px-3 py-2 rounded-[4px] bg-gray-200"
-                            type="text"
-                            id="name"
+                            type="email"
+                            id="email"
                             placeholder="Your Full Name"
                         />
                     </div>
