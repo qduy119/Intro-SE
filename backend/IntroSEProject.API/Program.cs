@@ -84,6 +84,18 @@ namespace IntroSEProject.API
                 options.SenderName = builder.Configuration.GetValue<string>("SendGrid:SenderName");
             });
 
+            var specificOrigin = "_specificOrigin";
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: specificOrigin,
+                                  policy =>
+                                  {
+                                      policy.AllowAnyOrigin()
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader();
+                                  });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -95,6 +107,8 @@ namespace IntroSEProject.API
 
             app.UseHttpsRedirection();
             app.UseRouting();
+
+            app.UseCors(specificOrigin);
 
             app.UseMiddleware<ReadAccessTokenFromCookieMiddleware>();
 
