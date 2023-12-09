@@ -9,14 +9,13 @@ namespace IntroSEProject.API.Models
         [StringLength(100)]
         [Required]
         public string Password { get; set; }
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
         [StringLength(100)]
         [Required]
-        public string FullName { get; set; }
-        [StringLength(1000)]
-        public string Avatar { get; set; }
+        public string? FullName { get; set; }
+
         [StringLength(10)]
-        public string Gender { get; set; }
+        public string? Gender { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public string EmailConfirmSuccessPage { get; set; }
     }

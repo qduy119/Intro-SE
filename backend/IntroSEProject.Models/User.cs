@@ -12,14 +12,14 @@ namespace IntroSEProject.Models
         [StringLength(100)]
         [Required]
         public string Password { get; set; }
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
         [StringLength(100)]
         [Required]
-        public string FullName { get; set; }
+        public string? FullName { get; set; }
         [StringLength(1000)]
-        public string Avatar { get; set; }
+        public string? Avatar { get; set; }
         [StringLength(10)]
-        public string Gender { get; set; }
+        public string? Gender { get; set; }
         public DateTime? DateOfBirth { get; set; }
         [StringLength(20)]
         public string Role { get; set; } = "Customer";
