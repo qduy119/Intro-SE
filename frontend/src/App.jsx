@@ -5,8 +5,8 @@ import {
     RouterProvider,
 } from "react-router-dom";
 
-import CustomerLayout from "./layouts/customer/CustomerLayout";
-import AdminLayout from "./layouts/admin/AdminLayout";
+import CustomerLayout from "./layouts/CustomerLayout";
+import AdminLayout from "./layouts/AdminLayout";
 import HomePage from "./pages/customer/HomePage";
 import CategoryPage, { fetchCategoryById } from "./pages/customer/CategoryPage";
 import ProductPage, { fetchProductById } from "./pages/customer/ProductPage";
