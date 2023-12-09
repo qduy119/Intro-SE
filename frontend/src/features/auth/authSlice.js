@@ -9,9 +9,16 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        updateAccessToken: (state, action) => {
+        loginSuccess: (state, action) => {
+            state.user = action.payload;
             state.accessToken = action.payload;
-            localStorage.setItem("accessToken", state.accessToken);
+        },
+        logoutSuccess: (state) => {
+            state.user = null;
+            state.accessToken = null;
+        },
+        updateAccessToken: (state, action) => {
+            state.accessToken = action.payload.newAccessToken;
         },
     },
     extraReducers: (builder) => {
@@ -21,6 +28,6 @@ const authSlice = createSlice({
 
 const { reducer, actions } = authSlice;
 
-export const { updateAccessToken } = actions;
+export const { loginSuccess, logoutSuccess, updateAccessToken } = actions;
 
 export default reducer;
