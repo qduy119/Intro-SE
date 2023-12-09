@@ -1,12 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../services/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../../features/auth/authSlice";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import Toast from "../../components/Toast/Toast";
 import { bg } from "../../assets";
 
 export default function LoginPage() {
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.auth.user);
     const navigate = useNavigate();
     const [credentials, setCredentials] = useState({});
     const [emailError, setEmailError] = useState(null);
@@ -32,8 +35,12 @@ export default function LoginPage() {
         if (isSuccess) {
             setCredentials({});
             dispatch(loginSuccess(data));
-            // Check role
-            navigate("/");
+            toast.success("Log in successfully !", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            });
+            setTimeout(() => {
+                navigate("/");
+            }, 2000);
         }
     }, [isSuccess, data, navigate, dispatch]);
 
@@ -46,13 +53,13 @@ export default function LoginPage() {
                 action="/"
                 method="post"
                 onSubmit={(e) => handleSubmit(e)}
-                className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] gap-y-4 bg-white px-8 py-6 rounded-md shadow-lg w-[60%] max-w-md"
+                className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] gap-y-4 bg-white px-8 py-6 rounded-md shadow-lg w-[80%] sm:w-[60%] max-w-md"
             >
                 <div className="flex flex-col justify-center">
-                    <p className="text-center text-3xl font-bold text-primary">
+                    <p className="text-center text-2xl sm:text-3xl font-bold text-primary">
                         <Link to="/">hcmus@canteen</Link>
                     </p>
-                    <h2 className="text-center text-2xl font-bold pt-5 sm:pt-12 text-primary-dark">
+                    <h2 className="text-center text-xl sm:text-2xl font-bold pt-4 sm:pt-8 text-primary-dark">
                         Log in to your account
                     </h2>
                     <p className="text-center text-gray-600 text-[12px] mt-2">
@@ -86,13 +93,13 @@ export default function LoginPage() {
                             />
                         </div>
                         {emailError ? (
-                            <p className="mt-2 font-semibold text-red-600">
+                            <p className="font-semibold text-red-600">
                                 {emailError}
                             </p>
                         ) : null}
                         {isError ? (
-                            <p className="mt-2 font-semibold text-red-600">
-                                {error.message}
+                            <p className="font-semibold text-red-600">
+                                {error.data.error}
                             </p>
                         ) : null}
                         <button
@@ -117,6 +124,7 @@ export default function LoginPage() {
                     </p>
                 </div>
             </form>
+            <Toast />
         </div>
     );
 }

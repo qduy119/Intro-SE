@@ -85,10 +85,10 @@ namespace IntroSEProject.API.Controllers
             var user = await context.Users.SingleOrDefaultAsync(x => x.Email == credential.Email);
             if (user != null && BCrypt.Net.BCrypt.Verify(credential.Password, user.Password))
             {
-                if  (user.EmailConfirmed == false)
-                {
-                    return Ok(new { message = "The email hasn't been confirmed" });
-                }
+                //if  (user.EmailConfirmed == false)
+                //{
+                //    return Ok(new { message = "The email hasn't been confirmed" });
+                //}
                 (string accessToken, DateTime accessTokenExpiresAt) = tokenManager.CreateAccessToken(user);
                 (string refreshToken, DateTime refreshTokenExpiresAt) = tokenManager.CreateRefreshToken(user);
                 SetAccessTokenCookie(accessToken, accessTokenExpiresAt);
