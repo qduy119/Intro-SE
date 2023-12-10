@@ -1,9 +1,49 @@
-import { Link } from "react-router-dom";
-// import { useLoginMutation } from "../../services/auth";
+import { Link, useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../../services/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { loginSuccess } from "../../features/auth/authSlice";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import Toast from "../../components/Toast/Toast";
 import { bg } from "../../assets";
 
 export default function LoginPage() {
-    // const regex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,5}$/g;
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.auth.user);
+    const navigate = useNavigate();
+    const [credentials, setCredentials] = useState({});
+    const [emailError, setEmailError] = useState(null);
+    const [login, { data, isLoading, isSuccess, isError, error }] =
+        useLoginMutation();
+    function handleChange(e) {
+        setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+    }
+    function handleSubmit(e) {
+        e.preventDefault();
+        if (credentials.email === "" || credentials.password === "") {
+            return;
+        }
+        const regex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,5}$/g;
+        if (!regex.test(credentials.email)) {
+            setEmailError("Email is not valid");
+            return;
+        }
+        setEmailError(null);
+        login(credentials);
+    }
+    useEffect(() => {
+        if (isSuccess) {
+            setCredentials({});
+            dispatch(loginSuccess(data));
+            toast.success("Log in successfully !", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            });
+            setTimeout(() => {
+                navigate("/");
+            }, 2000);
+        }
+    }, [isSuccess, data, navigate, dispatch]);
+
     return (
         <div
             className="relative h-screen w-full bg-contain"
@@ -12,13 +52,14 @@ export default function LoginPage() {
             <form
                 action="/"
                 method="post"
-                className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] gap-y-4 bg-white px-8 py-6 rounded-md shadow-lg w-[60%] max-w-md"
+                onSubmit={(e) => handleSubmit(e)}
+                className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] gap-y-4 bg-white px-8 py-6 rounded-md shadow-lg w-[80%] sm:w-[60%] max-w-md"
             >
                 <div className="flex flex-col justify-center">
-                    <p className="text-center text-3xl font-bold text-primary">
+                    <p className="text-center text-2xl sm:text-3xl font-bold text-primary">
                         <Link to="/">hcmus@canteen</Link>
                     </p>
-                    <h2 className="text-center text-2xl font-bold pt-5 sm:pt-12 text-primary-dark">
+                    <h2 className="text-center text-xl sm:text-2xl font-bold pt-4 sm:pt-8 text-primary-dark">
                         Log in to your account
                     </h2>
                     <p className="text-center text-gray-600 text-[12px] mt-2">
@@ -31,8 +72,10 @@ export default function LoginPage() {
                             </label>
                             <input
                                 className="w-[100%] border-none outline-none px-3 py-2 rounded-[4px] bg-gray-200"
-                                type="email"
+                                type="text"
                                 id="email"
+                                value={credentials.email ?? ""}
+                                onChange={(e) => handleChange(e)}
                                 placeholder="Your Email"
                             />
                         </div>
@@ -44,15 +87,29 @@ export default function LoginPage() {
                                 className="w-[100%] border-none outline-none px-3 py-2 rounded-[4px] bg-gray-200"
                                 type="password"
                                 id="password"
+                                value={credentials.password ?? ""}
+                                onChange={(e) => handleChange(e)}
                                 placeholder="Your Password"
                             />
                         </div>
-                        
+                        {emailError ? (
+                            <p className="font-semibold text-red-600">
+                                {emailError}
+                            </p>
+                        ) : null}
+                        {isError ? (
+                            <p className="font-semibold text-red-600">
+                                {error.data.error}
+                            </p>
+                        ) : null}
                         <button
                             type="submit"
                             className="flex justify-center items-center gap-2 mt-3 max-w-full rounded-[4px] border-none outline-non text-white font-bold text-xl bg-primary hover:bg-primary-dark py-2"
                         >
-                            Login <span className="bar hidden" />
+                            LOGIN{" "}
+                            <span
+                                className={`bar ${isLoading ? "" : "hidden"}`}
+                            />
                         </button>
                     </div>
 
@@ -67,6 +124,7 @@ export default function LoginPage() {
                     </p>
                 </div>
             </form>
+            <Toast />
         </div>
     );
 }

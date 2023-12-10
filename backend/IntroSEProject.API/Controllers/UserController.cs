@@ -39,19 +39,19 @@ namespace IntroSEProject.API.Controllers
                 registerModel.Password = passwordHash;
                 User user = mapper.Map<User>(registerModel);
 
-                var token = Guid.NewGuid().ToString();
-                user.EmailConfirmToken = token;
+                //var token = Guid.NewGuid().ToString();
+                //user.EmailConfirmToken = token;
 
                 
-                var apiBaseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
-                var pageUrl = $"{registerModel.EmailConfirmSuccessPage}";
-                var link = $"{apiBaseUrl}/confirm-email?emailConfirm={token}&pageUrl={pageUrl}";
-                var response = await emailService.SendEmailAsync(user.Email, "Email Confirm", link);
+                //var apiBaseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
+                //var pageUrl = $"{registerModel.EmailConfirmSuccessPage}";
+                //var link = $"{apiBaseUrl}/confirm-email?emailConfirm={token}&pageUrl={pageUrl}";
+                //var response = await emailService.SendEmailAsync(user.Email, "Email Confirm", link);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    return Forbid();
-                }
+                //if (!response.IsSuccessStatusCode)
+                //{
+                //    return Forbid();
+                //}
 
                 await context.AddAsync(user);
                 await context.SaveChangesAsync();
@@ -85,15 +85,15 @@ namespace IntroSEProject.API.Controllers
             var user = await context.Users.SingleOrDefaultAsync(x => x.Email == credential.Email);
             if (user != null && BCrypt.Net.BCrypt.Verify(credential.Password, user.Password))
             {
-                if  (user.EmailConfirmed == false)
-                {
-                    return Ok(new { message = "The email hasn't been confirmed" });
-                }
+                //if  (user.EmailConfirmed == false)
+                //{
+                //    return Ok(new { message = "The email hasn't been confirmed" });
+                //}
                 (string accessToken, DateTime accessTokenExpiresAt) = tokenManager.CreateAccessToken(user);
                 (string refreshToken, DateTime refreshTokenExpiresAt) = tokenManager.CreateRefreshToken(user);
                 SetAccessTokenCookie(accessToken, accessTokenExpiresAt);
                 SetRefreshTokenCookie(refreshToken, refreshTokenExpiresAt);
-                return Ok(new { message = "Login successfully" });
+                return Ok(mapper.Map<LoginModel>(user));
             }
 
             return Unauthorized();
