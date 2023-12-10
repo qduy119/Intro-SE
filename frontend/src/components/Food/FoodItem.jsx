@@ -4,7 +4,7 @@ import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 
 export default function FoodItem({ food }) {
     return (
-        <div className="flex flex-col justify-between rounded-md hover:-translate-y-3 transition-all duration-500 border-2 overflow-hidden shadow-slate-300 shadow-md">
+        <div className="rounded-md hover:-translate-y-3 transition-all duration-500 border-2 overflow-hidden shadow-md">
             <div>
                 <Link to={`/food/${food.id}`}>
                     <img
@@ -15,17 +15,17 @@ export default function FoodItem({ food }) {
                 </Link>
                 <div className="px-4 py-3 ">
                     <Link to={`/food/${food.id}`}>
-                        <p className="font-semibold text-xl text-end">
+                        <p className="font-semibold text-xl text-center">
                             {food.name}
                         </p>
                     </Link>
-                    <p className="text-end mt-2 text-primary font-bold">
+                    <p className="text-center mt-2 text-primary font-bold">
                         <span className="text-red-600 font-semibold line-through mr-4">
                             {food.discount}%
                         </span>
                         {food.price}$
                     </p>
-                    <p className="text-end mt-2 font-semibold">
+                    <p className="text-center mt-2 font-semibold">
                         Stock: {food.stock}
                     </p>
                 </div>

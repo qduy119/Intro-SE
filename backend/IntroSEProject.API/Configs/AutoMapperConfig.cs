@@ -11,6 +11,7 @@ namespace IntroSEProject.API.Configs
             CreateMap<RegisterModel, User>().ReverseMap();
             CreateMap<CategoryModel, Category>().ReverseMap();
             CreateMap<ItemModel, Item>().ReverseMap();
+            CreateMap<LoginModel, User>().ReverseMap();
         }
        
     }
