@@ -9,7 +9,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace IntroSEProject.Models.Migrations
 {
     /// <inheritdoc />
-    public partial class m2 : Migration
+    public partial class test1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -41,10 +41,10 @@ namespace IntroSEProject.Models.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Email = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
                     Password = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "longtext", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "longtext", nullable: true),
                     FullName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    Avatar = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: false),
-                    Gender = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false),
+                    Avatar = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: true),
+                    Gender = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Role = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false),
                     EmailConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -194,7 +194,7 @@ namespace IntroSEProject.Models.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "SeatReservation",
+                name: "SeatReservations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -204,9 +204,9 @@ namespace IntroSEProject.Models.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SeatReservation", x => x.Id);
+                    table.PrimaryKey("PK_SeatReservations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SeatReservation_Orders_OrderId",
+                        name: "FK_SeatReservations_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
@@ -373,16 +373,16 @@ namespace IntroSEProject.Models.Migrations
                 columns: new[] { "Id", "Avatar", "DateOfBirth", "Email", "EmailConfirmToken", "EmailConfirmed", "FullName", "Gender", "Password", "PhoneNumber", "Role" },
                 values: new object[,]
                 {
-                    { 1, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/753.jpg", new DateTime(2023, 1, 29, 9, 45, 24, 653, DateTimeKind.Local).AddTicks(4082), "ClarkFadel.Stark@gmail.com", null, false, "Clark Fadel", "Female", "DZBRHDGI6q", "1-889-737-9865 x33749", "Customer" },
-                    { 2, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/76.jpg", new DateTime(2023, 3, 18, 22, 30, 35, 113, DateTimeKind.Local).AddTicks(8713), "BethNicolas17@hotmail.com", null, false, "Beth Nicolas", "Female", "7JyPeJbP8k", "1-666-934-7051 x29752", "Customer" },
-                    { 3, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/789.jpg", new DateTime(2023, 2, 14, 19, 24, 3, 763, DateTimeKind.Local).AddTicks(7716), "AylaEbert74@hotmail.com", null, false, "Ayla Ebert", "Female", "FGtKv09y4J", "(663) 951-5830 x4872", "Customer" },
-                    { 4, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/947.jpg", new DateTime(2023, 7, 23, 22, 39, 52, 680, DateTimeKind.Local).AddTicks(2401), "EstevanBogisich.Skiles@yahoo.com", null, false, "Estevan Bogisich", "Female", "yNeq0uPIe4", "1-713-316-9030", "Customer" },
-                    { 5, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1062.jpg", new DateTime(2023, 1, 26, 13, 20, 49, 424, DateTimeKind.Local).AddTicks(830), "PhilipPollich_Terry@gmail.com", null, false, "Philip Pollich", "Male", "GR7yOwso6s", "317.752.1611 x9359", "Customer" },
-                    { 6, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/49.jpg", new DateTime(2023, 10, 30, 17, 28, 9, 328, DateTimeKind.Local).AddTicks(9753), "LibbieHeathcote.Bins14@gmail.com", null, false, "Libbie Heathcote", "Male", "o4vdUhkpIn", "319.502.8272 x48793", "Customer" },
-                    { 7, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1020.jpg", new DateTime(2023, 11, 25, 12, 45, 18, 648, DateTimeKind.Local).AddTicks(4773), "HildaGraham.Balistreri6@hotmail.com", null, false, "Hilda Graham", "Male", "1zF6OQAGJL", "597-752-7924 x0122", "Customer" },
-                    { 8, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/109.jpg", new DateTime(2023, 6, 2, 18, 50, 56, 652, DateTimeKind.Local).AddTicks(7157), "EulaliaBartell87@gmail.com", null, false, "Eulalia Bartell", "Male", "_nP5wBstle", "(315) 869-1332 x0488", "Customer" },
-                    { 9, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/88.jpg", new DateTime(2023, 3, 23, 9, 3, 12, 215, DateTimeKind.Local).AddTicks(4348), "PaoloMcCullough.Weimann17@gmail.com", null, false, "Paolo McCullough", "Female", "I7RR7JTvse", "541-747-8384", "Customer" },
-                    { 10, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1170.jpg", new DateTime(2023, 10, 14, 19, 14, 38, 467, DateTimeKind.Local).AddTicks(9000), "AndreaneBogisich_Hintz@hotmail.com", null, false, "Andreane Bogisich", "Male", "SFATDQgzLK", "238-766-1993", "Customer" }
+                    { 1, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/753.jpg", new DateTime(2023, 1, 31, 11, 12, 16, 481, DateTimeKind.Local).AddTicks(4398), "ClarkFadel.Stark@gmail.com", null, false, "Clark Fadel", "Female", "DZBRHDGI6q", "1-889-737-9865 x33749", "Customer" },
+                    { 2, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/76.jpg", new DateTime(2023, 3, 20, 23, 57, 26, 941, DateTimeKind.Local).AddTicks(8328), "BethNicolas17@hotmail.com", null, false, "Beth Nicolas", "Female", "7JyPeJbP8k", "1-666-934-7051 x29752", "Customer" },
+                    { 3, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/789.jpg", new DateTime(2023, 2, 16, 20, 50, 55, 591, DateTimeKind.Local).AddTicks(7213), "AylaEbert74@hotmail.com", null, false, "Ayla Ebert", "Female", "FGtKv09y4J", "(663) 951-5830 x4872", "Customer" },
+                    { 4, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/947.jpg", new DateTime(2023, 7, 26, 0, 6, 44, 508, DateTimeKind.Local).AddTicks(1782), "EstevanBogisich.Skiles@yahoo.com", null, false, "Estevan Bogisich", "Female", "yNeq0uPIe4", "1-713-316-9030", "Customer" },
+                    { 5, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1062.jpg", new DateTime(2023, 1, 28, 14, 47, 41, 252, DateTimeKind.Local).AddTicks(134), "PhilipPollich_Terry@gmail.com", null, false, "Philip Pollich", "Male", "GR7yOwso6s", "317.752.1611 x9359", "Customer" },
+                    { 6, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/49.jpg", new DateTime(2023, 11, 1, 18, 55, 1, 156, DateTimeKind.Local).AddTicks(8956), "LibbieHeathcote.Bins14@gmail.com", null, false, "Libbie Heathcote", "Male", "o4vdUhkpIn", "319.502.8272 x48793", "Customer" },
+                    { 7, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1020.jpg", new DateTime(2023, 11, 27, 14, 12, 10, 476, DateTimeKind.Local).AddTicks(3894), "HildaGraham.Balistreri6@hotmail.com", null, false, "Hilda Graham", "Male", "1zF6OQAGJL", "597-752-7924 x0122", "Customer" },
+                    { 8, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/109.jpg", new DateTime(2023, 6, 4, 20, 17, 48, 480, DateTimeKind.Local).AddTicks(6117), "EulaliaBartell87@gmail.com", null, false, "Eulalia Bartell", "Male", "_nP5wBstle", "(315) 869-1332 x0488", "Customer" },
+                    { 9, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/88.jpg", new DateTime(2023, 3, 25, 10, 30, 4, 43, DateTimeKind.Local).AddTicks(3183), "PaoloMcCullough.Weimann17@gmail.com", null, false, "Paolo McCullough", "Female", "I7RR7JTvse", "541-747-8384", "Customer" },
+                    { 10, "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1170.jpg", new DateTime(2023, 10, 16, 20, 41, 30, 295, DateTimeKind.Local).AddTicks(7756), "AndreaneBogisich_Hintz@hotmail.com", null, false, "Andreane Bogisich", "Male", "SFATDQgzLK", "238-766-1993", "Customer" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -436,8 +436,8 @@ namespace IntroSEProject.Models.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SeatReservation_OrderId",
-                table: "SeatReservation",
+                name: "IX_SeatReservations_OrderId",
+                table: "SeatReservations",
                 column: "OrderId");
         }
 
@@ -454,7 +454,7 @@ namespace IntroSEProject.Models.Migrations
                 name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "SeatReservation");
+                name: "SeatReservations");
 
             migrationBuilder.DropTable(
                 name: "OrderItems");

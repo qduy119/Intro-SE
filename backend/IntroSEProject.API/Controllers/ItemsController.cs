@@ -10,7 +10,7 @@ namespace IntroSEProject.API.Controllers
     //[Authorize(Roles = "Customer, Admin")]
     [ApiController]
     [Route("/api/[controller]")]
-    public class ItemsController : ControllerBase
+    public class ItemsController : Controller
     {
         private AppDbContext dbContext;
         private IMapper mapper;
@@ -22,8 +22,7 @@ namespace IntroSEProject.API.Controllers
         }
         [HttpGet]
         public async Task<IActionResult> GetPaging(int page = 1, int per_page = 0, string keyword = "")
-        {
-            
+        { 
             IEnumerable<Item> list;
             if (string.IsNullOrEmpty(keyword))
             {
@@ -45,7 +44,7 @@ namespace IntroSEProject.API.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var item = dbContext.Items.Find(id);
+            var item = await dbContext.Items.FindAsync(id);
             if (item == null)
             {
                 return NotFound();
@@ -58,6 +57,8 @@ namespace IntroSEProject.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ItemModel model)
         {
+            await Console.Out.WriteLineAsync("======================================");
+            await Console.Out.WriteLineAsync(model.Name);
             var category = await dbContext.Categories.FindAsync(model.CategoryId);
             if (category == null)
             {
@@ -77,20 +78,16 @@ namespace IntroSEProject.API.Controllers
             return Ok(model);
         }
 
-        [HttpPut("{id:int}")]
-        public async Task<IActionResult> Edit(int id, ItemModel model)
+        [HttpPut]
+        public async Task<IActionResult> Edit(ItemModel model)
         {
-            if (id != model.Id)
-            {
-                return BadRequest();
-            }
             var category = await dbContext.Categories.FindAsync(model.CategoryId);
             if (category == null)
             {
                 return BadRequest(new { error = $"Category with id {model.CategoryId} does not exist" });
             }
             var item = mapper.Map<Item>(model);
-            var foundItem = dbContext.Items.Find(id);
+            var foundItem = dbContext.Items.Find(model.Id);
             if (foundItem == null)
             {
                 return NotFound();
@@ -102,7 +99,7 @@ namespace IntroSEProject.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!dbContext.Items.Any(e => e.Id == id))
+                if (!dbContext.Items.Any(e => e.Id == model.Id))
                 {
                     return NotFound();
                 }    
