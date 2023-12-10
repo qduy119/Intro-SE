@@ -42,7 +42,7 @@ namespace IntroSEProject.API.Controllers
             return Ok(pager);
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var item = dbContext.Items.Find(id);
@@ -77,51 +77,43 @@ namespace IntroSEProject.API.Controllers
             return Ok(model);
         }
 
-        [HttpPut("{id:int}")]
-        public async Task<IActionResult> Edit(int id, ItemModel model)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Edit([FromRoute] int id, [FromBody] ItemModel model)
         {
-            if (id != model.Id)
-            {
-                return BadRequest();
-            }
-            var category = await dbContext.Categories.FindAsync(model.CategoryId);
-            if (category == null)
-            {
-                return BadRequest(new { error = $"Category with id {model.CategoryId} does not exist" });
-            }
-            var item = mapper.Map<Item>(model);
-            var foundItem = dbContext.Items.Find(id);
-            if (foundItem == null)
-            {
-                return NotFound();
-            }
-            dbContext.Entry(foundItem).CurrentValues.SetValues(item);
-            try
-            {
-                await dbContext.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!dbContext.Items.Any(e => e.Id == id))
-                {
-                    return NotFound();
-                }    
-                throw;
-            }
-            return Ok(model);
-        }
-
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var item = dbContext.Items.Find(id);
+            var item = await dbContext.Items.FindAsync(id);
             if (item == null)
             {
                 return NotFound();
             }
+            model.Id = id;
+            mapper.Map(model, item);
+            try
+            {
+                await dbContext.SaveChangesAsync();
+                return Ok(model);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!dbContext.Items.Any(x => x.Id == id))
+                {
+                    return NotFound();
+                }
+                throw;
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var item = await dbContext.Items.FindAsync(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            var model = mapper.Map<ItemModel>(item);
             dbContext.Items.Remove(item);
             await dbContext.SaveChangesAsync();
-            return Ok(item.Name);
+            return Ok(model);
         }
     }
 }
