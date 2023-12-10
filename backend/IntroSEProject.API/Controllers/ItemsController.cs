@@ -10,7 +10,7 @@ namespace IntroSEProject.API.Controllers
     //[Authorize(Roles = "Customer, Admin")]
     [ApiController]
     [Route("/api/[controller]")]
-    public class ItemsController : ControllerBase
+    public class ItemsController : Controller
     {
         private AppDbContext dbContext;
         private IMapper mapper;
@@ -22,8 +22,7 @@ namespace IntroSEProject.API.Controllers
         }
         [HttpGet]
         public async Task<IActionResult> GetPaging(int page = 1, int per_page = 0, string keyword = "")
-        {
-            
+        { 
             IEnumerable<Item> list;
             if (string.IsNullOrEmpty(keyword))
             {
@@ -45,7 +44,7 @@ namespace IntroSEProject.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var item = dbContext.Items.Find(id);
+            var item = await dbContext.Items.FindAsync(id);
             if (item == null)
             {
                 return NotFound();
@@ -58,6 +57,8 @@ namespace IntroSEProject.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ItemModel model)
         {
+            await Console.Out.WriteLineAsync("======================================");
+            await Console.Out.WriteLineAsync(model.Name);
             var category = await dbContext.Categories.FindAsync(model.CategoryId);
             if (category == null)
             {
@@ -77,10 +78,47 @@ namespace IntroSEProject.API.Controllers
             return Ok(model);
         }
 
+<<<<<<< HEAD
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit([FromRoute] int id, [FromBody] ItemModel model)
         {
             var item = await dbContext.Items.FindAsync(id);
+=======
+        [HttpPut]
+        public async Task<IActionResult> Edit(ItemModel model)
+        {
+            var category = await dbContext.Categories.FindAsync(model.CategoryId);
+            if (category == null)
+            {
+                return BadRequest(new { error = $"Category with id {model.CategoryId} does not exist" });
+            }
+            var item = mapper.Map<Item>(model);
+            var foundItem = dbContext.Items.Find(model.Id);
+            if (foundItem == null)
+            {
+                return NotFound();
+            }
+            dbContext.Entry(foundItem).CurrentValues.SetValues(item);
+            try
+            {
+                await dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!dbContext.Items.Any(e => e.Id == model.Id))
+                {
+                    return NotFound();
+                }    
+                throw;
+            }
+            return Ok(model);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var item = dbContext.Items.Find(id);
+>>>>>>> c7a02caaf4ad4b41415d56d31f01ff117277cf42
             if (item == null)
             {
                 return NotFound();

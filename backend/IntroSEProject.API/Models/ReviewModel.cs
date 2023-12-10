@@ -1,21 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using IntroSEProject.Models;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
-namespace IntroSEProject.Models
+namespace IntroSEProject.API.Models
 {
-    public class Review
+    public class ReviewModel
     {
-        [Key]
         public int Id { get; set; }
         public int Rating { get; set; }
         [StringLength(255)]
         public string Description { get; set; }
         public string Images { get; set; }
-        [ForeignKey(nameof(OrderItem))]
         public int OrderItemId { get; set; }
-        public OrderItem OrderItem { get; set; }
-        [ForeignKey(nameof(User))]
         public int UserId { get; set; }
-        public User User { get; set; }
     }
 }

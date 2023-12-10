@@ -14,11 +14,11 @@ namespace IntroSEProject.Models
         [StringLength(20)]
         public string Status { get; set; }
 
-        public virtual ICollection<OrderItem> OrderItems { get; set; }
         [ForeignKey(nameof(User))]
         public int UserId { get; set; }
         public User User { get; set; }
 
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
         public virtual ICollection<SeatReservation> SeatReservations { get; set; }
     }

@@ -11,7 +11,7 @@ namespace IntroSEProject.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class UserController : Controller
     {
         private AppDbContext context;
         private IMapper mapper;

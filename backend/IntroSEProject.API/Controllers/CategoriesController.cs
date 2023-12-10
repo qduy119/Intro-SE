@@ -11,7 +11,7 @@ namespace IntroSEProject.API.Controllers
     [Authorize(Roles = "Customer, Admin")]
     [ApiController]
     [Route("/api/[controller]")]
-    public class CategoriesController : ControllerBase
+    public class CategoriesController : Controller
     {
         private AppDbContext dbContext;
         private IMapper mapper;
@@ -59,11 +59,20 @@ namespace IntroSEProject.API.Controllers
             return Ok(model);
         }
 
+<<<<<<< HEAD
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit([FromRoute] int id, [FromBody] CategoryModel model)
         {
             var category = await dbContext.Categories.FindAsync(id);
             if (category == null)
+=======
+        [HttpPut]
+        public async Task<IActionResult> Edit(CategoryModel model)
+        {
+            var category = mapper.Map<Category>(model);
+            var foundCategory = dbContext.Categories.Find(model.Id);
+            if (foundCategory == null)
+>>>>>>> c7a02caaf4ad4b41415d56d31f01ff117277cf42
             {
                 return NotFound();
             }
@@ -76,7 +85,11 @@ namespace IntroSEProject.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
+<<<<<<< HEAD
                 if (!dbContext.Categories.Any(x => x.Id == id))
+=======
+                if (!dbContext.Categories.Any(e => e.Id == model.Id))
+>>>>>>> c7a02caaf4ad4b41415d56d31f01ff117277cf42
                 {
                     return NotFound();
                 }    

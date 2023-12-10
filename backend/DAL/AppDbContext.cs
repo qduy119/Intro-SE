@@ -85,5 +85,6 @@ namespace IntroSEProject.Models
         public DbSet<Review> Reviews { set; get; }
         public DbSet<User> Users { set; get; }
         public DbSet<Payment> Payments { set; get; }
+        public DbSet<SeatReservation> SeatReservations { set; get; }
     }
 }
