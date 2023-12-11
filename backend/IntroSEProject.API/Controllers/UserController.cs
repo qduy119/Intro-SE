@@ -125,7 +125,11 @@ namespace IntroSEProject.API.Controllers
         public IActionResult Logout()
         {
             // Response.Cookies.Delete("access_token");
-            Response.Cookies.Delete("refresh_token");
+            Response.Cookies.Delete("refresh_token", new CookieOptions { 
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None
+            });
             return Ok();    
         }
         private void SetAccessTokenCookie(string token, DateTime expiresAt)
