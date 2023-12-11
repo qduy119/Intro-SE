@@ -93,6 +93,7 @@ namespace IntroSEProject.API.Controllers
                 (string refreshToken, DateTime refreshTokenExpiresAt) = tokenManager.CreateRefreshToken(user);
                 //SetAccessTokenCookie(accessToken, accessTokenExpiresAt);
                 SetRefreshTokenCookie(refreshToken, refreshTokenExpiresAt);
+
                 return Ok(new {
                     user = mapper.Map<LoginModel>(user),
                     accessToken
