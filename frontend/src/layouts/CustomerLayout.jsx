@@ -6,7 +6,7 @@ export default function CustomerLayout() {
     return (
         <div>
             <Navbar />
-            <div className="mt-[100px]">
+            <div className="mt-[130px] md:mt-[90px]">
                 <Outlet />
             </div>
             <Footer />

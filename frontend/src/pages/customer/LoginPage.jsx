@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../services/auth";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../features/auth/authSlice";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -9,7 +9,6 @@ import { bg } from "../../assets";
 
 export default function LoginPage() {
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.auth.user);
     const navigate = useNavigate();
     const [credentials, setCredentials] = useState({});
     const [emailError, setEmailError] = useState(null);
@@ -38,8 +37,13 @@ export default function LoginPage() {
             toast.success("Log in successfully !", {
                 position: toast.POSITION.BOTTOM_RIGHT,
             });
+            const { user } = data;
             setTimeout(() => {
-                navigate("/");
+                if (user.role === "Customer") {
+                    navigate("/");
+                } else if (user.role === "Admin") {
+                    navigate("/admin");
+                }
             }, 2000);
         }
     }, [isSuccess, data, navigate, dispatch]);
@@ -99,7 +103,7 @@ export default function LoginPage() {
                         ) : null}
                         {isError ? (
                             <p className="font-semibold text-red-600">
-                                {error.data.error}
+                                {error.data?.error}
                             </p>
                         ) : null}
                         <button

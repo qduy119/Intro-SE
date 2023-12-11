@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 export default function Toast() {
     return (
         <ToastContainer
-            autoClose={1500}
+            autoClose={2000}
             hideProgressBar={false}
             closeOnClick
             rtl={false}

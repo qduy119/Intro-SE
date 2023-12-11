@@ -50,11 +50,7 @@ export default function DashboardPage() {
     return (
         <>
             <div className="flex justify-end pb-2 border-b-2 border-primary-light">
-                <UserMask
-                    imageUrl={
-                        "https://res.cloudinary.com/dlzyiprib/image/upload/v1694617729/e-commerces/user/kumz90hy8ufomdgof8ik.jpg"
-                    }
-                />
+                <UserMask />
             </div>
             <div className="p-5">
                 <h1 className="text-3xl font-bold text-gray-700 mb-1">
