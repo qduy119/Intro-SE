@@ -21,6 +21,7 @@ export default function UserMask({
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [anchor, setAnchor] = useState("");
+
     function handleOpen(e) {
         e.preventDefault();
         setAnchor(e.currentTarget);
@@ -30,13 +31,13 @@ export default function UserMask({
     }
     function handleLogout() {
         logout();
-        dispatch(logoutSuccess());
     }
     useEffect(() => {
         if (isSuccess) {
+            dispatch(logoutSuccess());
             navigate("/");
         }
-    }, [isSuccess, navigate]);
+    }, [isSuccess, navigate, dispatch]);
 
     return (
         <>
