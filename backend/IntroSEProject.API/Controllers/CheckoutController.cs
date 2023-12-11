@@ -4,7 +4,7 @@ namespace IntroSEProject.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CheckoutController : ControllerBase
+    public class CheckoutController : Controller
     {
         [HttpPost("/checkout")]
         public IActionResult Index()

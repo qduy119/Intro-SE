@@ -12,6 +12,12 @@ namespace IntroSEProject.API.Configs
             CreateMap<CategoryModel, Category>().ReverseMap();
             CreateMap<ItemModel, Item>().ReverseMap();
             CreateMap<LoginModel, User>().ReverseMap();
+            CreateMap<OrderModel, Order>().ReverseMap();
+            CreateMap<SeatReservationModel, SeatReservation>().ReverseMap();
+            CreateMap<OrderItemModel, OrderItem>().ReverseMap();
+            CreateMap<PaymentModel, Payment>().ReverseMap();
+            CreateMap<CartItemModel, CartItem>().ReverseMap();
+            CreateMap<ReviewModel, Review>().ReverseMap();
         }
        
     }

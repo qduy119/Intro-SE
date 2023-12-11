@@ -17,7 +17,7 @@ namespace IntroSEProject.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            builder.Services.AddControllersWithViews();
             // Add services to the container.
             builder.Services.AddLogging();
             builder.Services.AddControllers();      
@@ -90,7 +90,8 @@ namespace IntroSEProject.API
                 options.AddPolicy(name: specificOrigin,
                                   policy =>
                                   {
-                                      policy.AllowAnyOrigin()
+                                      policy.WithOrigins("http://localhost:5173")
+                                      .AllowCredentials()
                                       .AllowAnyMethod()
                                       .AllowAnyHeader();
                                   });

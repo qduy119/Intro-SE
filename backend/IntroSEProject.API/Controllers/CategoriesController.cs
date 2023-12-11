@@ -11,7 +11,7 @@ namespace IntroSEProject.API.Controllers
     [Authorize(Roles = "Customer, Admin")]
     [ApiController]
     [Route("/api/[controller]")]
-    public class CategoriesController : ControllerBase
+    public class CategoriesController : Controller
     {
         private AppDbContext dbContext;
         private IMapper mapper;
@@ -77,6 +77,7 @@ namespace IntroSEProject.API.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!dbContext.Categories.Any(x => x.Id == id))
+                if (!dbContext.Categories.Any(e => e.Id == model.Id))
                 {
                     return NotFound();
                 }    
