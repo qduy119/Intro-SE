@@ -91,9 +91,13 @@ namespace IntroSEProject.API.Controllers
                 //}
                 (string accessToken, DateTime accessTokenExpiresAt) = tokenManager.CreateAccessToken(user);
                 (string refreshToken, DateTime refreshTokenExpiresAt) = tokenManager.CreateRefreshToken(user);
-                SetAccessTokenCookie(accessToken, accessTokenExpiresAt);
+                //SetAccessTokenCookie(accessToken, accessTokenExpiresAt);
                 SetRefreshTokenCookie(refreshToken, refreshTokenExpiresAt);
-                return Ok(mapper.Map<LoginModel>(user));
+
+                return Ok(new {
+                    user = mapper.Map<LoginModel>(user),
+                    accessToken
+                });
             }
 
             return Unauthorized();
@@ -112,17 +116,23 @@ namespace IntroSEProject.API.Controllers
                 return BadRequest();
             }
             SetAccessTokenCookie(accessToken, accessTokenExpiresAt);
-            return Ok();
+            return Ok(new
+            {
+                accessToken
+            });
         }
 
         [HttpGet("/logout")]
         public IActionResult Logout()
         {
-            Response.Cookies.Delete("access_token");
-            Response.Cookies.Delete("refresh_token");
+            // Response.Cookies.Delete("access_token");
+            Response.Cookies.Delete("refresh_token", new CookieOptions { 
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None
+            });
             return Ok();    
         }
-
         private void SetAccessTokenCookie(string token, DateTime expiresAt)
         {
             Response.Cookies.Append("access_token", token, 
@@ -130,7 +140,9 @@ namespace IntroSEProject.API.Controllers
             {
                 HttpOnly = true,
                 Expires = expiresAt,
-            });
+                SameSite = SameSiteMode.None,
+                Secure = true
+                });
             
         }
         private void SetRefreshTokenCookie(string token, DateTime expiresAt)
@@ -140,8 +152,9 @@ namespace IntroSEProject.API.Controllers
                 {
                     HttpOnly = true,
                     Expires = expiresAt,
+                    SameSite = SameSiteMode.None,
+                    Secure = true
                 });
-
         }
     }
 }

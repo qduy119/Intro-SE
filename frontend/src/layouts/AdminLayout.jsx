@@ -3,9 +3,9 @@ import Sidebar from "../components/Sidebar/Sidebar";
 
 export default function AdminLayout() {
     return (
-        <div className="flex">
+        <div>
             <Sidebar />
-            <div className="flex-1 py-2 px-5">
+            <div className="ml-[200px] py-2 px-5 bg-slate-50">
                 <Outlet />
             </div>
         </div>

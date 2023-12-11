@@ -14,7 +14,7 @@ export default function Search({ search, onSetSearch, onSubmit }) {
                     id="search"
                     type="text"
                     placeholder="Search..."
-                    className="border-none outline-none w-[300px] bg-transparent"
+                    className="border-none outline-none w-[180px] sm:w-[250px] lg:w-[300px] bg-transparent"
                     value={search}
                     onChange={(e) => onSetSearch(e.target.value)}
                 />

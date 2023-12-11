@@ -90,7 +90,8 @@ namespace IntroSEProject.API
                 options.AddPolicy(name: specificOrigin,
                                   policy =>
                                   {
-                                      policy.AllowAnyOrigin()
+                                      policy.WithOrigins("http://localhost:5173")
+                                      .AllowCredentials()
                                       .AllowAnyMethod()
                                       .AllowAnyHeader();
                                   });

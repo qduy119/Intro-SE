@@ -12,6 +12,7 @@ const authApi = createApi({
             query: (payload) => ({
                 url: "/authenticate",
                 method: "POST",
+                credentials: "include",
                 body: payload,
             }),
         }),
@@ -25,8 +26,7 @@ const authApi = createApi({
         logout: builder.mutation({
             query: () => ({
                 url: "/logout",
-                method: "POST",
-                body: {},
+                method: "GET",
                 credentials: "include",
             }),
         }),

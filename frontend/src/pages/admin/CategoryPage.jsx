@@ -1,8 +1,50 @@
 import { useState } from "react";
 import Search from "../../components/Search/Search";
 import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+// import EditIcon from "@mui/icons-material/Edit";
+// import DeleteIcon from "@mui/icons-material/Delete";
+import UserMask from "../../components/User/UserMask";
+import AdminTable from "../../components/Table/Table";
+import { categories } from "../../constants";
+
+const columns = [
+    { field: "id", headerName: "ID", width: 100 },
+    {
+        field: "thumbnail",
+        headerName: "Category",
+        headerAlign: "center",
+        align: "center",
+        width: 100,
+        sortable: false,
+        renderCell: (rowData) => {
+            const image = rowData.formattedValue;
+            return (
+                <div
+                    className="w-[50px] h-[50px] bg-center bg-cover rounded-md"
+                    style={{
+                        backgroundImage: `url(${image})`,
+                    }}
+                />
+            );
+        },
+    },
+    {
+        field: "name",
+        headerName: "Name",
+        width: 150,
+        headerAlign: "center",
+        align: "center",
+    },
+    {
+        field: "description",
+        headerName: "Description",
+        width: 300,
+        headerAlign: "center",
+        align: "left",
+    },
+];
+
+const rows = categories;
 
 export default function CategoryPage() {
     const [searchString, setSearchString] = useState("");
@@ -20,9 +62,7 @@ export default function CategoryPage() {
                         onSubmit={handleSubmit}
                     />
                 </div>
-                <div className="bg-primary-light w-[60px] h-[60px] rounded-full">
-                    <img src="" alt="" />
-                </div>
+                <UserMask />
             </div>
             <div className="p-5">
                 <h1 className="text-3xl font-bold text-gray-700 mb-1">
@@ -34,65 +74,11 @@ export default function CategoryPage() {
                     <AddIcon />
                 </button>
                 <div>
-                    <div className="flex items-center justify-between p-3 rounded-sm bg-gray-200 mb-4">
-                        <div className="flex items-center gap-x-6">
-                            <div className="bg-gray-300 rounded-md w-[6rem] h-[6rem]">
-                                <img src="" alt="" />
-                            </div>
-                            <div className="flex flex-col justify-between gap-y-3">
-                                <h2 className="p-2 bg-gray-300 rounded-sm text-center">
-                                    Category Name
-                                </h2>
-                                <p className="p-2 bg-gray-300 rounded-sm text-center">
-                                    Category Description
-                                </p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-x-4 mr-3">
-                            <EditIcon className="cursor-pointer" />
-                            <DeleteIcon className="cursor-pointer" />
-                        </div>
-                    </div>
-
-                    <div className="flex items-center justify-between p-3 rounded-sm bg-gray-200 mb-4">
-                        <div className="flex items-center gap-x-6">
-                            <div className="bg-gray-300 rounded-md w-[6rem] h-[6rem]">
-                                <img src="" alt="" />
-                            </div>
-                            <div className="flex flex-col justify-between gap-y-3">
-                                <h2 className="p-2 bg-gray-300 rounded-sm text-center">
-                                    Category Name
-                                </h2>
-                                <p className="p-2 bg-gray-300 rounded-sm text-center">
-                                    Category Description
-                                </p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-x-4 mr-3">
-                            <EditIcon className="cursor-pointer" />
-                            <DeleteIcon className="cursor-pointer" />
-                        </div>
-                    </div>
-
-                    <div className="flex items-center justify-between p-3 rounded-sm bg-gray-200 mb-4">
-                        <div className="flex items-center gap-x-6">
-                            <div className="bg-gray-300 rounded-md w-[6rem] h-[6rem]">
-                                <img src="" alt="" />
-                            </div>
-                            <div className="flex flex-col justify-between gap-y-3">
-                                <h2 className="p-2 bg-gray-300 rounded-sm text-center">
-                                    Category Name
-                                </h2>
-                                <p className="p-2 bg-gray-300 rounded-sm text-center">
-                                    Category Description
-                                </p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-x-4 mr-3">
-                            <EditIcon className="cursor-pointer" />
-                            <DeleteIcon className="cursor-pointer" />
-                        </div>
-                    </div>
+                    <AdminTable
+                        rows={rows}
+                        columns={columns}
+                        pageSizeOptions={[10, 20, 30, 40, 50]}
+                    />
                 </div>
             </div>
         </>

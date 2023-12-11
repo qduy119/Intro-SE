@@ -112,7 +112,6 @@ export const foods = [
             "Samsung Galaxy Book S (2020) Laptop With Intel Lakefield Chip, 8GB of RAM Launched",
         price: 1499,
         discount: 4.15,
-        rating: 4.25,
         stock: 68,
         thumbnail:
             "https://www.themealdb.com/images/media/meals/g046bb1663960946.jpg",
