@@ -4,6 +4,7 @@ namespace IntroSEProject.API.Models
 {
     public class LoginModel
     {
+        public int Id { get; set; }
         [StringLength(100)]
         public string Email { get; set; }
         public string? PhoneNumber { get; set; }

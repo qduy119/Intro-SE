@@ -8,8 +8,8 @@ import {
 import CustomerLayout from "./layouts/CustomerLayout";
 import AdminLayout from "./layouts/AdminLayout";
 import HomePage from "./pages/customer/HomePage";
-import CategoryPage, { fetchCategoryById } from "./pages/customer/CategoryPage";
-import ProductPage, { fetchProductById } from "./pages/customer/ProductPage";
+import CategoryPage from "./pages/customer/CategoryPage";
+import ProductPage from "./pages/customer/ProductPage";
 import CartPage from "./pages/customer/CartPage";
 import OrderPage from "./pages/customer/OrderPage";
 import SearchPage from "./pages/customer/SearchPage";
@@ -25,6 +25,8 @@ import MenuPage from "./pages/admin/MenuPage";
 import AdminOrderPage from "./pages/admin/OrderPage";
 import CustomerPage from "./pages/admin/CustomerPage";
 import RevenuePage from "./pages/admin/RevenuePage";
+import getCategoryById from "./utils/getCategoryById";
+import getProductById from "./utils/getProductById";
 
 const router = createBrowserRouter([
     {
@@ -40,15 +42,19 @@ const router = createBrowserRouter([
                         element: <HomePage />,
                     },
                     {
+                        path: "/home",
+                        element: <HomePage />,
+                    },
+                    {
                         path: "category/:id",
                         element: <CategoryPage />,
-                        loader: fetchCategoryById,
+                        loader: getCategoryById,
                         errorElement: <ErrorPage />,
                     },
                     {
                         path: "food/:id",
                         element: <ProductPage />,
-                        loader: fetchProductById,
+                        loader: getProductById,
                         errorElement: <ErrorPage />,
                     },
                     {

@@ -19,10 +19,15 @@ namespace IntroSEProject.API.Controllers
             this.mapper = mapper;
         }
         [HttpGet]
-        public async Task<IActionResult> GetPaging(int page = 1, int per_page = 0)
+        public IActionResult GetPaging(int page = 1, int per_page = 0, int userId = -1)
         {
-            IEnumerable<CartItem> list;
-            list = (IEnumerable<CartItem>)await dbContext.CartItems.ToListAsync();
+            if (userId < 0)
+            {
+                return BadRequest();
+            }
+            IEnumerable<CartItem> list = from cartitem in dbContext.CartItems
+                                         where cartitem.UserId == userId
+                                         select cartitem;
             if (per_page == 0)
             {
                 per_page = list.Count();

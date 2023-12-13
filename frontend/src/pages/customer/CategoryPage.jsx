@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { categories } from "../../constants";
 
 export default function CategoryPage() {
@@ -23,16 +22,4 @@ export default function CategoryPage() {
             </div>
         </div>
     );
-}
-
-export async function fetchCategoryById({ params, request }) {
-    const { id } = params;
-    const res = await axios.get(`/api/v1/categories/${id}`, {
-        signal: request.signal,
-    });
-    if (res.status !== 200) {
-        throw new Error("Fetching products by category failed");
-    }
-    const { products } = res.data;
-    return products ?? [];
 }

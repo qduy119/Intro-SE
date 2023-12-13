@@ -42,6 +42,19 @@ namespace IntroSEProject.API.Controllers
             var pager = new Pager<CategoryModel>(model, page, per_page);
             return Ok(pager);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var item = await dbContext.Categories.FindAsync(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            var model = mapper.Map<CategoryModel>(item);
+            return Ok(model);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(CategoryModel model)
         {

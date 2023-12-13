@@ -69,6 +69,7 @@ namespace IntroSEProject.Models
                 .RuleFor(i => i.Price, f => f.Random.Decimal() + 10)
                 .RuleFor(i => i.Discount, f => f.Random.Decimal() + 10)
                 .RuleFor(i => i.Stock, f => f.Random.Int(1, 10))
+                .RuleFor(i => i.CategoryId, f => f.Random.Int(1, 10))
                 .FinishWith((f, i) => System.Console.WriteLine("Item was create success fully"));
             builder.Entity<Item>()
                 .HasData(dataItemFaker.GenerateBetween(100, 100));

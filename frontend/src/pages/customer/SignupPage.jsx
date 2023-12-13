@@ -157,7 +157,7 @@ export default function SignupPage() {
                         : null}
                     {isError ? (
                         <p className="font-semibold text-red-600">
-                            {error.data.error}
+                            {error.data?.message}
                         </p>
                     ) : null}
                     <button

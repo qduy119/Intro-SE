@@ -1,7 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../services/auth";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../features/auth/authSlice";
+import getItemsInCart from "../../features/cart/getItemsInCart";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Toast from "../../components/Toast/Toast";
@@ -10,10 +11,12 @@ import { bg } from "../../assets";
 export default function LoginPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const [credentials, setCredentials] = useState({});
     const [emailError, setEmailError] = useState(null);
     const [login, { data, isLoading, isSuccess, isError, error }] =
         useLoginMutation();
+
     function handleChange(e) {
         setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     }
@@ -30,6 +33,7 @@ export default function LoginPage() {
         setEmailError(null);
         login(credentials);
     }
+
     useEffect(() => {
         if (isSuccess) {
             setCredentials({});
@@ -38,15 +42,16 @@ export default function LoginPage() {
                 position: toast.POSITION.BOTTOM_RIGHT,
             });
             const { user } = data;
+            dispatch(getItemsInCart({ userId: user.id }));
             setTimeout(() => {
                 if (user.role === "Customer") {
-                    navigate("/");
+                    navigate(location.state?.from || "/");
                 } else if (user.role === "Admin") {
                     navigate("/admin");
                 }
             }, 2000);
         }
-    }, [isSuccess, data, navigate, dispatch]);
+    }, [isSuccess, data, navigate, dispatch, location]);
 
     return (
         <div
@@ -103,7 +108,7 @@ export default function LoginPage() {
                         ) : null}
                         {isError ? (
                             <p className="font-semibold text-red-600">
-                                {error.data?.error}
+                                {error.data?.message}
                             </p>
                         ) : null}
                         <button

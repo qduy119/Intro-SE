@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { foods } from "../../constants/index";
@@ -15,6 +14,7 @@ export default function ProductPage() {
     function handleShowThumbnail(e) {
         setThumbImage({ curr: +e.target.id, thumb: e.target.src });
     }
+    
     return (
         <div className="px-4 py-8">
             <div className="block sm:flex gap-x-8">
@@ -99,16 +99,4 @@ export default function ProductPage() {
             </div>
         </div>
     );
-}
-
-export async function fetchProductById({ params, request }) {
-    const { id } = params;
-    const res = await axios.get(`/api/v1/products/${id}`, {
-        signal: request.signal,
-    });
-    if (res.status !== 200) {
-        throw new Error("Fetching product failed");
-    }
-    const { product } = res.data;
-    return product ?? [];
 }

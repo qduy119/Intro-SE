@@ -1,5 +1,5 @@
 import axios from "axios";
-import jwt_decode from "jwt-decode";
+// import { jwtDecode } from "jwt-decode";
 import { updateAccessToken } from "../features/auth/authSlice";
 
 let store;
@@ -10,13 +10,9 @@ export const injectStore = (_store) => {
 };
 
 const refreshToken = () => {
-    return axios.post(
-        `${BASE_URL}/refresh-token`,
-        {},
-        {
-            withCredentials: true,
-        }
-    );
+    return axios.get(`${BASE_URL}/refresh-token`, {
+        withCredentials: true,
+    });
 };
 
 const createAxiosInstance = () => {
@@ -28,23 +24,42 @@ const createAxiosInstance = () => {
         },
     });
     axiosInstance.interceptors.request.use(
-        async (config) => {
-            const user = jwt_decode(accessToken);
-            if (user.exp < new Date().getTime() / 1000) {
-                const res = await refreshToken();
-                const { accessToken: newAccessToken } = res.data;
-                store.dispatch(updateAccessToken({ newAccessToken }));
-                config.headers["Authorization"] = `Bearer ${newAccessToken}`;
-            }
+        // async (config) => {
+        //     const user = jwtDecode(accessToken);
+        //     if (user.exp * 1000 < new Date().getTime()) {
+        //         const res = await refreshToken();
+        //         const { accessToken: newAccessToken } = res.data;
+        //         store.dispatch(updateAccessToken({ newAccessToken }));
+        //         config.headers["Authorization"] = `Bearer ${newAccessToken}`;
+        //     }
+        //     return config;
+        // },
+        (config) => {
             return config;
         },
         (error) => {
             return Promise.reject(error);
         }
     );
-    axiosInstance.interceptors.response.use((response) => {
-        return response;
-    });
+    axiosInstance.interceptors.response.use(
+        (response) => {
+            return response;
+        },
+        async (error) => {
+            if (error.response && error.response.status === 401) {
+                const res = await refreshToken();
+                const { accessToken: newAccessToken } = res.data;
+                store.dispatch(updateAccessToken({ newAccessToken }));
+                const originalRequest = error.config;
+                console.log(originalRequest);
+                originalRequest.headers[
+                    "Authorization"
+                ] = `Bearer ${newAccessToken}`;
+                return axios(originalRequest);
+            }
+            return Promise.reject(error);
+        }
+    );
     return axiosInstance;
 };
 

@@ -32,7 +32,7 @@ namespace IntroSEProject.API.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterModel registerModel)
         {
             var u = await context.Users.FirstOrDefaultAsync(x => x.Email == registerModel.Email);
-            if (u != null) return BadRequest(new { error = "The user has existed" });
+            if (u != null) return BadRequest(new { message = "The user has existed" });
             try
             {
                 string passwordHash = BCrypt.Net.BCrypt.HashPassword(registerModel.Password);
@@ -95,27 +95,33 @@ namespace IntroSEProject.API.Controllers
                 SetRefreshTokenCookie(refreshToken, refreshTokenExpiresAt);
 
                 return Ok(new {
-                    user = mapper.Map<LoginModel>(user),
+                    user = mapper.Map<LoginModel>(user),    
                     accessToken
                 });
             }
 
-            return Unauthorized();
+            return Unauthorized(new { message = "Email or password is incorrect" });
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("/refresh-token")]
         [AllowAnonymous]
-        public IActionResult RefreshToken([FromBody] RefreshTokenModel refreshTokenModel)
+        public IActionResult RefreshToken()
         {
-            (string accessToken, DateTime accessTokenExpiresAt) = 
-                tokenManager.ValidateRefreshToken(refreshTokenModel.RefreshToken);
+            string? value = Request.Headers["Cookie"];
+            if (value == null)
+            {
+                return BadRequest();
+            }
+            string RefreshToken = value.Split("=")[1];
+            (string accessToken, DateTime accessTokenExpiresAt) =
+                tokenManager.ValidateRefreshToken(RefreshToken);
 
             if (string.IsNullOrEmpty(accessToken))
             {
                 return BadRequest();
             }
-            SetAccessTokenCookie(accessToken, accessTokenExpiresAt);
+            //SetAccessTokenCookie(accessToken, accessTokenExpiresAt);
             return Ok(new
             {
                 accessToken
@@ -133,18 +139,18 @@ namespace IntroSEProject.API.Controllers
             });
             return Ok();    
         }
-        private void SetAccessTokenCookie(string token, DateTime expiresAt)
-        {
-            Response.Cookies.Append("access_token", token, 
-                new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = expiresAt,
-                SameSite = SameSiteMode.None,
-                Secure = true
-                });
+        //private void SetAccessTokenCookie(string token, DateTime expiresAt)
+        //{
+        //    Response.Cookies.Append("access_token", token, 
+        //        new CookieOptions
+        //    {
+        //        HttpOnly = true,
+        //        Expires = expiresAt,
+        //        SameSite = SameSiteMode.None,
+        //        Secure = true
+        //        });
             
-        }
+        //}
         private void SetRefreshTokenCookie(string token, DateTime expiresAt)
         {
             Response.Cookies.Append("refresh_token", token,

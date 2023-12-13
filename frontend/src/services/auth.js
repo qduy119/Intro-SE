@@ -12,8 +12,8 @@ const authApi = createApi({
             query: (payload) => ({
                 url: "/authenticate",
                 method: "POST",
-                credentials: "include",
                 body: payload,
+                credentials: "include",
             }),
         }),
         register: builder.mutation({
@@ -23,16 +23,8 @@ const authApi = createApi({
                 body: payload,
             }),
         }),
-        logout: builder.mutation({
-            query: () => ({
-                url: "/logout",
-                method: "GET",
-                credentials: "include",
-            }),
-        }),
     }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useLogoutMutation } =
-    authApi;
+export const { useLoginMutation, useRegisterMutation } = authApi;
 export default authApi;

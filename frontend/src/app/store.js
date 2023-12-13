@@ -1,5 +1,4 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-// ----------------------- Persist redux -----------------------
 import {
     persistStore,
     persistReducer,
@@ -17,19 +16,30 @@ import authReducer from "../features/auth/authSlice";
 import cartReducer from "../features/cart/cartSlice";
 import orderReducer from "../features/order/orderSlice";
 import authApi from "../services/auth";
+import cartApi from "../services/cart";
+import categoryApi from "../services/category";
+import productApi from "../services/product";
+import reviewApi from "../services/review";
+import paymentApi from "../services/payment";
+import orderApi from "../services/order";
+import orderItemApi from "../services/orderitem";
+
+import { injectStore } from "../api/axios";
 
 const rootReducer = combineReducers({
     auth: authReducer,
     cart: cartReducer,
     order: orderReducer,
     [authApi.reducerPath]: authApi.reducer,
+    [cartApi.reducerPath]: cartApi.reducer,
+    [categoryApi.reducerPath]: categoryApi.reducer,
+    [productApi.reducerPath]: productApi.reducer,
+    [reviewApi.reducerPath]: reviewApi.reducer,
+    [paymentApi.reducerPath]: paymentApi.reducer,
+    [orderApi.reducerPath]: orderApi.reducer,
+    [orderItemApi.reducerPath]: orderItemApi.reducer,
 });
 
-// export const store = configureStore({
-//     reducer: rootReducer,
-// });
-
-// ----------------------- Persist redux -----------------------
 const persistConfig = {
     key: "root",
     version: 1,
@@ -53,7 +63,18 @@ export const store = configureStore({
                     REGISTER,
                 ],
             },
-        }).concat(authApi.middleware),
+        }).concat(
+            authApi.middleware,
+            cartApi.middleware,
+            categoryApi.middleware,
+            productApi.middleware,
+            reviewApi.middleware,
+            paymentApi.middleware,
+            orderApi.middleware,
+            orderItemApi.middleware
+        ),
 });
+
+injectStore(store);
 
 export const persistor = persistStore(store);

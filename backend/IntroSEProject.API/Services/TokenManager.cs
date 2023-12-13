@@ -23,7 +23,7 @@ namespace IntroSEProject.API.Services
             var issuer = configuration.GetValue<string>("AuthToken:Issuer");
             var audience = configuration.GetValue<string>("AuthToken:Audience");
             var secretKey = Encoding.ASCII.GetBytes(configuration.GetValue<string>("AuthToken:SecretKey") ?? "");
-            var expiresAt = DateTime.UtcNow.AddMinutes(15);
+            var expiresAt = DateTime.UtcNow.AddMinutes(1);
             var claims = new List<Claim>()
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString(), ClaimValueTypes.String, issuer),
