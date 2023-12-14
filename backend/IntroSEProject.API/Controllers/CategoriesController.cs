@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IntroSEProject.API.Controllers
 {
-    [Authorize(Roles = "Customer, Admin")]
+    //[Authorize(Roles = "Customer, Admin")]
     [ApiController]
     [Route("/api/[controller]")]
     public class CategoriesController : Controller
@@ -112,5 +112,17 @@ namespace IntroSEProject.API.Controllers
             await dbContext.SaveChangesAsync();
             return Ok(model);
         }
+
+
+        [HttpGet("{cid}/items")]
+        public async Task<IActionResult> GetAllItemsBelongToCategory(int cid)
+        {
+            var category = await dbContext.Categories.FindAsync(cid);
+            if (category == null) return NotFound();
+            var items = await dbContext.Items.Where(x => x.CategoryId == category.Id).ToListAsync();
+            return Ok(mapper.Map<IEnumerable<ItemModel>>(items));
+        }
+
+        
     }
 }

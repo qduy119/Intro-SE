@@ -4,6 +4,8 @@ using IntroSEProject.API.Services;
 using IntroSEProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data.Common;
+using System.Linq.Expressions;
 
 namespace IntroSEProject.API.Controllers
 {
@@ -52,7 +54,6 @@ namespace IntroSEProject.API.Controllers
             var model = mapper.Map<ItemModel>(item);
             return Ok(model);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Create(ItemModel model)
@@ -117,5 +118,18 @@ namespace IntroSEProject.API.Controllers
                 await dbContext.SaveChangesAsync();
                 return Ok(model);
             }
+
+        [HttpGet("top5sell")]
+        public async Task<IActionResult> GetTop5SellItems()
+        {
+            var result = await dbContext.OrderItems.GroupBy(x => x.ItemId)
+                .Select(group => new
+                {
+                    Item = mapper.Map<ItemModel>(dbContext.Items.Where(i => i.Id == group.Key).SingleOrDefault()),
+                    SoldQuantity = group.Sum(x => x.Quantity)
+                }).OrderByDescending(x => x.SoldQuantity)
+                .Take(5).ToListAsync();
+            return Ok(result);  
         }
+    }
     }
