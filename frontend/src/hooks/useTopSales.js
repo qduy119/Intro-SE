@@ -13,7 +13,7 @@ export default function useTopSales() {
         async function fetchTopSaleProducts() {
             try {
                 setIsLoading(true);
-                const res = await axios.get(`${BASE_URL}/api/Items/top-5`);
+                const res = await axios.get(`${BASE_URL}/api/Items/top5`);
                 if (res.status !== 200) {
                     throw new Error("Fetching top products failed");
                 }

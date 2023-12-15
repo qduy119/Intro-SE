@@ -21,10 +21,14 @@ namespace IntroSEProject.API.Controllers
             this.mapper = mapper;
         }
         [HttpGet]
-        public async Task<IActionResult> GetPaging(int page = 1, int per_page = 0, string keyword = "")
+        public async Task<IActionResult> GetPaging(int page = 1, int per_page = 0, string keyword = "", int categoryId = 0)
         {
             IEnumerable<Item> list;
-            if (string.IsNullOrEmpty(keyword))
+            if (categoryId != 0)
+            {
+                list = dbContext.Items.Where(item => item.CategoryId == categoryId).ToList();
+            }
+            else if (string.IsNullOrEmpty(keyword))
             {
                 list = await dbContext.Items.ToListAsync();
             }
@@ -41,6 +45,20 @@ namespace IntroSEProject.API.Controllers
             return Ok(pager);
         }
 
+
+        [HttpGet("top5")]
+        public async Task<IActionResult> GetTopItem()
+        {
+            var result = await dbContext.OrderItems.GroupBy(x => x.ItemId)
+                .Select(group => new
+                {
+                    Item = mapper.Map<ItemModel>(dbContext.Items.Where(i => i.Id == group.Key).SingleOrDefault()),
+                    SoldQuantity = group.Sum(x => x.Quantity)
+                }).OrderByDescending(x => x.SoldQuantity)
+                .Take(5).ToListAsync();
+            return Ok(result);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -52,7 +70,6 @@ namespace IntroSEProject.API.Controllers
             var model = mapper.Map<ItemModel>(item);
             return Ok(model);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Create(ItemModel model)

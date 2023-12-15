@@ -1,20 +1,71 @@
-import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useLoaderData, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { foods } from "../../constants/index";
+import { IconButton } from "@mui/material";
+import { useAddCartItemsMutation } from "../../services/cart";
+import { useDispatch, useSelector } from "react-redux";
+import getItemsInCart from "../../features/cart/getItemsInCart";
+import { toast } from "react-toastify";
+import Toast from "../../components/Toast/Toast";
+import { useModifyProductMutation } from "../../services/product";
 
 export default function ProductPage() {
-    const { id } = useParams();
-    const food = foods.find((food) => food.id === +id) ?? [];
+    const food = useLoaderData();
+    const navigate = useNavigate();
+    const user = useSelector((state) => state.auth.user);
+    const [addToCart, { isSuccess }] = useAddCartItemsMutation();
+    const [updateProduct] = useModifyProductMutation();
+    const dispatch = useDispatch();
+    const [quantity, setQuantity] = useState(1);
     const [thumbImage, setThumbImage] = useState(() => ({
         curr: -1,
         thumb: food.thumbnail,
     }));
+
     function handleShowThumbnail(e) {
         setThumbImage({ curr: +e.target.id, thumb: e.target.src });
     }
-    
+    function handleChangeQuantity(e) {
+        let quantity = +e.target.value;
+        if (quantity < 0) {
+            quantity = 1;
+        } else if (quantity > food.stock) {
+            quantity = food.stock;
+        }
+        setQuantity(quantity);
+    }
+    function handleModify(type = -1) {
+        if (type === -1) {
+            if (quantity > 1) {
+                setQuantity((prev) => prev - 1);
+            }
+        } else {
+            if (quantity < food.stock) {
+                setQuantity((prev) => prev + 1);
+            }
+        }
+    }
+    function handleAddToCart() {
+        if (!user) {
+            navigate("/login");
+        } else {
+            addToCart({ quantity, itemId: food.id, userId: user.id });
+            updateProduct({ ...food, stock: food.stock - quantity });
+        }
+    }
+    function handleBuyNow() {
+        navigate("/order");
+    }
+    useEffect(() => {
+        if (isSuccess) {
+            dispatch(getItemsInCart({ userId: user.id }));
+            toast.success("Add to cart successfully !", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            });
+        }
+    }, [isSuccess, dispatch, user]);
+
     return (
         <div className="px-4 py-8">
             <div className="block sm:flex gap-x-8">
@@ -38,7 +89,7 @@ export default function ProductPage() {
                             alt="Image"
                             onClick={(e) => handleShowThumbnail(e)}
                         />
-                        {food.images.map((image, index) => (
+                        {food?.images?.map((image, index) => (
                             <img
                                 id={index}
                                 key={index}
@@ -76,19 +127,37 @@ export default function ProductPage() {
                         Price: <span className="font-normal">{food.price}</span>
                     </h3>
                     <div className="flex items-center gap-x-4 mt-4">
-                        <button className="border-none outline-none rounded-lg p-2 bg-gray-200 hover:bg-gray-300">
+                        <IconButton onClick={() => handleModify()}>
                             <RemoveIcon />
-                        </button>
-                        <p className="text-lg font-semibold">1</p>
-                        <button className="border-none outline-none rounded-lg p-2 bg-gray-200 hover:bg-gray-300">
+                        </IconButton>
+                        <label htmlFor="quantity" className="hidden"></label>
+                        <input
+                            type="number"
+                            id="quantity"
+                            name="quantity"
+                            min={1}
+                            max={food.stock}
+                            value={quantity}
+                            onChange={(e) => handleChangeQuantity(e)}
+                            className="border border-gray-300"
+                        />
+                        <IconButton onClick={() => handleModify(1)}>
                             <AddIcon />
-                        </button>
+                        </IconButton>
                     </div>
-                    <div className="mt-4 flex items-center justify-between gap-x-5">
-                        <button className="uppercase font-semibold text-xl border-none outline-none rounded-[4px] bg-primary hover:bg-primary-dark text-white text-center py-2 px-4 w-[50%] transition-all">
-                            ORDER
+                    <div className="mt-4 flex gap-x-5">
+                        <button
+                            type="button"
+                            onClick={handleBuyNow}
+                            className="uppercase font-semibold text-sm sm:text-lg border-none outline-none rounded-[4px] bg-primary hover:bg-primary-dark text-white text-center py-2 px-4 w-[50%] transition-all"
+                        >
+                            BUY NOW
                         </button>
-                        <button className="uppercase font-semibold text-xl border-none outline-none rounded-[4px] bg-primary hover:bg-primary-dark text-white text-center py-2 px-4 w-[50%] transition-all">
+                        <button
+                            type="button"
+                            onClick={handleAddToCart}
+                            className="uppercase font-semibold text-sm sm:text-lg border-none outline-none rounded-[4px] bg-primary hover:bg-primary-dark text-white text-center py-2 px-4 w-[50%] transition-all"
+                        >
                             ADD TO CART
                         </button>
                     </div>
@@ -97,6 +166,7 @@ export default function ProductPage() {
             <div className="mt-10">
                 <h1 className="font-semibold text-3xl mb-4">Reviews</h1>
             </div>
+            <Toast />
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../services/auth";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../features/auth/authSlice";
@@ -11,7 +11,6 @@ import { bg } from "../../assets";
 export default function LoginPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const location = useLocation();
     const [credentials, setCredentials] = useState({});
     const [emailError, setEmailError] = useState(null);
     const [login, { data, isLoading, isSuccess, isError, error }] =
@@ -45,13 +44,13 @@ export default function LoginPage() {
             dispatch(getItemsInCart({ userId: user.id }));
             setTimeout(() => {
                 if (user.role === "Customer") {
-                    navigate(location.state?.from || "/");
+                    navigate(-1);
                 } else if (user.role === "Admin") {
                     navigate("/admin");
                 }
             }, 2000);
         }
-    }, [isSuccess, data, navigate, dispatch, location]);
+    }, [isSuccess, data, navigate, dispatch]);
 
     return (
         <div

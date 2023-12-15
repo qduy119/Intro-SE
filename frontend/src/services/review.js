@@ -11,7 +11,7 @@ const reviewApi = createApi({
     endpoints: (builder) => ({
         addReview: builder.mutation({
             query: (payload) => ({
-                url: "api/Review",
+                url: "/api/Review",
                 method: "POST",
                 body: payload,
             }),

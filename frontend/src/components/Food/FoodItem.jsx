@@ -33,7 +33,7 @@ export default function FoodItem({ food }) {
             <div className="px-4 py-3 ">
                 <div className="flex items-center justify-center gap-x-2 flex-wrap">
                     <button className="py-2 px-4 rounded-[4px] mt-2 border-2 border-primary-light text-primary uppercase font-semibold text-md">
-                        BUY{" "}
+                        BUY NOW{" "}
                         <span>
                             <ShoppingBagOutlinedIcon />
                         </span>

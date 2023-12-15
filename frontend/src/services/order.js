@@ -11,7 +11,7 @@ const orderApi = createApi({
     endpoints: (builder) => ({
         addOrder: builder.mutation({
             query: (payload) => ({
-                url: "api/Order",
+                url: "/api/Order",
                 method: "POST",
                 body: payload,
             }),

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IntroSEProject.API.Controllers
 {
-    [Authorize(Roles = "Customer, Admin")]
+    //[Authorize(Roles = "Customer, Admin")]
     [ApiController]
     [Route("/api/[controller]")]
     public class CategoriesController : Controller

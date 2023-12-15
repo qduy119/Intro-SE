@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import logout from "./logout";
 
 const initialState = {
     user: null,
@@ -14,20 +13,19 @@ const authSlice = createSlice({
             state.user = action.payload.user;
             state.accessToken = action.payload.accessToken;
         },
+        logoutSuccess: (state) => {
+            state.user = null;
+            state.accessToken = null;
+        },
         updateAccessToken: (state, action) => {
             state.accessToken = action.payload.newAccessToken;
         },
     },
-    extraReducers: (builder) => {
-        builder
-            .addCase(logout.fulfilled, (state) => {
-                state.user = null;
-                state.accessToken = null;
-            })
-    },
+    // extraReducers: (builder) => {
+    // },
 });
 
 const { reducer, actions } = authSlice;
 
-export const { loginSuccess, updateAccessToken } = actions;
+export const { loginSuccess, logoutSuccess, updateAccessToken } = actions;
 export default reducer;

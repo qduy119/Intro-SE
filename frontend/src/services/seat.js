@@ -11,13 +11,13 @@ const seatApi = createApi({
     endpoints: (builder) => ({
         getSeatReservation: builder.mutation({
             query: () => ({
-                url: "api/SeatReservation",
+                url: "/api/SeatReservation",
                 method: "GET",
             }),
         }),
         addSeatReservation: builder.mutation({
             query: (payload) => ({
-                url: "api/SeatReservation",
+                url: "/api/SeatReservation",
                 method: "POST",
                 body: payload,
             }),

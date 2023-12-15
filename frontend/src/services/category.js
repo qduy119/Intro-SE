@@ -11,21 +11,21 @@ const categoryApi = createApi({
     endpoints: (builder) => ({
         addCategory: builder.mutation({
             query: (payload) => ({
-                url: "api/Categories",
+                url: "/api/Categories",
                 method: "POST",
                 body: payload,
             }),
         }),
         modifyCategory: builder.mutation({
             query: (payload) => ({
-                url: `api/Categories/${payload.id}`,
+                url: `/api/Categories/${payload.id}`,
                 method: "PUT",
                 body: payload,
             }),
         }),
         deleteCategory: builder.mutation({
             query: ({ id }) => ({
-                url: `api/Categories/${id}`,
+                url: `/api/Categories/${id}`,
                 method: "DELETE",
             }),
         }),
