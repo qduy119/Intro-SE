@@ -2,7 +2,7 @@ import createAxiosInstance from "./axios";
 
 export const axiosBaseQuery =
     ({ baseUrl } = { baseUrl: "" }) =>
-    async ({ url, method = "GET", body, params }) => {
+    async ({ url, method = "GET", body, params, headers, options }) => {
         try {
             const privateAxios = createAxiosInstance();
             const result = await privateAxios({
@@ -10,6 +10,8 @@ export const axiosBaseQuery =
                 method,
                 data: body,
                 params,
+                headers,
+                ...options,
             });
             return { data: result.data };
         } catch (axiosError) {

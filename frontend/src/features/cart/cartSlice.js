@@ -9,9 +9,6 @@ const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
-        updateCart: (state, action) => {
-            state.items = action.payload;
-        },
         resetCart: (state) => {
             state.items = null;
         },
@@ -19,7 +16,7 @@ const cartSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getItemsInCart.fulfilled, (state, action) => {
-                state.items = action.payload.data;
+                state.items = action.payload;
             })
     },
 });

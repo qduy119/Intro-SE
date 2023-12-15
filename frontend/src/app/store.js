@@ -16,6 +16,7 @@ import authReducer from "../features/auth/authSlice";
 import cartReducer from "../features/cart/cartSlice";
 import orderReducer from "../features/order/orderSlice";
 import authApi from "../services/auth";
+import privateAuthApi from "../services/privateAuth";
 import cartApi from "../services/cart";
 import categoryApi from "../services/category";
 import productApi from "../services/product";
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
     cart: cartReducer,
     order: orderReducer,
     [authApi.reducerPath]: authApi.reducer,
+    [privateAuthApi.reducerPath]: privateAuthApi.reducer,
     [cartApi.reducerPath]: cartApi.reducer,
     [categoryApi.reducerPath]: categoryApi.reducer,
     [productApi.reducerPath]: productApi.reducer,
@@ -65,6 +67,7 @@ export const store = configureStore({
             },
         }).concat(
             authApi.middleware,
+            privateAuthApi.middleware,
             cartApi.middleware,
             categoryApi.middleware,
             productApi.middleware,

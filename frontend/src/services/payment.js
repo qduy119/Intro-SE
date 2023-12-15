@@ -11,13 +11,13 @@ const paymentApi = createApi({
     endpoints: (builder) => ({
         getPayments: builder.mutation({
             query: () => ({
-                url: "api/Payment",
+                url: "/api/Payment",
                 method: "GET",
             }),
         }),
         addPayment: builder.mutation({
             query: (payload) => ({
-                url: "api/Payment",
+                url: "/api/Payment",
                 method: "POST",
                 body: payload,
             }),

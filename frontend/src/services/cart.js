@@ -11,21 +11,21 @@ const cartApi = createApi({
     endpoints: (builder) => ({
         addCartItems: builder.mutation({
             query: (payload) => ({
-                url: "api/CartItem",
+                url: "/api/CartItem",
                 method: "POST",
                 body: payload,
             }),
         }),
         modifyCartItems: builder.mutation({
             query: (payload) => ({
-                url: `api/CartItem/${payload.id}`,
+                url: "/api/CartItem",
                 method: "PUT",
                 body: payload,
             }),
         }),
         deleteCartItems: builder.mutation({
             query: ({ id }) => ({
-                url: `api/CartItem/${id}`,
+                url: `/api/CartItem/${id}`,
                 method: "DELETE",
             }),
         }),

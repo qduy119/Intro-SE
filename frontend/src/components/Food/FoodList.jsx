@@ -4,7 +4,7 @@ import FoodItem from "./FoodItem";
 import HomePagination from "../Pagination/HomePagination";
 import Skeletons from "../Skeleton/Skeletons";
 
-export default function Food() {
+export default function FoodList() {
     const location = useLocation();
     const query = new URLSearchParams(location.search);
     const page = parseInt(query.get("page") || "1", 10);
@@ -12,14 +12,14 @@ export default function Food() {
         page,
         per_page: 10,
         keyword: "",
+        categoryId: 0,
     });
 
     return (
         <div>
-            <h1 className="font-semibold text-3xl mb-2">List Food Today</h1>
-            <div className="w-[13.5rem] h-[4px] rounded-md bg-primary-light mb-6" />
+            <h1 className="font-semibold text-2xl sm:text-3xl mb-4 border-b-4 border-b-primary-light w-fit">List Food Today</h1>
             {isLoading ? (
-                <Skeletons />
+                <Skeletons width={200} height={250} nums={10} />
             ) : error ? (
                 <p>Error</p>
             ) : (

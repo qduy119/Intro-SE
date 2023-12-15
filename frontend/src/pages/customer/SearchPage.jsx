@@ -12,6 +12,7 @@ export default function SearchPage() {
         page,
         per_page: 10,
         keyword: query.get("query"),
+        categoryId: 0,
     });
 
     return (
@@ -22,7 +23,7 @@ export default function SearchPage() {
             </h1>
             <div className="w-[13.5rem] h-[4px] rounded-md bg-primary-light mb-6" />
             {isLoading ? (
-                <Skeletons />
+                <Skeletons width={200} height={250} nums={10} />
             ) : error ? (
                 <p>Error</p>
             ) : !data?.data ? (

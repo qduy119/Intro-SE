@@ -4,7 +4,7 @@ import Footer from "../components/Footer/Footer";
 
 export default function CustomerLayout() {
     return (
-        <div>
+        <div className="max-w-[1440px] mx-auto">
             <Navbar />
             <div className="mt-[130px] md:mt-[90px]">
                 <Outlet />

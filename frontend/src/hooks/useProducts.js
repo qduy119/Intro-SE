@@ -5,7 +5,12 @@ import { useEffect } from "react";
 const BASE_URL = "https://localhost:7190";
 
 export default function useProducts(
-    { page, per_page, keyword } = { page: 1, per_page: 10, keyword: "" }
+    { page, per_page, keyword, categoryId } = {
+        page: 1,
+        per_page: 10,
+        keyword: "",
+        categoryId: 0,
+    }
 ) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -16,7 +21,7 @@ export default function useProducts(
             try {
                 setIsLoading(true);
                 const res = await axios.get(
-                    `${BASE_URL}/api/Items?page=${page}&per_page=${per_page}&keyword=${keyword}`
+                    `${BASE_URL}/api/Items?page=${page}&per_page=${per_page}&keyword=${keyword}&categoryId=${categoryId}`
                 );
                 if (res.status !== 200) {
                     throw new Error("Fetching products failed");
@@ -29,7 +34,7 @@ export default function useProducts(
             }
         }
         fetchProducts();
-    }, [page, per_page, keyword]);
+    }, [page, per_page, keyword, categoryId]);
 
     return { isLoading, error, data };
 }

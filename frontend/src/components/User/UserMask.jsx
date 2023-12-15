@@ -1,9 +1,10 @@
 import { Popover, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import logout from "../../features/auth/logout";
+import { logoutSuccess } from "../../features/auth/authSlice";
 import { resetCart } from "../../features/cart/cartSlice";
+import { useLogoutMutation } from "../../services/privateAuth";
 
 const styleTypo = {
     p: 2,
@@ -18,6 +19,7 @@ export default function UserMask({
     imageUrl = "https://res.cloudinary.com/dlzyiprib/image/upload/v1694617729/e-commerces/user/kumz90hy8ufomdgof8ik.jpg",
 }) {
     const dispatch = useDispatch();
+    const [logout, { isSuccess, isError }] = useLogoutMutation();
     const navigate = useNavigate();
     const [anchor, setAnchor] = useState("");
 
@@ -29,10 +31,15 @@ export default function UserMask({
         setAnchor(null);
     }
     function handleLogout() {
-        dispatch(resetCart());
-        dispatch(logout());
-        navigate("/");
+        logout();
     }
+    useEffect(() => {
+        if (isSuccess && !isError) {
+            dispatch(resetCart());
+            dispatch(logoutSuccess());
+            navigate("/");
+        }
+    }, [isSuccess, isError, navigate, dispatch]);
 
     return (
         <>

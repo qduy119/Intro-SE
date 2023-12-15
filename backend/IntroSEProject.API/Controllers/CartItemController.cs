@@ -19,22 +19,21 @@ namespace IntroSEProject.API.Controllers
             this.mapper = mapper;
         }
         [HttpGet]
-        public IActionResult GetPaging(int page = 1, int per_page = 0, int userId = -1)
+        public IActionResult GetPaging(int userId = -1)
         {
-            if (userId < 0)
+            if (userId <= 0)
             {
                 return BadRequest();
             }
-            IEnumerable<CartItem> list = from cartitem in dbContext.CartItems
-                                         where cartitem.UserId == userId
-                                         select cartitem;
-            if (per_page == 0)
-            {
-                per_page = list.Count();
-            }
-            var model = mapper.Map<IEnumerable<CartItemModel>>(list);
-            var pager = new Pager<CartItemModel>(model, page, per_page);
-            return Ok(pager);
+            //IEnumerable<CartItem> cartItems = dbContext.CartItems.Where(c => c.UserId == userId);
+            var list = (from cartItem in dbContext.CartItems 
+                        join item in dbContext.Items on cartItem.ItemId equals item.Id
+                        where cartItem.UserId == userId
+                        select new { id = mapper.Map<CartItemModel>(cartItem).Id, quantity = mapper.Map<CartItemModel>(cartItem).Quantity,
+                           itemId = mapper.Map<CartItemModel>(cartItem).ItemId, userId = mapper.Map<CartItemModel>(cartItem).UserId, item = mapper.Map<ItemModel>(item)}
+                        ).ToList();
+
+            return Ok(list);
         }
 
         [HttpGet("{id:int}")]
@@ -61,6 +60,15 @@ namespace IntroSEProject.API.Controllers
             if(item == null)
             {
                 return BadRequest(new {error = $"Item has id = {model.ItemId} not exist" });
+            }
+            var cartItem = await dbContext.CartItems.Where(c => c.ItemId == model.ItemId).FirstOrDefaultAsync();
+            if(cartItem != null)
+            {
+                var tmp = cartItem;
+                tmp.Quantity = tmp.Quantity + model.Quantity;
+                dbContext.Entry(cartItem).CurrentValues.SetValues(tmp);
+                await dbContext.SaveChangesAsync();
+                return Ok(mapper.Map<CartItemModel>(tmp));
             }
             var order = mapper.Map<CartItem>(model);
             try
