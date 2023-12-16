@@ -5,7 +5,7 @@ export default function Status({ status }) {
     } else if (status === "Success") {
         base = base.concat("bg-green-500");
     } else if (status === "Canceled") {
-        base = base.concat("bg-red-400");
+        base = base.concat("bg-red-500");
     }
     return <p className={base}>{status}</p>;
 }

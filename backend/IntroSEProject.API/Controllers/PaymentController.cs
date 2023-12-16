@@ -4,10 +4,12 @@ using IntroSEProject.API.Services;
 using IntroSEProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace IntroSEProject.API.Controllers
 {
+    [Authorize(Roles = "Customer, Admin")]
     [ApiController]
     [Route("/api/[controller]")]
     public class PaymentController : Controller

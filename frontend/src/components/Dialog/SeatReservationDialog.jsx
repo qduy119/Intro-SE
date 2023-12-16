@@ -11,16 +11,15 @@ import Tooltip from "@mui/material/Tooltip";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
-import { useGetSeatReservationQuery } from "../../services/seat";
 import { isAvailableSeat } from "../../utils";
 
 export default function SeatReservationDialog({
     open,
-    onSetClose,
+    data,
     currentSeat,
+    onSetClose,
     onSetSeatNumber,
 }) {
-    const { data } = useGetSeatReservationQuery();
 
     return (
         <Dialog open={open} onClose={onSetClose}>

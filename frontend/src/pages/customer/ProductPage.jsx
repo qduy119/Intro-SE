@@ -16,9 +16,12 @@ export default function ProductPage() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
-    const [addToCart, { isSuccess }] = useAddCartItemsMutation();
-    const [currentStock, setCurrentStock] = useState(food.stock);
+    const [addToCart, { isSuccess: addToCartSuccess }] =
+        useAddCartItemsMutation();
+    const [addToCartNow, { data, isSuccess: addToCartNowSuccess }] =
+        useAddCartItemsMutation();
     const [updateProduct] = useModifyProductMutation();
+    const [currentStock, setCurrentStock] = useState(food.stock);
     const [quantity, setQuantity] = useState(1);
     const [thumbImage, setThumbImage] = useState(() => ({
         curr: -1,
@@ -60,16 +63,32 @@ export default function ProductPage() {
         }
     }
     function handleBuyNow() {
-        navigate("/order");
+        if (!user) {
+            navigate("/login");
+        } else {
+            if (currentStock > 0 && currentStock >= quantity) {
+                addToCartNow({ quantity, itemId: food.id, userId: user.id });
+                updateProduct({ ...food, stock: currentStock - quantity });
+            }
+        }
     }
+
     useEffect(() => {
-        if (isSuccess) {
+        if (addToCartSuccess) {
             dispatch(getItemsInCart({ userId: user.id }));
             toast.success("Add to cart successfully !", {
                 position: toast.POSITION.BOTTOM_RIGHT,
             });
         }
-    }, [isSuccess, dispatch, user]);
+    }, [addToCartSuccess, dispatch, user]);
+    useEffect(() => {
+        if (addToCartNowSuccess) {
+            dispatch(getItemsInCart({ userId: user.id }));
+            navigate("/checkout", {
+                state: { items: [{ ...data, item: food }] },
+            });
+        }
+    }, [addToCartNowSuccess, navigate, dispatch, user?.id, data, food]);
 
     return (
         <div className="min-h-[600px] px-5 py-8">

@@ -2,11 +2,13 @@
 using IntroSEProject.API.Models;
 using IntroSEProject.API.Services;
 using IntroSEProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace IntroSEProject.API.Controllers
 {
+    [Authorize(Roles = "Customer, Admin")]
     [ApiController]
     [Route("/api/[controller]")]
     public class SeatReservationController : Controller
@@ -43,7 +45,7 @@ namespace IntroSEProject.API.Controllers
             var model = mapper.Map<SeatReservationModel>(seatReservation);  
             return Ok(model);
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> Create(SeatReservationModel model)
         {
@@ -95,7 +97,7 @@ namespace IntroSEProject.API.Controllers
             }
             return Ok(model);
         }
-
+        
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -109,6 +111,7 @@ namespace IntroSEProject.API.Controllers
             var model = mapper.Map<SeatReservationModel>(seatReservation);
             return Ok(model);
         }
+        
         [HttpDelete]
         public async Task<IActionResult> DeleteBySeat(int seatNumber = 0)
         {

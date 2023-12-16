@@ -10,6 +10,13 @@ export const isAvailableSeat = (seats, seatNumber) => {
     return !allSeats?.includes(seatNumber);
 };
 
+export const isSeatReturned = (seats, { orderId, seatNumber }) => {
+    const found = seats?.some(
+        (seat) => seat.orderId === orderId && seat.seatNumber === seatNumber
+    );
+    return !found;
+};
+
 export const formatDate = (date) => {
     return new Date(date).toLocaleString("vi-VN");
 };

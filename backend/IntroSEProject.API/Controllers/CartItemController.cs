@@ -2,11 +2,13 @@
 using IntroSEProject.API.Models;
 using IntroSEProject.API.Services;
 using IntroSEProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace IntroSEProject.API.Controllers
 {
+    [Authorize(Roles = "Customer, Admin")]
     [ApiController]
     [Route("/api/[controller]")]
     public class CartItemController : Controller

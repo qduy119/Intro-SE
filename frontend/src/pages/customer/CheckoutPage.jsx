@@ -10,6 +10,7 @@ import { useDeleteCartItemsMutation } from "../../services/cart";
 import { useAddOrderItemsMutation } from "../../services/orderitem";
 import { useAddSeatReservationMutation } from "../../services/seat";
 import { useAddPaymentMutation } from "../../services/payment";
+import { useLazyGetSeatReservationQuery } from "../../services/seat";
 import getItemsInCart from "../../features/cart/getItemsInCart";
 import getItemsInOrder from "../../features/order/getItemsInOrder";
 import Toast from "../../components/Toast/Toast";
@@ -21,6 +22,7 @@ export default function CheckoutPage() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
     const items = location.state?.items;
+    const [trigger, { data }] = useLazyGetSeatReservationQuery();
     const [addOrder, { data: order, isSuccess: addOrderSuccess }] =
         useAddOrderMutation();
     const [deleteCartItem, { isSuccess: deleteCartItemSuccess }] =
@@ -41,6 +43,10 @@ export default function CheckoutPage() {
             return total;
         }, 0);
     }, [items]);
+    function handleDialogOpen() {
+        trigger();
+        setOpen(true);
+    }
     function handleDialogClose() {
         setOpen(false);
     }
@@ -174,6 +180,9 @@ export default function CheckoutPage() {
                                         Name
                                     </th>
                                     <th scope="col" className="px-6 py-4">
+                                        Quantity
+                                    </th>
+                                    <th scope="col" className="px-6 py-4">
                                         Price
                                     </th>
                                 </tr>
@@ -196,6 +205,9 @@ export default function CheckoutPage() {
                                             {item.item.name}
                                         </td>
                                         <td className="whitespace-nowrap px-6 py-4">
+                                            {item.quantity}
+                                        </td>
+                                        <td className="whitespace-nowrap px-6 py-4">
                                             {formatPrice(
                                                 item.item.price * item.quantity
                                             )}{" "}
@@ -215,7 +227,7 @@ export default function CheckoutPage() {
                         </p>
                         <button
                             type="button"
-                            onClick={() => setOpen(true)}
+                            onClick={() => handleDialogOpen()}
                             className="mt-2 py-2 px-5 bg-primary hover:bg-primary-dark text-white rounded font-semibold transition-all"
                         >
                             SEAT RESERVATION
@@ -228,6 +240,7 @@ export default function CheckoutPage() {
                         </p>
                         <SeatReservationDialog
                             open={open}
+                            data={data}
                             currentSeat={seatNumber}
                             onSetSeatNumber={handleSeatNumber}
                             onSetClose={handleDialogClose}

@@ -103,6 +103,7 @@ namespace IntroSEProject.API.Controllers
             return Unauthorized(new { message = "Email or password is incorrect" });
         }
 
+        [Authorize(Roles = "Customer, Admin")]
         [HttpGet]
         [Route("/refresh-token")]
         [AllowAnonymous]
@@ -128,6 +129,7 @@ namespace IntroSEProject.API.Controllers
             });
         }
 
+        [Authorize(Roles = "Customer, Admin")]
         [HttpPost("/logout")]
         public IActionResult Logout()
         {

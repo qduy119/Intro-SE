@@ -18,7 +18,8 @@ export default function CartItem({
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
     const [updateItem] = useModifyProductMutation();
-    const [updateCartItem, { isSuccess }] = useModifyCartItemsMutation();
+    const [updateCartItem, { isSuccess: updateCartItemSuccess }] =
+        useModifyCartItemsMutation();
 
     function handleModify(type = -1) {
         const { item, ...cartItem } = cart;
@@ -42,10 +43,10 @@ export default function CartItem({
     }
 
     useEffect(() => {
-        if (isSuccess) {
+        if (updateCartItemSuccess) {
             dispatch(getItemsInCart({ userId: user.id }));
         }
-    }, [isSuccess, dispatch, user.id]);
+    }, [updateCartItemSuccess, dispatch, user.id]);
 
     return (
         <tr className="border-b border-primary-dark">
@@ -56,7 +57,7 @@ export default function CartItem({
                     name="check"
                     id="check"
                     checked={isChecked}
-                    value={cart.id}
+                    value={cart.id ?? -1}
                     onChange={(e) => onSetSelect(e)}
                 />
             </td>
@@ -80,7 +81,7 @@ export default function CartItem({
                     name="quantity"
                     min={1}
                     max={cart.item.stock}
-                    value={cart.quantity}
+                    value={cart.quantity ?? 0}
                     className="border border-gray-200 text-center w-[50px] rounded-sm"
                     disabled
                 />

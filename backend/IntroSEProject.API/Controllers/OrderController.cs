@@ -5,10 +5,11 @@ using IntroSEProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IntroSEProject.API.Controllers
 {
-    //[Authorize(Roles = "Customer, Admin")]
+    [Authorize(Roles = "Customer, Admin")]
     [ApiController]
     [Route("/api/[controller]")]
     public class OrderController : Controller

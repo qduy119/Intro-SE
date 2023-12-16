@@ -14,7 +14,7 @@ const seatApi = createApi({
                 url: "/api/SeatReservation",
                 method: "GET",
             }),
-            keepUnusedDataFor: 5,
+            keepUnusedDataFor: 3,
         }),
         addSeatReservation: builder.mutation({
             query: (payload) => ({
@@ -33,7 +33,7 @@ const seatApi = createApi({
 });
 
 export const {
-    useGetSeatReservationQuery,
+    useLazyGetSeatReservationQuery,
     useAddSeatReservationMutation,
     useDeleteSeatReservationMutation,
 } = seatApi;

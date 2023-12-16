@@ -5,15 +5,19 @@ import { useDispatch, useSelector } from "react-redux";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import PersonIcon from "@mui/icons-material/Person";
 import OrderItem from "../../components/Order/OrderItem";
-import { useDeleteSeatReservationMutation } from "../../services/seat";
+import {
+    useDeleteSeatReservationMutation,
+    useLazyGetSeatReservationQuery,
+} from "../../services/seat";
 import { useModifyOrderMutation } from "../../services/order";
 import { useModifyPaymentMutation } from "../../services/payment";
 import getItemsInOrder from "../../features/order/getItemsInOrder";
 import Toast from "../../components/Toast/Toast";
 
 export default function OrderPage() {
-    const order = useSelector((state) => state.order.items);
     const dispatch = useDispatch();
+    const [trigger, { data }] = useLazyGetSeatReservationQuery();
+    const order = useSelector((state) => state.order.items);
     const user = useSelector((state) => state.auth.user);
     const [cancelOrder, { isSuccess: cancelOrderSuccess }] =
         useModifyOrderMutation();
@@ -25,13 +29,16 @@ export default function OrderPage() {
         useModifyPaymentMutation();
     const [returnSeat, { isSuccess: returnSeatSuccess }] =
         useDeleteSeatReservationMutation();
+    const [deleteSeat, { isSuccess: deleteSeatSuccess }] =
+        useDeleteSeatReservationMutation();
 
     function handleReturnTable(seatNumber) {
         returnSeat({ seatNumber });
     }
-    function handleCancelOrder({ order, payment }) {
+    function handleCancelOrder({ order, payment, seatNumber }) {
         cancelOrder({ ...order, status: "Canceled" });
         cancelPayment({ ...payment, status: "Canceled" });
+        deleteSeat({ seatNumber });
     }
     function handlePayOrder({ order, payment }) {
         updateOrder({ ...order, status: "Success" });
@@ -44,20 +51,27 @@ export default function OrderPage() {
 
     useEffect(() => {
         if (returnSeatSuccess) {
+            trigger();
             toast.success("Return table successfully !", {
                 position: toast.POSITION.BOTTOM_RIGHT,
             });
             dispatch(getItemsInOrder({ userId: user.id }));
         }
-    }, [returnSeatSuccess, dispatch, user?.id]);
+    }, [returnSeatSuccess, dispatch, trigger, user?.id]);
     useEffect(() => {
-        if (cancelOrderSuccess && cancelPaymentSuccess) {
+        if (cancelOrderSuccess && cancelPaymentSuccess && deleteSeatSuccess) {
             toast.success("Cancel order successfully !", {
                 position: toast.POSITION.BOTTOM_RIGHT,
             });
             dispatch(getItemsInOrder({ userId: user.id }));
         }
-    }, [cancelOrderSuccess, cancelPaymentSuccess, dispatch, user?.id]);
+    }, [
+        cancelOrderSuccess,
+        cancelPaymentSuccess,
+        deleteSeatSuccess,
+        dispatch,
+        user?.id,
+    ]);
     useEffect(() => {
         if (updateOrderSuccess && updatePaymentSuccess) {
             toast.success("Pay order successfully !", {
@@ -66,6 +80,9 @@ export default function OrderPage() {
             dispatch(getItemsInOrder({ userId: user.id }));
         }
     }, [updateOrderSuccess, updatePaymentSuccess, dispatch, user?.id]);
+    useEffect(() => {
+        trigger();
+    }, [trigger]);
 
     return (
         <div className="min-h-[600px] px-5 py-8">
@@ -114,6 +131,7 @@ export default function OrderPage() {
                                 <OrderItem
                                     key={index}
                                     item={item}
+                                    seats={data?.data}
                                     onReturnTable={handleReturnTable}
                                     onCancelOrder={handleCancelOrder}
                                     onPayOrder={handlePayOrder}

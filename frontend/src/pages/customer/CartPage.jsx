@@ -16,7 +16,8 @@ export default function CartPage() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
     const cartItems = useSelector((state) => state.cart.items);
-    const [deleteCartItem, { isSuccess }] = useDeleteCartItemsMutation();
+    const [deleteCartItem, { isSuccess: deleteCartItemSuccess }] =
+        useDeleteCartItemsMutation();
     const [updateItem] = useModifyProductMutation();
     const [select, setSelect] = useState(() => {
         return cartItems?.reduce((result, item) => {
@@ -71,13 +72,13 @@ export default function CartPage() {
     }
 
     useEffect(() => {
-        if (isSuccess) {
+        if (deleteCartItemSuccess) {
             dispatch(getItemsInCart({ userId: user.id }));
             toast.success("Delete successfully !", {
                 position: toast.POSITION.BOTTOM_RIGHT,
             });
         }
-    }, [isSuccess, dispatch, user]);
+    }, [deleteCartItemSuccess, dispatch, user]);
 
     return (
         <div className="w-full p-5 md:p-10">

@@ -51,7 +51,6 @@ const createAxiosInstance = () => {
                 const { accessToken: newAccessToken } = res.data;
                 store.dispatch(updateAccessToken({ newAccessToken }));
                 const originalRequest = error.config;
-                console.log(originalRequest);
                 originalRequest.headers[
                     "Authorization"
                 ] = `Bearer ${newAccessToken}`;

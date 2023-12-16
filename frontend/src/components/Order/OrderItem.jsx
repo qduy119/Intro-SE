@@ -5,10 +5,12 @@ import PaymentsIcon from "@mui/icons-material/Payments";
 import Status from "../Status/Status";
 import { formatDate } from "../../utils";
 import { useGetPaymentQuery } from "../../services/payment";
+import { isSeatReturned } from "../../utils";
 
 export default function OrderItem({
-    item,
     t,
+    item,
+    seats,
     onReturnTable,
     onCancelOrder,
     onPayOrder,
@@ -48,7 +50,7 @@ export default function OrderItem({
                                             })
                                         }
                                     >
-                                        <PaymentsIcon />
+                                        <PaymentsIcon className="hover:text-green-500 transition-all" />
                                     </IconButton>
                                 </Tooltip>
                                 <Tooltip title="Cancel Order">
@@ -57,23 +59,29 @@ export default function OrderItem({
                                             onCancelOrder({
                                                 order: item,
                                                 payment: payment?.data[0],
+                                                seatNumber: item.seatNumber,
                                             })
                                         }
                                     >
-                                        <CancelIcon />
+                                        <CancelIcon className="hover:text-red-500 transition-all" />
                                     </IconButton>
                                 </Tooltip>
                             </>
                         ) : item.status === "Success" ? (
-                            <Tooltip title="Return Table">
-                                <IconButton
-                                    onClick={() =>
-                                        onReturnTable(item.seatNumber)
-                                    }
-                                >
-                                    <KeyboardReturnIcon />
-                                </IconButton>
-                            </Tooltip>
+                            isSeatReturned(seats, {
+                                orderId: item.id,
+                                seatNumber: item.seatNumber,
+                            }) ? null : (
+                                <Tooltip title="Return Table">
+                                    <IconButton
+                                        onClick={() =>
+                                            onReturnTable(item.seatNumber)
+                                        }
+                                    >
+                                        <KeyboardReturnIcon className="hover:text-primary transition-all" />
+                                    </IconButton>
+                                </Tooltip>
+                            )
                         ) : null}
                     </div>
                 </td>

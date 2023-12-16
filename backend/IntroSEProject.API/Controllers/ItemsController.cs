@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IntroSEProject.API.Controllers
 {
-    //[Authorize(Roles = "Customer, Admin")]
     [ApiController]
     [Route("/api/[controller]")]
     public class ItemsController : Controller
@@ -73,6 +73,7 @@ namespace IntroSEProject.API.Controllers
             return Ok(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(ItemModel model)
         {
@@ -97,6 +98,7 @@ namespace IntroSEProject.API.Controllers
             return Ok(model);
         }
 
+        [Authorize(Roles = "Customer, Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit([FromRoute] int id, [FromBody] ItemModel model)
         {
@@ -123,6 +125,7 @@ namespace IntroSEProject.API.Controllers
             return Ok(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

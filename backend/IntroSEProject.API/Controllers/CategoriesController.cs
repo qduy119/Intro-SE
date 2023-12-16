@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IntroSEProject.API.Controllers
 {
-    //[Authorize(Roles = "Customer, Admin")]
     [ApiController]
     [Route("/api/[controller]")]
     public class CategoriesController : Controller
@@ -55,6 +54,7 @@ namespace IntroSEProject.API.Controllers
             return Ok(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(CategoryModel model)
         {
@@ -72,6 +72,7 @@ namespace IntroSEProject.API.Controllers
             return Ok(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit([FromRoute] int id, [FromBody] CategoryModel model)
         {
@@ -99,6 +100,7 @@ namespace IntroSEProject.API.Controllers
             
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

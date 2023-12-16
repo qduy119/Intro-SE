@@ -9,8 +9,9 @@ export default function CategoryItem({ category }) {
                     alt="Thumbnail"
                     width="81"
                     height="81"
+                    className="rounded-md"
                 />
-                <p className="text-center font-semibold">{category.name}</p>
+                <p className="text-center font-semibold max-w-[81px]">{category.name}</p>
             </Link>
         </li>
     );

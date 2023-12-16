@@ -8,7 +8,7 @@ export default function PaymentBox({ onPay, onPayLater, method, amount }) {
     const user = useSelector((state) => state.auth.user);
 
     return (
-        <div className="px-5 sm:px-10 py-4 lg:px-5 mt-10 lg:mt-0 border rounded-md">
+        <div className="px-5 sm:px-10 py-4 lg:px-5 mt-5 border rounded-md">
             <p className="font-medium flex items-center">
                 <span>
                     <PaymentsIcon className="mr-2" />
