@@ -1,97 +1,246 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAddOrderMutation } from "../../services/order";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import PaymentsIcon from "@mui/icons-material/Payments";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import WalletIcon from "@mui/icons-material/Wallet";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
+import SeatReservationDialog from "../../components/Dialog/SeatReservationDialog";
+import CheckoutBox from "../../components/Checkout/CheckoutBox";
+import { formatPrice } from "../../utils";
+import { useDeleteCartItemsMutation } from "../../services/cart";
+import { useAddOrderItemsMutation } from "../../services/orderitem";
+import { useAddSeatReservationMutation } from "../../services/seat";
+import { useAddPaymentMutation } from "../../services/payment";
+import getItemsInCart from "../../features/cart/getItemsInCart";
+import getItemsInOrder from "../../features/order/getItemsInOrder";
+import Toast from "../../components/Toast/Toast";
+import { toast } from "react-toastify";
 
 export default function CheckoutPage() {
+    const location = useLocation();
     const navigate = useNavigate();
-    function handleCheckout() {
-        // Do something
-        navigate("/payment");
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.auth.user);
+    const items = location.state?.items;
+    const [addOrder, { data: order, isSuccess: addOrderSuccess }] =
+        useAddOrderMutation();
+    const [deleteCartItem, { isSuccess: deleteCartItemSuccess }] =
+        useDeleteCartItemsMutation();
+    const [addOrderItem, { isSuccess: addOrderItemSuccess }] =
+        useAddOrderItemsMutation();
+    const [addSeatReservation, { isSuccess: addSeatReservationSuccess }] =
+        useAddSeatReservationMutation();
+    const [addPayment, { isSuccess: addPaymentSuccess }] =
+        useAddPaymentMutation();
+    const [open, setOpen] = useState(false);
+    const [seatNumber, setSeatNumber] = useState(null);
+    const [method, setMethod] = useState("MOMO");
+
+    const getTotalPrice = useCallback(() => {
+        return items.reduce((total, item) => {
+            total += item.quantity * item.item.price;
+            return total;
+        }, 0);
+    }, [items]);
+    function handleDialogClose() {
+        setOpen(false);
+    }
+    function handleSeatNumber(number) {
+        setSeatNumber(number);
     }
 
+    function handleMethod(eTarget = "MOMO") {
+        if (eTarget === "MOMO") {
+            if (method === "ATM") {
+                setMethod("MOMO");
+            }
+        } else {
+            if (method === "MOMO") {
+                setMethod("ATM");
+            }
+        }
+    }
+    function handleCheckout() {
+        if (seatNumber) {
+            const payload = {
+                orderDate: new Date(),
+                total: Math.round(formatPrice(getTotalPrice())),
+                seatNumber,
+                status: "Pending",
+                userId: user.id,
+            };
+            addOrder(payload);
+        }
+    }
+
+    useEffect(() => {
+        if (addOrderSuccess) {
+            dispatch(getItemsInOrder({ userId: user.id }));
+        }
+    }, [addOrderSuccess, dispatch, user?.id]);
+    useEffect(() => {
+        if (addOrderSuccess) {
+            const orderId = order.id;
+            items.forEach((item) => {
+                addOrderItem({
+                    itemId: item.item.id,
+                    orderId,
+                    quantity: item.quantity,
+                });
+            });
+            items.forEach((item) => {
+                deleteCartItem({ id: item.id });
+            });
+            addSeatReservation({ seatNumber, orderId });
+            addPayment({
+                paymentMethod: method,
+                amount: Math.round(formatPrice(getTotalPrice())),
+                status: "Pending",
+                userId: user.id,
+                orderId: order.id,
+            });
+        }
+    }, [
+        addOrderSuccess,
+        items,
+        seatNumber,
+        addOrderItem,
+        deleteCartItem,
+        addSeatReservation,
+        addPayment,
+        method,
+        order?.id,
+        user?.id,
+        getTotalPrice,
+    ]);
+    useEffect(() => {
+        if (deleteCartItemSuccess) {
+            dispatch(getItemsInCart({ userId: user.id }));
+        }
+    }, [deleteCartItemSuccess, dispatch, user?.id]);
+    useEffect(() => {
+        if (
+            deleteCartItemSuccess &&
+            addOrderItemSuccess &&
+            addSeatReservationSuccess &&
+            addPaymentSuccess
+        ) {
+            toast.success("Place order successfully !", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            });
+            setTimeout(() => {
+                navigate("/payment", {
+                    state: {
+                        payload: {
+                            orderId: order.id,
+                        },
+                    },
+                });
+            }, 2000);
+        }
+    }, [
+        deleteCartItemSuccess,
+        addOrderItemSuccess,
+        addSeatReservationSuccess,
+        addPaymentSuccess,
+        addPayment,
+        navigate,
+        getTotalPrice,
+        method,
+        order?.id,
+    ]);
+
     return (
-        <div className="w-full px-10 md:px-20 py-5">
-            <div className="mx-auto">
-                <Link
-                    to="../"
-                    className="flex items-center px-3 py-4 hover:underline"
-                >
-                    <ArrowBackIosNewIcon />
-                    BACK TO HOME PAGE
-                </Link>
-                <div className="bg-gray-200 rounded-lg">
-                    <div className="flex items-center px-3 py-2">
-                        <PaymentsIcon className="mr-2" />
-                        CHECKOUT
+        <div className="min-h-[600px] px-5 py-8">
+            <Link to="/" className="hover:underline text-primary">
+                <ArrowBackIosNewIcon />
+                BACK TO HOME PAGE
+            </Link>
+            <div className="block lg:flex gap-4 mt-4">
+                <div className="flex-1">
+                    <p className="font-medium text-xl sm:text-2xl text-center px-2">
+                        Current Cart
+                    </p>
+                    <div className="p-5 overflow-x-scroll">
+                        <table className="min-w-full text-center table-auto">
+                            <thead className="font-medium border-b border-primary">
+                                <tr>
+                                    <th scope="col" className="px-6 py-4">
+                                        #
+                                    </th>
+                                    <th scope="col" className="px-6 py-4">
+                                        Thumbnail
+                                    </th>
+                                    <th scope="col" className="px-6 py-4">
+                                        Name
+                                    </th>
+                                    <th scope="col" className="px-6 py-4">
+                                        Price
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {items.map((item, index) => (
+                                    <tr key={index}>
+                                        <td className="whitespace-nowrap px-6 py-4">
+                                            {index + 1}
+                                        </td>
+                                        <td className="whitespace-nowrap px-6 py-4 flex justify-center">
+                                            <div
+                                                className="w-[50px] h-[50px] bg-center bg-cover rounded-md"
+                                                style={{
+                                                    backgroundImage: `url(${item.item.thumbnail})`,
+                                                }}
+                                            />
+                                        </td>
+                                        <td className="whitespace-nowrap px-6 py-4">
+                                            {item.item.name}
+                                        </td>
+                                        <td className="whitespace-nowrap px-6 py-4">
+                                            {formatPrice(
+                                                item.item.price * item.quantity
+                                            )}{" "}
+                                            $
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
-                    <div className="z-[1000] w-full h-[1px] bg-black/20" />
-                    <div className="py-5 px-10">
-                        <div className="mb-3">
-                            <h3 className="text-lg font-semibold uppercase">
-                                User
-                            </h3>
-                            <div className="z-[1] cursor-pointer flex items-center justify-between mt-3 bg-gray-400 py-2 px-4 rounded-[4px]">
-                                <div className="flex items-center gap-x-2">
-                                    <CheckCircleOutlineIcon />
-                                    <div>
-                                        <h3>Username</h3>
-                                        <p>+123456789</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-x-3">
-                                    <EditIcon className="cursor-pointer z-10" />
-                                    <DeleteIcon className="cursor-pointer z-10" />
-                                </div>
-                            </div>
-                            <div className="cursor-pointer flex items-center gap-x-2 mt-2 bg-gray-400 py-2 px-4 rounded-[4px]">
-                                <AddCircleIcon />
-                                <p className="uppercase text-lg">
-                                    add other{"'"}s information
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="z-[1000] w-full h-[1px] bg-black/20" />
-                    <div className="mb-3 py-3 px-10">
-                        <h3 className="text-lg font-semibold uppercase">
-                            Time order
-                        </h3>
-                    </div>
-                    <div className="z-[1000] w-full h-[1px] bg-black/20" />
-                    <div className="py-3 px-10">
-                        <h3 className="text-lg font-semibold uppercase">
-                            PAYMENT METHODS
-                        </h3>
-                        <div className="cursor-pointer flex items-center gap-x-3 mt-2 bg-gray-400 py-2 px-4 rounded-[4px]">
-                            <CheckCircleOutlineIcon />
-                            <p className="uppercase text-lg flex items-center gap-x-1">
-                                {" "}
-                                <WalletIcon /> MOMO WALLET
-                            </p>
-                        </div>
-                        <div className="cursor-pointer flex items-center gap-x-3 mt-2 bg-gray-400 py-2 px-4 rounded-[4px]">
-                            <CheckCircleIcon />
-                            <p className="uppercase text-lg flex items-center gap-x-1">
-                                {" "}
-                                <CreditCardIcon /> ATM
-                            </p>
-                        </div>
+                    <div className="px-5">
+                        <p className="text-xl font-medium mt-4 text-primary-light">
+                            TOTAL PRICE:{" "}
+                            <span className="font-bold text-primary">
+                                {formatPrice(getTotalPrice())}$
+                            </span>
+                        </p>
                         <button
-                            className="mt-10 mb-3 uppercase font-bold text-xl text-center py-[10px] bg-primary hover:bg-primary-dark w-full rounded-[4px] text-white"
-                            onClick={handleCheckout}
+                            type="button"
+                            onClick={() => setOpen(true)}
+                            className="mt-2 py-2 px-5 bg-primary hover:bg-primary-dark text-white rounded font-semibold transition-all"
                         >
-                            PAY
+                            SEAT RESERVATION
                         </button>
+                        <p className="mt-2 text-primary">
+                            No. seat:{" "}
+                            <span className="font-medium">
+                                {seatNumber ?? "None"}
+                            </span>
+                        </p>
+                        <SeatReservationDialog
+                            open={open}
+                            currentSeat={seatNumber}
+                            onSetSeatNumber={handleSeatNumber}
+                            onSetClose={handleDialogClose}
+                        />
                     </div>
                 </div>
+                <CheckoutBox
+                    onCheckout={handleCheckout}
+                    method={method}
+                    onSetMethod={handleMethod}
+                />
             </div>
+            <Toast />
         </div>
     );
 }

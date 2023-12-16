@@ -3,6 +3,7 @@ import { useLoginMutation } from "../../services/auth";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../features/auth/authSlice";
 import getItemsInCart from "../../features/cart/getItemsInCart";
+import getItemsInOrder from "../../features/order/getItemsInOrder";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Toast from "../../components/Toast/Toast";
@@ -42,6 +43,7 @@ export default function LoginPage() {
             });
             const { user } = data;
             dispatch(getItemsInCart({ userId: user.id }));
+            dispatch(getItemsInOrder({ userId: user.id }));
             setTimeout(() => {
                 if (user.role === "Customer") {
                     navigate(-1);

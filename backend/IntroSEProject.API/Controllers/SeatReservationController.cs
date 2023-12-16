@@ -109,5 +109,18 @@ namespace IntroSEProject.API.Controllers
             var model = mapper.Map<SeatReservationModel>(seatReservation);
             return Ok(model);
         }
+        [HttpDelete]
+        public async Task<IActionResult> DeleteBySeat(int seatNumber = 0)
+        {
+            var seatReservation = dbContext.SeatReservations.FirstOrDefault(seat => seat.SeatNumber == seatNumber);
+            if (seatReservation == null)
+            {
+                return NotFound();
+            }
+            dbContext.SeatReservations.Remove(seatReservation);
+            await dbContext.SaveChangesAsync();
+            var model = mapper.Map<SeatReservationModel>(seatReservation);
+            return Ok(model);
+        }
     }
 }

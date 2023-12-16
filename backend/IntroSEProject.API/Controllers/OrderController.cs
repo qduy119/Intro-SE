@@ -22,10 +22,14 @@ namespace IntroSEProject.API.Controllers
             this.mapper = mapper;
         }
         [HttpGet]
-        public async Task<IActionResult> GetPaging(int page = 1, int per_page = 0)
+        public async Task<IActionResult> GetPaging(int page = 1, int per_page = 0, int userId = 0)
         {
             IEnumerable<Order> list;
             list = (IEnumerable<Order>)await dbContext.Orders.ToListAsync();
+            if (userId > 0)
+            {
+                list = dbContext.Orders.Where(P => P.UserId == userId).OrderByDescending(o => o.OrderDate).ToList();
+            }
             if (per_page == 0)
             {
                 per_page = list.Count();

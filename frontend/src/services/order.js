@@ -9,6 +9,12 @@ const orderApi = createApi({
         baseUrl: baseQuery,
     }),
     endpoints: (builder) => ({
+        getOrder: builder.query({
+            query: (payload) => ({
+                url: `/api/Order/${payload.orderId}`,
+                method: "GET",
+            }),
+        }),
         addOrder: builder.mutation({
             query: (payload) => ({
                 url: "/api/Order",
@@ -16,9 +22,27 @@ const orderApi = createApi({
                 body: payload,
             }),
         }),
+        modifyOrder: builder.mutation({
+            query: (payload) => ({
+                url: "/api/Order",
+                method: "PUT",
+                body: payload,
+            }),
+        }),
+        deleteOrder: builder.mutation({
+            query: (payload) => ({
+                url: `/api/Order/${payload.id}`,
+                method: "DELETE",
+            }),
+        }),
     }),
 });
 
-export const { useAddOrderMutation } = orderApi;
+export const {
+    useGetOrderQuery,
+    useAddOrderMutation,
+    useModifyOrderMutation,
+    useDeleteOrderMutation,
+} = orderApi;
 
 export default orderApi;

@@ -21,6 +21,7 @@ import cartApi from "../services/cart";
 import categoryApi from "../services/category";
 import productApi from "../services/product";
 import reviewApi from "../services/review";
+import seatApi from "../services/seat";
 import paymentApi from "../services/payment";
 import orderApi from "../services/order";
 import orderItemApi from "../services/orderitem";
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
     [categoryApi.reducerPath]: categoryApi.reducer,
     [productApi.reducerPath]: productApi.reducer,
     [reviewApi.reducerPath]: reviewApi.reducer,
+    [seatApi.reducerPath]: seatApi.reducer,
     [paymentApi.reducerPath]: paymentApi.reducer,
     [orderApi.reducerPath]: orderApi.reducer,
     [orderItemApi.reducerPath]: orderItemApi.reducer,
@@ -72,6 +74,7 @@ export const store = configureStore({
             categoryApi.middleware,
             productApi.middleware,
             reviewApi.middleware,
+            seatApi.middleware,
             paymentApi.middleware,
             orderApi.middleware,
             orderItemApi.middleware

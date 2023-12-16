@@ -60,8 +60,7 @@ export default function CartItem({
                     onChange={(e) => onSetSelect(e)}
                 />
             </td>
-            <td className="whitespace-nowrap px-6 py-4">{cart.item.name}</td>
-            <td className="whitespace-nowrap px-6 py-4">
+            <td className="whitespace-nowrap px-6 py-4 flex justify-center">
                 <div
                     className="w-[50px] h-[50px] bg-center bg-cover rounded-md"
                     style={{
@@ -69,6 +68,7 @@ export default function CartItem({
                     }}
                 />
             </td>
+            <td className="whitespace-nowrap px-6 py-4">{cart.item.name}</td>
             <td className="whitespace-nowrap px-6 py-4">
                 <IconButton onClick={() => handleModify()}>
                     <RemoveIcon />
@@ -81,7 +81,6 @@ export default function CartItem({
                     min={1}
                     max={cart.item.stock}
                     value={cart.quantity}
-                    onChange={() => {}}
                     className="border border-gray-200 text-center w-[50px] rounded-sm"
                     disabled
                 />

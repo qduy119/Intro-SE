@@ -16,12 +16,11 @@ export default function SearchPage() {
     });
 
     return (
-        <div className="min-h-[600px] px-4 py-8">
-            <h1 className="font-semibold text-3xl mb-2">
+        <div className="min-h-[600px] px-5 py-8">
+            <h1 className="font-semibold text-2xl sm:text-3xl mb-4 border-b-4 border-b-primary-light w-fit">
                 All search for{" "}
                 <span className="font-bold">{query.get("query")}</span>
             </h1>
-            <div className="w-[13.5rem] h-[4px] rounded-md bg-primary-light mb-6" />
             {isLoading ? (
                 <Skeletons width={200} height={250} nums={10} />
             ) : error ? (

@@ -9,11 +9,12 @@ const seatApi = createApi({
         baseUrl: baseQuery,
     }),
     endpoints: (builder) => ({
-        getSeatReservation: builder.mutation({
+        getSeatReservation: builder.query({
             query: () => ({
                 url: "/api/SeatReservation",
                 method: "GET",
             }),
+            keepUnusedDataFor: 5,
         }),
         addSeatReservation: builder.mutation({
             query: (payload) => ({
@@ -22,10 +23,19 @@ const seatApi = createApi({
                 body: payload,
             }),
         }),
+        deleteSeatReservation: builder.mutation({
+            query: (payload) => ({
+                url: `/api/SeatReservation?seatNumber=${payload.seatNumber}`,
+                method: "DELETE",
+            }),
+        }),
     }),
 });
 
-export const { useGetSeatReservationMutation, useAddReviewsMutation } =
-    seatApi;
+export const {
+    useGetSeatReservationQuery,
+    useAddSeatReservationMutation,
+    useDeleteSeatReservationMutation,
+} = seatApi;
 
 export default seatApi;

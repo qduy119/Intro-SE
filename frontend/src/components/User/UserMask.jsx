@@ -30,8 +30,13 @@ export default function UserMask({
     function handleClose() {
         setAnchor(null);
     }
+    function handleNavigateOrder() {
+        navigate("/order");
+        setAnchor(null);
+    }
     function handleLogout() {
         logout();
+        setAnchor(null);
     }
     useEffect(() => {
         if (isSuccess && !isError) {
@@ -65,7 +70,10 @@ export default function UserMask({
                 }}
                 disableScrollLock={true}
             >
-                <Typography sx={styleTypo} onClick={() => navigate("/order")}>
+                <Typography
+                    sx={styleTypo}
+                    onClick={() => handleNavigateOrder()}
+                >
                     My Order
                 </Typography>
                 <Typography sx={styleTypo} onClick={() => handleLogout()}>

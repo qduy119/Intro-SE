@@ -1,6 +1,7 @@
-import { useLoaderData, useLocation } from "react-router-dom";
-import FoodItem from "../../components/Food/FoodItem";
+import { Link, useLoaderData, useLocation } from "react-router-dom";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useProducts } from "../../hooks";
+import FoodItem from "../../components/Food/FoodItem";
 import Skeletons from "../../components/Skeleton/Skeletons";
 import CategoryPagination from "../../components/Pagination/CategoryPagination";
 
@@ -18,7 +19,11 @@ export default function CategoryPage() {
 
     return (
         <div className="px-4 py-8 min-h-[600px]">
-            <div className="block sm:flex gap-5 items-center">
+            <Link to="/" className="hover:underline text-primary">
+                <ArrowBackIosNewIcon />
+                BACK TO HOME PAGE
+            </Link>
+            <div className="block sm:flex gap-5 items-center mt-5">
                 <img
                     src={category.thumbnail}
                     alt="Category"

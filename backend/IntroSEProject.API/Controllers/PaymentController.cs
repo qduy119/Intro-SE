@@ -21,9 +21,17 @@ namespace IntroSEProject.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPaging(int page = 1, int per_page = 0)
+        public async Task<IActionResult> GetPaging(int page = 1, int per_page = 0, int orderId = 0, int userId = 0)
         {
             IEnumerable<Payment> list = await dbContext.Payments.ToListAsync();
+            if(orderId > 0)
+            {
+                list = list = dbContext.Payments.Where(P => P.OrderId == orderId).ToList();
+            }
+            if (userId > 0)
+            {
+                list = list = dbContext.Payments.Where(P => P.UserId == userId).ToList();
+            }
             if (per_page == 0)
             {
                 per_page = list.Count();

@@ -1,22 +1,24 @@
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { IconButton } from "@mui/material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useAddCartItemsMutation } from "../../services/cart";
-import { useDispatch, useSelector } from "react-redux";
-import getItemsInCart from "../../features/cart/getItemsInCart";
-import { toast } from "react-toastify";
-import Toast from "../../components/Toast/Toast";
 import { useModifyProductMutation } from "../../services/product";
+import getItemsInCart from "../../features/cart/getItemsInCart";
+import Toast from "../../components/Toast/Toast";
 
 export default function ProductPage() {
     const food = useLoaderData();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
     const [addToCart, { isSuccess }] = useAddCartItemsMutation();
+    const [currentStock, setCurrentStock] = useState(food.stock);
     const [updateProduct] = useModifyProductMutation();
-    const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(1);
     const [thumbImage, setThumbImage] = useState(() => ({
         curr: -1,
@@ -30,8 +32,8 @@ export default function ProductPage() {
         let quantity = +e.target.value;
         if (quantity < 0) {
             quantity = 1;
-        } else if (quantity > food.stock) {
-            quantity = food.stock;
+        } else if (quantity > currentStock) {
+            quantity = currentStock;
         }
         setQuantity(quantity);
     }
@@ -41,7 +43,7 @@ export default function ProductPage() {
                 setQuantity((prev) => prev - 1);
             }
         } else {
-            if (quantity < food.stock) {
+            if (quantity < currentStock) {
                 setQuantity((prev) => prev + 1);
             }
         }
@@ -50,8 +52,11 @@ export default function ProductPage() {
         if (!user) {
             navigate("/login");
         } else {
-            addToCart({ quantity, itemId: food.id, userId: user.id });
-            updateProduct({ ...food, stock: food.stock - quantity });
+            if (currentStock > 0 && currentStock >= quantity) {
+                addToCart({ quantity, itemId: food.id, userId: user.id });
+                updateProduct({ ...food, stock: currentStock - quantity });
+                setCurrentStock((prev) => prev - quantity);
+            }
         }
     }
     function handleBuyNow() {
@@ -67,8 +72,12 @@ export default function ProductPage() {
     }, [isSuccess, dispatch, user]);
 
     return (
-        <div className="px-4 py-8">
-            <div className="block sm:flex gap-x-8">
+        <div className="min-h-[600px] px-5 py-8">
+            <Link to="/" className="hover:underline text-primary">
+                <ArrowBackIosNewIcon />
+                BACK TO HOME PAGE
+            </Link>
+            <div className="block sm:flex gap-x-8 mt-5">
                 <div className="w-[100%] sm:w-[55%]">
                     <div>
                         <img
@@ -121,7 +130,8 @@ export default function ProductPage() {
                         Rating: <span className="font-normal">10</span>
                     </h3>
                     <h3 className="font-bold text-xl uppercase mt-4">
-                        Stock: <span className="font-normal">{food.stock}</span>
+                        Stock:{" "}
+                        <span className="font-normal">{currentStock}</span>
                     </h3>
                     <h3 className="font-bold text-xl uppercase mt-4">
                         Price: <span className="font-normal">{food.price}</span>
@@ -136,7 +146,7 @@ export default function ProductPage() {
                             id="quantity"
                             name="quantity"
                             min={1}
-                            max={food.stock}
+                            max={currentStock}
                             value={quantity}
                             onChange={(e) => handleChangeQuantity(e)}
                             className="border border-gray-300"
@@ -163,9 +173,9 @@ export default function ProductPage() {
                     </div>
                 </div>
             </div>
-            <div className="mt-10">
+            {/* <div className="mt-10">
                 <h1 className="font-semibold text-3xl mb-4">Reviews</h1>
-            </div>
+            </div> */}
             <Toast />
         </div>
     );

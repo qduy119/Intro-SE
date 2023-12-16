@@ -1,12 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import PersonIcon from "@mui/icons-material/Person";
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { useDeleteCartItemsMutation } from "../../services/cart";
 import { useModifyProductMutation } from "../../services/product";
 import getItemsInCart from "../../features/cart/getItemsInCart";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import PersonIcon from "@mui/icons-material/Person";
 import CartItem from "../../components/Cart/CartItem";
 import Toast from "../../components/Toast/Toast";
 import { formatPrice } from "../../utils";
@@ -25,18 +25,20 @@ export default function CartPage() {
         }, {});
     });
     const getData = {
-        count: Object.values(select)?.reduce((count, item) => {
-            if (item) {
-                count++;
-            }
-            return count;
-        }, 0),
-        total: cartItems?.reduce((total, item) => {
-            if (select[item.id]) {
-                total += item.quantity * item.item.price;
-            }
-            return total;
-        }, 0),
+        count: () =>
+            Object.values(select)?.reduce((count, item) => {
+                if (item) {
+                    count++;
+                }
+                return count;
+            }, 0),
+        total: () =>
+            cartItems?.reduce((total, item) => {
+                if (select[item.id]) {
+                    total += item.quantity * item.item.price;
+                }
+                return total;
+            }, 0),
     };
 
     function handleSelect(e) {
@@ -63,7 +65,9 @@ export default function CartPage() {
             }
             return result;
         }, []);
-        navigate("/checkout", { state: { items } });
+        if (items.length > 0) {
+            navigate("/checkout", { state: { items } });
+        }
     }
 
     useEffect(() => {
@@ -77,12 +81,12 @@ export default function CartPage() {
 
     return (
         <div className="w-full p-5 md:p-10">
-            <Link to="/" className="px-3 py-4 hover:underline text-primary">
+            <Link to="/" className="hover:underline text-primary">
                 <ArrowBackIosNewIcon />
                 BACK TO HOME PAGE
             </Link>
             <div className="rounded-lg mt-4 min-h-[500px]">
-                <div className="flex items-center px-3 py-2">
+                <div className="flex items-center px-3 py-2 gap-1">
                     <PersonIcon />
                     USERS MEAL
                 </div>
@@ -95,10 +99,10 @@ export default function CartPage() {
                                     #
                                 </th>
                                 <th scope="col" className="px-6 py-4">
-                                    Name
+                                    Thumbnail
                                 </th>
                                 <th scope="col" className="px-6 py-4">
-                                    Thumbnail
+                                    Name
                                 </th>
                                 <th scope="col" className="px-6 py-4">
                                     Quantity
@@ -129,13 +133,13 @@ export default function CartPage() {
                         <p>
                             Select:{" "}
                             <span className="font-semibold">
-                                {getData.count}
+                                {getData.count()}
                             </span>
                         </p>
                         <p>
                             Total:{" "}
                             <span className="font-semibold">
-                                {formatPrice(getData.total)}
+                                {formatPrice(getData.total())}
                             </span>{" "}
                             $
                         </p>
@@ -143,7 +147,7 @@ export default function CartPage() {
                     <button
                         type="button"
                         onClick={() => handleCheckout()}
-                        className="text-white text-lg bg-primary-light hover:bg-primary-light/90 transition font-semibold rounded-md px-4 py-2"
+                        className="text-white text-lg bg-primary-light hover:bg-primary-dark font-semibold rounded-md px-4 py-2 transition-all"
                     >
                         CHECKOUT
                     </button>

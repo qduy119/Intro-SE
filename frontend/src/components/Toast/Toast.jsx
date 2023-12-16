@@ -9,6 +9,7 @@ export default function Toast() {
             closeOnClick
             rtl={false}
             theme="light"
+            pauseOnHover={false}
         />
     );
 }

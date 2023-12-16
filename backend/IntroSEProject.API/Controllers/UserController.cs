@@ -128,7 +128,7 @@ namespace IntroSEProject.API.Controllers
             });
         }
 
-        [HttpGet("/logout")]
+        [HttpPost("/logout")]
         public IActionResult Logout()
         {
             // Response.Cookies.Delete("access_token");

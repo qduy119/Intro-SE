@@ -18,7 +18,7 @@ export default function Food() {
                 <>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
                         {data?.map((food, index) => (
-                            <FoodItem key={index} food={food} />
+                            <FoodItem key={index} food={food.item} />
                         ))}
                     </div>
                 </>

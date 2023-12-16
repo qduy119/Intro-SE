@@ -14,14 +14,13 @@ const cartSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder
-            .addCase(getItemsInCart.fulfilled, (state, action) => {
-                state.items = action.payload;
-            })
+        builder.addCase(getItemsInCart.fulfilled, (state, action) => {
+            state.items = action.payload;
+        });
     },
 });
 
 const { reducer, actions } = cartSlice;
 
-export const { updateCart, resetCart } = actions;
+export const { resetCart } = actions;
 export default reducer;

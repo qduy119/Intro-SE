@@ -26,7 +26,7 @@ namespace IntroSEProject.API.Controllers
         public async Task<IActionResult> GetPaging(int page = 1, int per_page = 0, string keyword = "", int categoryId = 0)
         {
             IEnumerable<Item> list;
-            if (categoryId != 0)
+            if (categoryId > 0)
             {
                 list = dbContext.Items.Where(item => item.CategoryId == categoryId).ToList();
             }
@@ -51,7 +51,7 @@ namespace IntroSEProject.API.Controllers
         [HttpGet("top5")]
         public async Task<IActionResult> GetTopItem()
         {
-            var result = await dbContext.OrderItems.GroupBy(x => x.ItemId)
+            var result = await dbContext.OrderItems.Where(i => i.Order.Status == "Success").GroupBy(x => x.ItemId)
                 .Select(group => new
                 {
                     Item = mapper.Map<ItemModel>(dbContext.Items.Where(i => i.Id == group.Key).SingleOrDefault()),
@@ -113,41 +113,28 @@ namespace IntroSEProject.API.Controllers
                 return Ok(model);
             }
             catch (DbUpdateConcurrencyException)
-                {
-                    if (!dbContext.Items.Any(e => e.Id == model.Id))
-                    {
-                        return NotFound();
-                    }
-                    throw;
-                }
-                return Ok(model);
-            }
-
-            [HttpDelete("{id}")]
-            public async Task<IActionResult> Delete(int id)
             {
-                var item = await dbContext.Items.FindAsync(id);
-                if (item == null)
+                if (!dbContext.Items.Any(e => e.Id == model.Id))
                 {
                     return NotFound();
                 }
-                var model = mapper.Map<ItemModel>(item);
-                dbContext.Items.Remove(item);
-                await dbContext.SaveChangesAsync();
-                return Ok(model);
+                throw;
             }
+            return Ok(model);
+        }
 
-        [HttpGet("top5sell")]
-        public async Task<IActionResult> GetTop5SellItems()
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var result = await dbContext.OrderItems.GroupBy(x => x.ItemId)
-                .Select(group => new
-                {
-                    Item = mapper.Map<ItemModel>(dbContext.Items.Where(i => i.Id == group.Key).SingleOrDefault()),
-                    SoldQuantity = group.Sum(x => x.Quantity)
-                }).OrderByDescending(x => x.SoldQuantity)
-                .Take(5).ToListAsync();
-            return Ok(result);  
+            var item = await dbContext.Items.FindAsync(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            var model = mapper.Map<ItemModel>(item);
+            dbContext.Items.Remove(item);
+            await dbContext.SaveChangesAsync();
+            return Ok(model);
         }
     }
-    }
+}

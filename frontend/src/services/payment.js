@@ -9,9 +9,9 @@ const paymentApi = createApi({
         baseUrl: baseQuery,
     }),
     endpoints: (builder) => ({
-        getPayments: builder.mutation({
-            query: () => ({
-                url: "/api/Payment",
+        getPayment: builder.query({
+            query: ({ orderId }) => ({
+                url: `/api/Payment?orderId=${orderId}`,
                 method: "GET",
             }),
         }),
@@ -22,10 +22,20 @@ const paymentApi = createApi({
                 body: payload,
             }),
         }),
+        modifyPayment: builder.mutation({
+            query: (payload) => ({
+                url: "/api/Payment",
+                method: "PUT",
+                body: payload,
+            }),
+        }),
     }),
 });
 
-export const { useGetSeatReservationMutation, useAddReviewsMutation } =
-    paymentApi;
+export const {
+    useGetPaymentQuery,
+    useAddPaymentMutation,
+    useModifyPaymentMutation,
+} = paymentApi;
 
 export default paymentApi;
