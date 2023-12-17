@@ -85,10 +85,18 @@ export default function ProductPage() {
         if (addToCartNowSuccess) {
             dispatch(getItemsInCart({ userId: user.id }));
             navigate("/checkout", {
-                state: { items: [{ ...data, item: food }] },
+                state: { items: [{ ...data, quantity, item: food }] },
             });
         }
-    }, [addToCartNowSuccess, navigate, dispatch, user?.id, data, food]);
+    }, [
+        addToCartNowSuccess,
+        navigate,
+        dispatch,
+        user?.id,
+        data,
+        food,
+        quantity,
+    ]);
 
     return (
         <div className="min-h-[600px] px-5 py-8">

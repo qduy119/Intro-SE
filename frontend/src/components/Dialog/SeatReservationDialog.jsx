@@ -20,7 +20,6 @@ export default function SeatReservationDialog({
     onSetClose,
     onSetSeatNumber,
 }) {
-
     return (
         <Dialog open={open} onClose={onSetClose}>
             <DialogTitle sx={{ m: 0, p: 2, fontWeight: "medium" }}>
@@ -79,11 +78,10 @@ export default function SeatReservationDialog({
                         )
                     )}
                 </div>
-                {currentSeat ? (
-                    <Typography className="mt-5 font-semibold text-primary">
-                        Your seat: {currentSeat}
-                    </Typography>
-                ) : null}
+                <Typography className="mt-5 font-medium text-primary">
+                    Your seat:{" "}
+                    <span className="font-bold">{currentSeat ?? "None"}</span>
+                </Typography>
             </DialogContent>
             <DialogActions>
                 <Button

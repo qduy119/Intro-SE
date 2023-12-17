@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import PersonIcon from "@mui/icons-material/Person";
 import OrderItem from "../../components/Order/OrderItem";
@@ -9,15 +9,20 @@ import {
     useDeleteSeatReservationMutation,
     useLazyGetSeatReservationQuery,
 } from "../../services/seat";
-import { useModifyOrderMutation } from "../../services/order";
+import {
+    useLazyGetAllOrderQuery,
+    useModifyOrderMutation,
+} from "../../services/order";
 import { useModifyPaymentMutation } from "../../services/payment";
-import getItemsInOrder from "../../features/order/getItemsInOrder";
 import Toast from "../../components/Toast/Toast";
+import OrderPagination from "../../components/Pagination/OrderPagination";
 
 export default function OrderPage() {
-    const dispatch = useDispatch();
-    const [trigger, { data }] = useLazyGetSeatReservationQuery();
-    const order = useSelector((state) => state.order.items);
+    const location = useLocation();
+    const query = new URLSearchParams(location.search);
+    const page = parseInt(query.get("page") || "1", 10);
+    const [getAllSeats, { data: seats }] = useLazyGetSeatReservationQuery();
+    const [getAllOrders, { data: order }] = useLazyGetAllOrderQuery();
     const user = useSelector((state) => state.auth.user);
     const [cancelOrder, { isSuccess: cancelOrderSuccess }] =
         useModifyOrderMutation();
@@ -51,38 +56,49 @@ export default function OrderPage() {
 
     useEffect(() => {
         if (returnSeatSuccess) {
-            trigger();
+            getAllSeats();
             toast.success("Return table successfully !", {
                 position: toast.POSITION.BOTTOM_RIGHT,
             });
-            dispatch(getItemsInOrder({ userId: user.id }));
         }
-    }, [returnSeatSuccess, dispatch, trigger, user?.id]);
+    }, [returnSeatSuccess, getAllSeats]);
     useEffect(() => {
         if (cancelOrderSuccess && cancelPaymentSuccess && deleteSeatSuccess) {
             toast.success("Cancel order successfully !", {
                 position: toast.POSITION.BOTTOM_RIGHT,
             });
-            dispatch(getItemsInOrder({ userId: user.id }));
         }
-    }, [
-        cancelOrderSuccess,
-        cancelPaymentSuccess,
-        deleteSeatSuccess,
-        dispatch,
-        user?.id,
-    ]);
+    }, [cancelOrderSuccess, cancelPaymentSuccess, deleteSeatSuccess]);
     useEffect(() => {
         if (updateOrderSuccess && updatePaymentSuccess) {
             toast.success("Pay order successfully !", {
                 position: toast.POSITION.BOTTOM_RIGHT,
             });
-            dispatch(getItemsInOrder({ userId: user.id }));
         }
-    }, [updateOrderSuccess, updatePaymentSuccess, dispatch, user?.id]);
+    }, [updateOrderSuccess, updatePaymentSuccess]);
     useEffect(() => {
-        trigger();
-    }, [trigger]);
+        if (
+            (cancelOrderSuccess && cancelPaymentSuccess && deleteSeatSuccess) ||
+            (updateOrderSuccess && updatePaymentSuccess)
+        ) {
+            getAllOrders({ userId: user.id, page, per_page: 10 });
+        }
+    }, [
+        cancelOrderSuccess,
+        cancelPaymentSuccess,
+        deleteSeatSuccess,
+        updateOrderSuccess,
+        updatePaymentSuccess,
+        getAllOrders,
+        page,
+        user?.id,
+    ]);
+    useEffect(() => {
+        getAllOrders({ userId: user.id, page, per_page: 10 });
+    }, [getAllOrders, page, user?.id]);
+    useEffect(() => {
+        getAllSeats();
+    }, [getAllSeats]);
 
     return (
         <div className="min-h-[600px] px-5 py-8">
@@ -127,11 +143,11 @@ export default function OrderPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {order.map((item, index) => (
+                            {order?.data?.map((item, index) => (
                                 <OrderItem
                                     key={index}
                                     item={item}
-                                    seats={data?.data}
+                                    seats={seats?.data}
                                     onReturnTable={handleReturnTable}
                                     onCancelOrder={handleCancelOrder}
                                     onPayOrder={handlePayOrder}
@@ -140,6 +156,12 @@ export default function OrderPage() {
                             ))}
                         </tbody>
                     </table>
+                </div>
+                <div className="flex justify-center items-center mt-10">
+                    <OrderPagination
+                        total={order?.["total_pages"]}
+                        page={page}
+                    />
                 </div>
             </div>
             <Toast />

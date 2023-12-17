@@ -14,7 +14,6 @@ import storage from "redux-persist/lib/storage";
 
 import authReducer from "../features/auth/authSlice";
 import cartReducer from "../features/cart/cartSlice";
-import orderReducer from "../features/order/orderSlice";
 import authApi from "../services/auth";
 import privateAuthApi from "../services/privateAuth";
 import cartApi from "../services/cart";
@@ -31,7 +30,6 @@ import { injectStore } from "../api/axios";
 const rootReducer = combineReducers({
     auth: authReducer,
     cart: cartReducer,
-    order: orderReducer,
     [authApi.reducerPath]: authApi.reducer,
     [privateAuthApi.reducerPath]: privateAuthApi.reducer,
     [cartApi.reducerPath]: cartApi.reducer,

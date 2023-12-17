@@ -15,6 +15,12 @@ const orderApi = createApi({
                 method: "GET",
             }),
         }),
+        getAllOrder: builder.query({
+            query: (payload) => ({
+                url: `/api/Order?userId=${payload.userId}&page=${payload.page}&per_page=${payload.per_page}`,
+                method: "GET",
+            }),
+        }),
         addOrder: builder.mutation({
             query: (payload) => ({
                 url: "/api/Order",
@@ -40,6 +46,7 @@ const orderApi = createApi({
 
 export const {
     useGetOrderQuery,
+    useLazyGetAllOrderQuery,
     useAddOrderMutation,
     useModifyOrderMutation,
     useDeleteOrderMutation,

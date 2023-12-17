@@ -23,12 +23,12 @@ export default function FoodItem({ food }) {
             updateProduct({ ...food, stock: food.stock - 1 });
         }
     }
-    
+
     useEffect(() => {
         if (isSuccess) {
             dispatch(getItemsInCart({ userId: user.id }));
             navigate("/checkout", {
-                state: { items: [{ ...data, item: food }] },
+                state: { items: [{ ...data, quantity: 1, item: food }] },
             });
         }
     }, [isSuccess, dispatch, navigate, data, food, user?.id]);

@@ -6,13 +6,17 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import SeatReservationDialog from "../../components/Dialog/SeatReservationDialog";
 import CheckoutBox from "../../components/Checkout/CheckoutBox";
 import { formatPrice } from "../../utils";
-import { useDeleteCartItemsMutation } from "../../services/cart";
+import {
+    useDeleteCartItemsMutation,
+    useModifyCartItemsMutation,
+} from "../../services/cart";
 import { useAddOrderItemsMutation } from "../../services/orderitem";
-import { useAddSeatReservationMutation } from "../../services/seat";
+import {
+    useAddSeatReservationMutation,
+    useGetSeatReservationQuery,
+} from "../../services/seat";
 import { useAddPaymentMutation } from "../../services/payment";
-import { useLazyGetSeatReservationQuery } from "../../services/seat";
 import getItemsInCart from "../../features/cart/getItemsInCart";
-import getItemsInOrder from "../../features/order/getItemsInOrder";
 import Toast from "../../components/Toast/Toast";
 import { toast } from "react-toastify";
 
@@ -21,12 +25,15 @@ export default function CheckoutPage() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
+    const cartItems = useSelector((state) => state.cart.items);
     const items = location.state?.items;
-    const [trigger, { data }] = useLazyGetSeatReservationQuery();
+    const { data } = useGetSeatReservationQuery();
     const [addOrder, { data: order, isSuccess: addOrderSuccess }] =
         useAddOrderMutation();
     const [deleteCartItem, { isSuccess: deleteCartItemSuccess }] =
         useDeleteCartItemsMutation();
+    const [modifyCartItem, { isSuccess: modifyCartItemSuccess }] =
+        useModifyCartItemsMutation();
     const [addOrderItem, { isSuccess: addOrderItemSuccess }] =
         useAddOrderItemsMutation();
     const [addSeatReservation, { isSuccess: addSeatReservationSuccess }] =
@@ -44,7 +51,6 @@ export default function CheckoutPage() {
         }, 0);
     }, [items]);
     function handleDialogOpen() {
-        trigger();
         setOpen(true);
     }
     function handleDialogClose() {
@@ -75,14 +81,22 @@ export default function CheckoutPage() {
                 userId: user.id,
             };
             addOrder(payload);
+            items.forEach((item) => {
+                const found = cartItems.find(
+                    (cartItem) => cartItem.id == item.id
+                );
+                if (item.quantity === found.quantity) {
+                    deleteCartItem({ id: found.id });
+                } else if (item.quantity < found.quantity) {
+                    modifyCartItem({
+                        ...found,
+                        quantity: found.quantity - item.quantity,
+                    });
+                }
+            });
         }
     }
 
-    useEffect(() => {
-        if (addOrderSuccess) {
-            dispatch(getItemsInOrder({ userId: user.id }));
-        }
-    }, [addOrderSuccess, dispatch, user?.id]);
     useEffect(() => {
         if (addOrderSuccess) {
             const orderId = order.id;
@@ -92,9 +106,6 @@ export default function CheckoutPage() {
                     orderId,
                     quantity: item.quantity,
                 });
-            });
-            items.forEach((item) => {
-                deleteCartItem({ id: item.id });
             });
             addSeatReservation({ seatNumber, orderId });
             addPayment({
@@ -110,7 +121,6 @@ export default function CheckoutPage() {
         items,
         seatNumber,
         addOrderItem,
-        deleteCartItem,
         addSeatReservation,
         addPayment,
         method,
@@ -119,13 +129,13 @@ export default function CheckoutPage() {
         getTotalPrice,
     ]);
     useEffect(() => {
-        if (deleteCartItemSuccess) {
+        if (deleteCartItemSuccess || modifyCartItemSuccess) {
             dispatch(getItemsInCart({ userId: user.id }));
         }
-    }, [deleteCartItemSuccess, dispatch, user?.id]);
+    }, [deleteCartItemSuccess, modifyCartItemSuccess, dispatch, user?.id]);
     useEffect(() => {
         if (
-            deleteCartItemSuccess &&
+            (deleteCartItemSuccess || modifyCartItemSuccess) &&
             addOrderItemSuccess &&
             addSeatReservationSuccess &&
             addPaymentSuccess
@@ -145,6 +155,7 @@ export default function CheckoutPage() {
         }
     }, [
         deleteCartItemSuccess,
+        modifyCartItemSuccess,
         addOrderItemSuccess,
         addSeatReservationSuccess,
         addPaymentSuccess,
@@ -232,9 +243,9 @@ export default function CheckoutPage() {
                         >
                             SEAT RESERVATION
                         </button>
-                        <p className="mt-2 text-primary">
+                        <p className="mt-2 text-primary font-medium">
                             No. seat:{" "}
-                            <span className="font-medium">
+                            <span className="font-bold">
                                 {seatNumber ?? "None"}
                             </span>
                         </p>

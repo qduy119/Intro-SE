@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import {
@@ -10,13 +9,10 @@ import PaymentBox from "../../components/Payment/PaymentBox";
 import Toast from "../../components/Toast/Toast";
 import { useGetOrderQuery, useModifyOrderMutation } from "../../services/order";
 import { toast } from "react-toastify";
-import getItemsInOrder from "../../features/order/getItemsInOrder";
 
 export default function PaymentPage() {
     const location = useLocation();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const user = useSelector((state) => state.auth.user);
     const { orderId } = location.state.payload;
     const { data: payment } = useGetPaymentQuery({ orderId });
     const { data: order } = useGetOrderQuery({ orderId });
@@ -39,7 +35,6 @@ export default function PaymentPage() {
 
     useEffect(() => {
         if (modifyOrderSuccess && modifyPaymentSuccess) {
-            dispatch(getItemsInOrder({ userId: user.id }));
             toast.success("Pay successfully !", {
                 position: toast.POSITION.BOTTOM_RIGHT,
             });
@@ -47,13 +42,7 @@ export default function PaymentPage() {
                 navigate("/order");
             }, 2000);
         }
-    }, [
-        modifyOrderSuccess,
-        modifyPaymentSuccess,
-        navigate,
-        dispatch,
-        user?.id,
-    ]);
+    }, [modifyOrderSuccess, modifyPaymentSuccess, navigate]);
 
     return (
         <div className="min-h-[600px] px-5 py-8">

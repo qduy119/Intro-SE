@@ -33,6 +33,7 @@ const seatApi = createApi({
 });
 
 export const {
+    useGetSeatReservationQuery,
     useLazyGetSeatReservationQuery,
     useAddSeatReservationMutation,
     useDeleteSeatReservationMutation,
