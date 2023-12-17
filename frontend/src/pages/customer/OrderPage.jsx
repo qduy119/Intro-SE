@@ -151,7 +151,7 @@ export default function OrderPage() {
                                     onReturnTable={handleReturnTable}
                                     onCancelOrder={handleCancelOrder}
                                     onPayOrder={handlePayOrder}
-                                    t={index + 1}
+                                    t={(page - 1) * 10 + index + 1}
                                 />
                             ))}
                         </tbody>
