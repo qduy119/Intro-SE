@@ -1,5 +1,4 @@
 import axios from "axios";
-// import { jwtDecode } from "jwt-decode";
 import { updateAccessToken } from "../features/auth/authSlice";
 
 let store;
@@ -24,16 +23,6 @@ const createAxiosInstance = () => {
         },
     });
     axiosInstance.interceptors.request.use(
-        // async (config) => {
-        //     const user = jwtDecode(accessToken);
-        //     if (user.exp * 1000 < new Date().getTime()) {
-        //         const res = await refreshToken();
-        //         const { accessToken: newAccessToken } = res.data;
-        //         store.dispatch(updateAccessToken({ newAccessToken }));
-        //         config.headers["Authorization"] = `Bearer ${newAccessToken}`;
-        //     }
-        //     return config;
-        // },
         (config) => {
             return config;
         },
