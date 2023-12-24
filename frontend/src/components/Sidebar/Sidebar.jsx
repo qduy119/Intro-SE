@@ -13,7 +13,10 @@ export default function Sidebar() {
     return (
         <div className="bg-white border-r-[1px] w-[200px] fixed top-0 left-0 z-30 h-full">
             <div className="flex justify-center py-10">
-                <Link to="/admin" className="text-3xl font-bold text-primary-light">
+                <Link
+                    to="/admin"
+                    className="text-3xl font-bold text-primary-light"
+                >
                     HCMUS
                 </Link>
             </div>

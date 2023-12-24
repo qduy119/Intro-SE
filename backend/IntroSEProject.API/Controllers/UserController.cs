@@ -63,20 +63,20 @@ namespace IntroSEProject.API.Controllers
             }
         }
 
-        [HttpGet("/confirm-email")]
-        public async Task<IActionResult> ConfirmEmail(string emailConfirm, string pageUrl)
-        {
-            var user = await context.Users.Where(x => x.EmailConfirmToken == emailConfirm)
-                .FirstOrDefaultAsync();
-            if (user == null)
-            {
-                return BadRequest(new {error = "Email Confirmation Failed"});
-            }
-            user.EmailConfirmed = true;
-            user.EmailConfirmToken = string.Empty;
-            await context.SaveChangesAsync();
-            return Redirect(pageUrl);
-        }
+        //[HttpGet("/confirm-email")]
+        //public async Task<IActionResult> ConfirmEmail(string emailConfirm, string pageUrl)
+        //{
+        //    var user = await context.Users.Where(x => x.EmailConfirmToken == emailConfirm)
+        //        .FirstOrDefaultAsync();
+        //    if (user == null)
+        //    {
+        //        return BadRequest(new {error = "Email Confirmation Failed"});
+        //    }
+        //    user.EmailConfirmed = true;
+        //    user.EmailConfirmToken = string.Empty;
+        //    await context.SaveChangesAsync();
+        //    return Redirect(pageUrl);
+        //}
 
         [HttpPost]
         [Route("/authenticate")]
@@ -141,6 +141,68 @@ namespace IntroSEProject.API.Controllers
             });
             return Ok();    
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> GetPaging(int page = 1, int per_page = 0, string keyword = "")
+        {
+            IEnumerable<User> list;
+            if (string.IsNullOrEmpty(keyword))
+            {
+                list = await context.Users.ToListAsync();
+            }
+            else
+            {
+                list = await context.Users.Where(x => x.FullName.Contains(keyword)).ToListAsync();
+            }
+            if (per_page == 0)
+            {
+                per_page = list.Count();
+            }
+
+            var pager = new Pager<User>(list, page, per_page);
+            return Ok(pager);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Edit([FromRoute] int id, [FromBody] User model)
+        {
+            var user = await context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                await context.SaveChangesAsync();
+                return Ok(user);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!context.Users.Any(e => e.Id == id))
+                {
+                    return NotFound();
+                }
+                throw;
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var user = await context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            context.Users.Remove(user);
+            await context.SaveChangesAsync();
+            return Ok(user);
+        }
+
         //private void SetAccessTokenCookie(string token, DateTime expiresAt)
         //{
         //    Response.Cookies.Append("access_token", token, 
@@ -151,7 +213,7 @@ namespace IntroSEProject.API.Controllers
         //        SameSite = SameSiteMode.None,
         //        Secure = true
         //        });
-            
+
         //}
         private void SetRefreshTokenCookie(string token, DateTime expiresAt)
         {

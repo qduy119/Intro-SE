@@ -13,7 +13,7 @@ import {
 import { useAddOrderItemsMutation } from "../../services/orderitem";
 import {
     useAddSeatReservationMutation,
-    useGetSeatReservationQuery,
+    useLazyGetAllSeatReservationQuery,
 } from "../../services/seat";
 import { useAddPaymentMutation } from "../../services/payment";
 import getItemsInCart from "../../features/cart/getItemsInCart";
@@ -27,7 +27,7 @@ export default function CheckoutPage() {
     const user = useSelector((state) => state.auth.user);
     const cartItems = useSelector((state) => state.cart.items);
     const items = location.state?.items;
-    const { data } = useGetSeatReservationQuery();
+    const [getAllSeat, { data }] = useLazyGetAllSeatReservationQuery();
     const [addOrder, { data: order, isSuccess: addOrderSuccess }] =
         useAddOrderMutation();
     const [deleteCartItem, { isSuccess: deleteCartItemSuccess }] =
@@ -51,6 +51,7 @@ export default function CheckoutPage() {
         }, 0);
     }, [items]);
     function handleDialogOpen() {
+        getAllSeat();
         setOpen(true);
     }
     function handleDialogClose() {

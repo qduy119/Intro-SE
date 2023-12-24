@@ -21,7 +21,7 @@ export default function SeatReservationDialog({
     onSetSeatNumber,
 }) {
     return (
-        <Dialog open={open} onClose={onSetClose}>
+        <Dialog open={open} onClose={onSetClose} disableScrollLock={true} scroll="paper">
             <DialogTitle sx={{ m: 0, p: 2, fontWeight: "medium" }}>
                 Select an available seat
             </DialogTitle>

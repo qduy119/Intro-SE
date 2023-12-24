@@ -7,22 +7,22 @@ import PersonIcon from "@mui/icons-material/Person";
 import OrderItem from "../../components/Order/OrderItem";
 import {
     useDeleteSeatReservationMutation,
-    useLazyGetSeatReservationQuery,
+    useLazyGetAllSeatReservationQuery,
 } from "../../services/seat";
 import {
-    useLazyGetAllOrderQuery,
+    useLazyGetAllOrderByUserIdQuery,
     useModifyOrderMutation,
 } from "../../services/order";
 import { useModifyPaymentMutation } from "../../services/payment";
 import Toast from "../../components/Toast/Toast";
-import OrderPagination from "../../components/Pagination/OrderPagination";
+import OrderPagination from "../../components/Pagination/DefaultPagination";
 
 export default function OrderPage() {
     const location = useLocation();
     const query = new URLSearchParams(location.search);
     const page = parseInt(query.get("page") || "1", 10);
-    const [getAllSeats, { data: seats }] = useLazyGetSeatReservationQuery();
-    const [getAllOrders, { data: order }] = useLazyGetAllOrderQuery();
+    const [getAllSeats, { data: seats }] = useLazyGetAllSeatReservationQuery();
+    const [getAllOrders, { data: order }] = useLazyGetAllOrderByUserIdQuery();
     const user = useSelector((state) => state.auth.user);
     const [cancelOrder, { isSuccess: cancelOrderSuccess }] =
         useModifyOrderMutation();
@@ -56,10 +56,12 @@ export default function OrderPage() {
 
     useEffect(() => {
         if (returnSeatSuccess) {
-            getAllSeats();
             toast.success("Return table successfully !", {
                 position: toast.POSITION.BOTTOM_RIGHT,
             });
+            setTimeout(() => {
+                getAllSeats();
+            }, 500);
         }
     }, [returnSeatSuccess, getAllSeats]);
     useEffect(() => {
@@ -81,7 +83,9 @@ export default function OrderPage() {
             (cancelOrderSuccess && cancelPaymentSuccess && deleteSeatSuccess) ||
             (updateOrderSuccess && updatePaymentSuccess)
         ) {
-            getAllOrders({ userId: user.id, page, per_page: 10 });
+            setTimeout(() => {
+                getAllOrders({ userId: user?.id, page, per_page: 10 });
+            }, 500);
         }
     }, [
         cancelOrderSuccess,
@@ -94,7 +98,7 @@ export default function OrderPage() {
         user?.id,
     ]);
     useEffect(() => {
-        getAllOrders({ userId: user.id, page, per_page: 10 });
+        getAllOrders({ userId: user?.id, page, per_page: 10 });
     }, [getAllOrders, page, user?.id]);
     useEffect(() => {
         getAllSeats();
@@ -117,7 +121,7 @@ export default function OrderPage() {
                         <thead className="border-b font-medium dark:border-neutral-500">
                             <tr>
                                 <th scope="col" className="px-6 py-4">
-                                    #
+                                    Tracking No.
                                 </th>
                                 <th scope="col" className="px-6 py-4">
                                     Order ID

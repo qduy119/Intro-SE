@@ -2,10 +2,9 @@ import { IconButton, Tooltip } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import PaymentsIcon from "@mui/icons-material/Payments";
-import Status from "../Status/Status";
-import { formatDate } from "../../utils";
+import { formatDate, isSeatReturned } from "../../utils";
 import { useGetPaymentQuery } from "../../services/payment";
-import { isSeatReturned } from "../../utils";
+import Status from "../Status/Status";
 
 export default function OrderItem({
     t,

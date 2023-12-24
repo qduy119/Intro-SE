@@ -25,10 +25,10 @@ namespace IntroSEProject.Models
         public string Role { get; set; } = "Customer";
         public bool EmailConfirmed { get; set; } = false;
         public string? EmailConfirmToken { get; set; }
-        public virtual ICollection<CartItem> CartItems { get; set; }
-        public virtual ICollection<Review> Reviews { get; set; }
-        public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<Payment> Payments { get; set; }
+        //public virtual ICollection<CartItem> CartItems { get; set; }
+        //public virtual ICollection<Review> Reviews { get; set; }
+        //public virtual ICollection<Order> Orders { get; set; }
+        //public virtual ICollection<Payment> Payments { get; set; }
     }
 
 }

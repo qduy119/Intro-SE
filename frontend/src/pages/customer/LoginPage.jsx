@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../services/auth";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../features/auth/authSlice";
@@ -9,6 +9,7 @@ import Toast from "../../components/Toast/Toast";
 import { bg } from "../../assets";
 
 export default function LoginPage() {
+    const location = useLocation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [credentials, setCredentials] = useState({});
@@ -44,13 +45,13 @@ export default function LoginPage() {
             dispatch(getItemsInCart({ userId: user.id }));
             setTimeout(() => {
                 if (user.role === "Customer") {
-                    navigate(-1);
+                    navigate(location?.state?.from ?? "/");
                 } else if (user.role === "Admin") {
                     navigate("/admin");
                 }
             }, 2000);
         }
-    }, [isSuccess, data, navigate, dispatch]);
+    }, [isSuccess, data, navigate, dispatch, location?.state]);
 
     return (
         <div

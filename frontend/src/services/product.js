@@ -9,6 +9,19 @@ const productApi = createApi({
         baseUrl: baseQuery,
     }),
     endpoints: (builder) => ({
+        getAllProduct: builder.query({
+            query: () => ({
+                url: "/api/Items",
+                method: "GET",
+            }),
+        }),
+        getTopSales: builder.query({
+            query: () => ({
+                url: "/api/Items/top5",
+                method: "GET",
+            }),
+            keepUnusedDataFor: 10,
+        }),
         addProduct: builder.mutation({
             query: (payload) => ({
                 url: "/api/Items",
@@ -25,7 +38,7 @@ const productApi = createApi({
         }),
         deleteProduct: builder.mutation({
             query: ({ id }) => ({
-                url: `/api/Item/${id}`,
+                url: `/api/Items/${id}`,
                 method: "DELETE",
             }),
         }),
@@ -33,6 +46,8 @@ const productApi = createApi({
 });
 
 export const {
+    useGetTopSalesQuery,
+    useLazyGetAllProductQuery,
     useAddProductMutation,
     useModifyProductMutation,
     useDeleteProductMutation,

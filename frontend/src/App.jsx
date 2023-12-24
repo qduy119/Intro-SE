@@ -7,6 +7,7 @@ import {
 
 import CustomerLayout from "./layouts/CustomerLayout";
 import AdminLayout from "./layouts/AdminLayout";
+import ProtectRouter from "./components/Protect/ProtectRouter";
 import HomePage from "./pages/customer/HomePage";
 import CategoryPage from "./pages/customer/CategoryPage";
 import ProductPage from "./pages/customer/ProductPage";
@@ -25,6 +26,7 @@ import MenuPage from "./pages/admin/MenuPage";
 import AdminOrderPage from "./pages/admin/OrderPage";
 import CustomerPage from "./pages/admin/CustomerPage";
 import RevenuePage from "./pages/admin/RevenuePage";
+import NotFoundPage from "./pages/customer/NotFoundPage";
 import getCategoryById from "./utils/getCategoryById";
 import getProductById from "./utils/getProductById";
 
@@ -58,28 +60,34 @@ const router = createBrowserRouter([
                         errorElement: <ErrorPage />,
                     },
                     {
-                        path: "cart",
-                        element: <CartPage />,
-                    },
-                    {
-                        path: "order",
-                        element: <OrderPage />,
-                    },
-                    {
-                        path: "payment",
-                        element: <PaymentPage />,
-                    },
-                    {
-                        path: "checkout",
-                        element: <CheckoutPage />,
-                    },
-                    {
                         path: "search",
                         element: <SearchPage />,
                     },
                     {
-                        path: "profile",
-                        element: <ProfilePage />,
+                        path: "/",
+                        element: <ProtectRouter />,
+                        children: [
+                            {
+                                path: "cart",
+                                element: <CartPage />,
+                            },
+                            {
+                                path: "order",
+                                element: <OrderPage />,
+                            },
+                            {
+                                path: "payment",
+                                element: <PaymentPage />,
+                            },
+                            {
+                                path: "checkout",
+                                element: <CheckoutPage />,
+                            },
+                            {
+                                path: "profile",
+                                element: <ProfilePage />,
+                            },
+                        ],
                     },
                 ],
             },
@@ -127,7 +135,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "*",
-                element: <p>404 NOT FOUND</p>,
+                element: <NotFoundPage />,
             },
         ],
     },

@@ -9,6 +9,12 @@ const categoryApi = createApi({
         baseUrl: baseQuery,
     }),
     endpoints: (builder) => ({
+        getAllCategory: builder.query({
+            query: () => ({
+                url: "/api/Categories",
+                method: "GET",
+            }),
+        }),
         addCategory: builder.mutation({
             query: (payload) => ({
                 url: "/api/Categories",
@@ -33,6 +39,8 @@ const categoryApi = createApi({
 });
 
 export const {
+    useGetAllCategoryQuery,
+    useLazyGetAllCategoryQuery,
     useAddCategoryMutation,
     useModifyCategoryMutation,
     useDeleteCategoryMutation,

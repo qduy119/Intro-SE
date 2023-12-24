@@ -9,6 +9,12 @@ const paymentApi = createApi({
         baseUrl: baseQuery,
     }),
     endpoints: (builder) => ({
+        getAllPayment: builder.query({
+            query: () => ({
+                url: `/api/Payment`,
+                method: "GET",
+            }),
+        }),
         getPayment: builder.query({
             query: ({ orderId }) => ({
                 url: `/api/Payment?orderId=${orderId}`,
@@ -33,6 +39,8 @@ const paymentApi = createApi({
 });
 
 export const {
+    useGetAllPaymentQuery,
+    useLazyGetAllPaymentQuery,
     useGetPaymentQuery,
     useAddPaymentMutation,
     useModifyPaymentMutation,

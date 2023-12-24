@@ -15,9 +15,15 @@ const orderApi = createApi({
                 method: "GET",
             }),
         }),
-        getAllOrder: builder.query({
+        getAllOrderByUserId: builder.query({
             query: (payload) => ({
                 url: `/api/Order?userId=${payload.userId}&page=${payload.page}&per_page=${payload.per_page}`,
+                method: "GET",
+            }),
+        }),
+        getAllOrder: builder.query({
+            query: () => ({
+                url: `/api/Order`,
                 method: "GET",
             }),
         }),
@@ -46,7 +52,9 @@ const orderApi = createApi({
 
 export const {
     useGetOrderQuery,
+    useGetAllOrderQuery,
     useLazyGetAllOrderQuery,
+    useLazyGetAllOrderByUserIdQuery,
     useAddOrderMutation,
     useModifyOrderMutation,
     useDeleteOrderMutation,

@@ -3,7 +3,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useProducts } from "../../hooks";
 import FoodItem from "../../components/Food/FoodItem";
 import Skeletons from "../../components/Skeleton/Skeletons";
-import CategoryPagination from "../../components/Pagination/CategoryPagination";
+import CategoryPagination from "../../components/Pagination/DefaultPagination";
 
 export default function CategoryPage() {
     const category = useLoaderData();

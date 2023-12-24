@@ -1,4 +1,9 @@
-import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import {
+    Link,
+    useLoaderData,
+    useLocation,
+    useNavigate,
+} from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -12,6 +17,7 @@ import getItemsInCart from "../../features/cart/getItemsInCart";
 import Toast from "../../components/Toast/Toast";
 
 export default function ProductPage() {
+    const location = useLocation();
     const food = useLoaderData();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -64,7 +70,7 @@ export default function ProductPage() {
     }
     function handleBuyNow() {
         if (!user) {
-            navigate("/login");
+            navigate("/login", { state: { from: location.pathname } });
         } else {
             if (currentStock > 0 && currentStock >= quantity) {
                 addToCartNow({ quantity, itemId: food.id, userId: user.id });
@@ -125,7 +131,7 @@ export default function ProductPage() {
                             alt="Image"
                             onClick={(e) => handleShowThumbnail(e)}
                         />
-                        {food?.images?.map((image, index) => (
+                        {JSON.parse(food?.images)?.map((image, index) => (
                             <img
                                 id={index}
                                 key={index}

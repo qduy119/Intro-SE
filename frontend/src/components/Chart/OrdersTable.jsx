@@ -1,10 +1,7 @@
 import { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
 
-// material-ui
 import {
     Box,
-    Link,
     Stack,
     Table,
     TableBody,
@@ -17,22 +14,11 @@ import {
 
 import { NumericFormat } from "react-number-format";
 
-function createData(trackingNo, name, fat, carbs, protein) {
-    return { trackingNo, name, fat, carbs, protein };
-}
+import { formatDate } from "../../utils/index";
 
-const rows = [
-    createData(84564564, "Camera Lens", 40, 2, 40570),
-    createData(98764564, "Laptop", 300, 0, 180139),
-    createData(98756325, "Mobile", 355, 1, 90989),
-    createData(98652366, "Handset", 50, 1, 10239),
-    createData(13286564, "Computer Accessories", 100, 1, 83348),
-    createData(86739658, "TV", 99, 0, 410780),
-    createData(13256498, "Keyboard", 125, 2, 70999),
-    createData(98753263, "Mouse", 89, 2, 10570),
-    createData(98753275, "Desktop", 185, 1, 98063),
-    createData(98753291, "Chair", 100, 0, 14001),
-];
+function createData(trackingNo, date, seat, status, total) {
+    return { trackingNo, date, seat, status, total };
+}
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -51,18 +37,16 @@ function getComparator(order, orderBy) {
 }
 
 function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
+    const stabilizedThis = array?.map((el, index) => [el, index]);
+    stabilizedThis?.sort((a, b) => {
         const order = comparator(a[0], b[0]);
         if (order !== 0) {
             return order;
         }
         return a[1] - b[1];
     });
-    return stabilizedThis.map((el) => el[0]);
+    return stabilizedThis?.map((el) => el[0]);
 }
-
-// ==============================|| ORDER TABLE - HEADER CELL ||============================== //
 
 const headCells = [
     {
@@ -72,33 +56,30 @@ const headCells = [
         label: "Tracking No.",
     },
     {
-        id: "name",
+        id: "date",
         align: "left",
         disablePadding: true,
-        label: "Product Name",
+        label: "Order Date",
     },
     {
-        id: "fat",
+        id: "seat",
         align: "right",
         disablePadding: false,
-        label: "Total Order",
+        label: "Seat Number",
     },
     {
-        id: "carbs",
+        id: "status",
         align: "left",
         disablePadding: false,
-
         label: "Status",
     },
     {
-        id: "protein",
+        id: "total",
         align: "right",
         disablePadding: false,
         label: "Total Amount",
     },
 ];
-
-// ==============================|| ORDER TABLE - HEADER ||============================== //
 
 function OrderTableHead({ order, orderBy }) {
     return (
@@ -119,24 +100,22 @@ function OrderTableHead({ order, orderBy }) {
     );
 }
 
-// ==============================|| ORDER TABLE - STATUS ||============================== //
-
 const OrderStatus = ({ status }) => {
     let color;
     let title;
 
     switch (status) {
-        case 0:
+        case "Pending":
             color = "text-yellow-500";
             title = "Pending";
             break;
-        case 1:
+        case "Success":
             color = "text-green-500 success";
-            title = "Approved";
+            title = "Success";
             break;
-        case 2:
+        case "Canceled":
             color = "text-red-500 error";
-            title = "Rejected";
+            title = "Canceled";
             break;
         default:
             color = "";
@@ -145,18 +124,24 @@ const OrderStatus = ({ status }) => {
 
     return (
         <Stack direction="row" spacing={1} alignItems="center">
-            {/* <Dot color={color} /> */}
             <Typography className={color}>{title}</Typography>
         </Stack>
     );
 };
 
-// ==============================|| ORDER TABLE ||============================== //
-
-export default function OrderTable() {
+export default function OrderTable({orders}) {
     const [order] = useState("asc");
     const [orderBy] = useState("trackingNo");
     const [selected] = useState([]);
+    const rows = orders?.slice(1, 10)?.map((order) => {
+        return createData(
+            order.id,
+            formatDate(order.orderDate),
+            order.seatNumber,
+            order.status,
+            order.total
+        );
+    });
 
     const isSelected = (trackingNo) => selected.indexOf(trackingNo) !== -1;
 
@@ -185,7 +170,7 @@ export default function OrderTable() {
                 >
                     <OrderTableHead order={order} orderBy={orderBy} />
                     <TableBody>
-                        {stableSort(rows, getComparator(order, orderBy)).map(
+                        {stableSort(rows, getComparator(order, orderBy))?.map(
                             (row, index) => {
                                 const isItemSelected = isSelected(
                                     row.trackingNo
@@ -211,26 +196,25 @@ export default function OrderTable() {
                                             scope="row"
                                             align="left"
                                         >
-                                            <Link
+                                            <p
                                                 color="secondary"
-                                                component={RouterLink}
-                                                to=""
+                                                className="pl-4 cursor-pointer hover:underline text-black/50"
                                             >
                                                 {row.trackingNo}
-                                            </Link>
+                                            </p>
                                         </TableCell>
                                         <TableCell align="left">
-                                            {row.name}
+                                            {row.date}
                                         </TableCell>
-                                        <TableCell align="right">
-                                            {row.fat}
+                                        <TableCell align="center">
+                                            {row.seat}
                                         </TableCell>
                                         <TableCell align="left">
-                                            <OrderStatus status={row.carbs} />
+                                            <OrderStatus status={row.status} />
                                         </TableCell>
                                         <TableCell align="right">
                                             <NumericFormat
-                                                value={row.protein}
+                                                value={row.total}
                                                 displayType="text"
                                                 thousandSeparator
                                                 prefix="$"
