@@ -7,7 +7,7 @@ export default function AuthErrorPage() {
         <div className="relative bg-white w-screen h-screen">
             <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-slate-200 p-8 rounded-md">
                 <h1 className="uppercase text-3xl font-bold text-red-500 text-center">
-                    You are not allowed to access this resources
+                    You are not allowed to access this resource
                 </h1>
                 <p className="text-center text-[64px] text-yellow-400">⚠</p>
                 <p className="text-center">

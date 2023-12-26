@@ -24,9 +24,9 @@ export const formatDate = (date) => {
 export const formatDateOfBirth = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
-    const formattedDate = date.toISOString().split('T')[0];
+    const formattedDate = date.toISOString().split("T")[0];
     return formattedDate;
-}
+};
 
 export const getPaymentByOrderId = (payments, orderId) => {
     return payments?.find((payment) => payment.orderId === orderId);
@@ -36,10 +36,24 @@ export const getUserByOrder = (users, userIdInOrder) => {
     return users?.find((user) => user.id === userIdInOrder);
 };
 
-export const getRevenue = (orders, { slot }) => {
+function startOfWeek(date) {
+    const diff =
+        date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1);
+
+    return new Date(date.setDate(diff));
+}
+
+function endOfWeek(date) {
+    const lastday = date.getDate() - (date.getDay() - 1) + 6;
+    return new Date(date.setDate(lastday));
+}
+
+export const getTotalOrder = (orders, { slot }) => {
     const hash =
-        slot === "week"
-            ? ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+        slot === "day"
+            ? Array.from({ length: 12 }, (_, i) => String(i + 9)) // from 9 a.m to 20 p.m
+            : slot === "week"
+            ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
             : [
                   "Jan",
                   "Feb",
@@ -54,28 +68,67 @@ export const getRevenue = (orders, { slot }) => {
                   "Nov",
                   "Dec",
               ];
-    const initialRevenue =
-        slot === "week" ? new Array(7).fill(0) : new Array(12).fill(0);
-    const revenue = orders?.reduce((totalRevenue, order) => {
-        const dayIn =
-            slot === "week"
-                ? new Date(order.orderDate).getDay()
-                : new Date(order.orderDate).getMonth();
-        if (order.status === "Success") {
-            totalRevenue[dayIn] += order.total;
-        }
-        return totalRevenue;
-    }, initialRevenue);
-    const result = revenue?.map((amount, key) => {
+    const initialOrder =
+        slot === "day"
+            ? new Array(12).fill(0)
+            : slot === "week"
+            ? new Array(7).fill(0)
+            : new Array(12).fill(0);
+    let total = 0;
+    const today = new Date();
+    if (slot === "day") {
+        total = orders?.reduce((totalOrder, order) => {
+            const orderDay = new Date(order.orderDate);
+            if (
+                orderDay.toLocaleDateString() === today.toLocaleDateString() &&
+                order.status === "Success"
+            ) {
+                const hourIn = orderDay.getHours();
+                totalOrder[hourIn] += 1;
+            }
+            return totalOrder;
+        }, initialOrder);
+    } else if (slot === "week") {
+        const start = startOfWeek(today);
+        const end = endOfWeek(today);
+        total = orders?.reduce((totalOrder, order) => {
+            const orderDay = new Date(order.orderDate);
+            if (
+                orderDay.toLocaleDateString() <= end.toLocaleDateString() &&
+                orderDay.toLocaleDateString() >= start.toLocaleDateString() &&
+                order.status === "Success"
+            ) {
+                const dayIn =
+                    orderDay.getDay() === 0 ? 6 : orderDay.getDay() - 1;
+                totalOrder[dayIn] += 1;
+            }
+            return totalOrder;
+        }, initialOrder);
+    } else {
+        total = orders?.reduce((totalOrder, order) => {
+            const orderDay = new Date(order.orderDate);
+            if (
+                orderDay.getFullYear() === today.getFullYear() &&
+                order.status === "Success"
+            ) {
+                const monthIn = orderDay.getMonth();
+                totalOrder[monthIn] += 1;
+            }
+            return totalOrder;
+        }, initialOrder);
+    }
+    const result = total?.map((amount, key) => {
         return { [hash[key]]: amount };
     });
     return result;
 };
 
-export const getOrder = (orders, { slot }) => {
+export const getTotalRevenue = (orders, { slot }) => {
     const hash =
-        slot === "week"
-            ? ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+        slot === "day"
+            ? Array.from({ length: 12 }, (_, i) => String(i + 9)) // from 9 a.m to 20 p.m
+            : slot === "week"
+            ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
             : [
                   "Jan",
                   "Feb",
@@ -91,19 +144,113 @@ export const getOrder = (orders, { slot }) => {
                   "Dec",
               ];
     const initialRevenue =
-        slot === "week" ? new Array(7).fill(0) : new Array(12).fill(0);
-    const total = orders?.reduce((totalRevenue, order) => {
-        const dayIn =
-            slot === "week"
-                ? new Date(order.orderDate).getDay()
-                : new Date(order.orderDate).getMonth();
-        if (order.status === "Success") {
-            totalRevenue[dayIn] += 1;
-        }
-        return totalRevenue;
-    }, initialRevenue);
+        slot === "day"
+            ? new Array(12).fill(0)
+            : slot === "week"
+            ? new Array(7).fill(0)
+            : new Array(12).fill(0);
+    let total = 0;
+    const today = new Date();
+    if (slot === "day") {
+        total = orders?.reduce((totalRevenue, order) => {
+            const orderDay = new Date(order.orderDate);
+            if (
+                orderDay.toLocaleDateString() === today.toLocaleDateString() &&
+                order.status === "Success"
+            ) {
+                const hourIn = orderDay.getHours();
+                totalRevenue[hourIn] += order.total;
+            }
+            return totalRevenue;
+        }, initialRevenue);
+    } else if (slot === "week") {
+        const start = startOfWeek(today);
+        const end = endOfWeek(today);
+        total = orders?.reduce((totalRevenue, order) => {
+            const orderDay = new Date(order.orderDate);
+            if (
+                orderDay.toLocaleDateString() <= end.toLocaleDateString() &&
+                orderDay.toLocaleDateString() >= start.toLocaleDateString() &&
+                order.status === "Success"
+            ) {
+                const dayIn =
+                    orderDay.getDay() === 0 ? 6 : orderDay.getDay() - 1;
+                totalRevenue[dayIn] += order.total;
+            }
+            return totalRevenue;
+        }, initialRevenue);
+    } else {
+        total = orders?.reduce((totalRevenue, order) => {
+            const orderDay = new Date(order.orderDate);
+            if (
+                orderDay.getFullYear() === today.getFullYear() &&
+                order.status === "Success"
+            ) {
+                const monthIn = orderDay.getMonth();
+                totalRevenue[monthIn] += order.total;
+            }
+            return totalRevenue;
+        }, initialRevenue);
+    }
     const result = total?.map((amount, key) => {
         return { [hash[key]]: amount };
+    });
+    return result;
+};
+
+export const getTotalProfit = (orders, { value }) => {
+    const hash =
+        value === "week"
+            ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+            : [
+                  "Jan",
+                  "Feb",
+                  "Mar",
+                  "Apr",
+                  "May",
+                  "Jun",
+                  "Jul",
+                  "Aug",
+                  "Sep",
+                  "Oct",
+                  "Nov",
+                  "Dec",
+              ];
+    const initialRevenue =
+        value === "week" ? new Array(7).fill(0) : new Array(12).fill(0);
+    let total = 0;
+    const today = new Date();
+    if (value === "week") {
+        const start = startOfWeek(today);
+        const end = endOfWeek(today);
+        total = orders?.reduce((totalRevenue, order) => {
+            const orderDay = new Date(order.orderDate);
+            if (
+                orderDay.toLocaleDateString() <= end.toLocaleDateString() &&
+                orderDay.toLocaleDateString() >= start.toLocaleDateString() &&
+                order.status === "Success"
+            ) {
+                const dayIn =
+                    orderDay.getDay() === 0 ? 6 : orderDay.getDay() - 1;
+                totalRevenue[dayIn] += order.total * 0.3;
+            }
+            return totalRevenue;
+        }, initialRevenue);
+    } else {
+        total = orders?.reduce((totalRevenue, order) => {
+            const orderDay = new Date(order.orderDate);
+            if (
+                orderDay.getFullYear() === today.getFullYear() &&
+                order.status === "Success"
+            ) {
+                const monthIn = orderDay.getMonth();
+                totalRevenue[monthIn] += order.total * 0.3;
+            }
+            return totalRevenue;
+        }, initialRevenue);
+    }
+    const result = total?.map((amount, key) => {
+        return { [hash[key]]: Number(amount).toFixed(2) };
     });
     return result;
 };

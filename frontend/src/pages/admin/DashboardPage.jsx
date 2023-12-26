@@ -32,7 +32,7 @@ import {
 } from "../../services/product";
 import { useLazyGetAllUserQuery } from "../../services/privateAuth";
 import { useLazyGetAllOrderQuery } from "../../services/order";
-import { getOrder } from "../../utils";
+import { getTotalOrder } from "../../utils";
 
 const avatarSX = {
     width: 36,
@@ -61,8 +61,8 @@ export default function DashboardPage() {
         }
         return sum;
     }, 0);
-    const [slot, setSlot] = useState("week");
-    const order = getOrder(orders?.data, { slot });
+    const [slot, setSlot] = useState("day");
+    const order = getTotalOrder(orders?.data, { slot });
 
     useEffect(() => {
         getAllProducts();
@@ -129,7 +129,7 @@ export default function DashboardPage() {
                         >
                             <Grid item>
                                 <Typography variant="h5">
-                                    Daily Order
+                                    Order Statistics
                                 </Typography>
                             </Grid>
                             <Grid item>
@@ -169,6 +169,22 @@ export default function DashboardPage() {
                                         }
                                     >
                                         Week
+                                    </Button>
+                                    <Button
+                                        size="small"
+                                        onClick={() => setSlot("day")}
+                                        color={
+                                            slot === "day"
+                                                ? "primary"
+                                                : "secondary"
+                                        }
+                                        variant={
+                                            slot === "day"
+                                                ? "outlined"
+                                                : "text"
+                                        }
+                                    >
+                                        Today
                                     </Button>
                                 </Stack>
                             </Grid>

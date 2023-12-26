@@ -26,10 +26,10 @@ namespace IntroSEProject.API.Controllers
         public async Task<IActionResult> GetPaging(int page = 1, int per_page = 0, int userId = 0)
         {
             IEnumerable<Order> list;
-            list = (IEnumerable<Order>)await dbContext.Orders.OrderByDescending(o => o.OrderDate).ToListAsync();
+            list = await dbContext.Orders.OrderByDescending(o => o.OrderDate).ToListAsync();
             if (userId > 0)
             {
-                list = dbContext.Orders.Where(P => P.UserId == userId).ToList();
+                list = list.Where(P => P.UserId == userId).ToList();
             }
             if (per_page == 0)
             {

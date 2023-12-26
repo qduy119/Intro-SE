@@ -17,29 +17,27 @@ import SalesColumnChart from "../../components/Chart/SalesColumnChart";
 import RevenueBarChart from "../../components/Chart/RevenueBarChart";
 import MainCard from "../../components/Card/MainCard";
 import { useEffect, useState } from "react";
-import { getRevenue } from "../../utils";
+import { getTotalProfit, getTotalRevenue } from "../../utils";
 import { useLazyGetAllOrderQuery } from "../../services/order";
 
 const status = [
     {
-        value: "today",
-        label: "Today",
+        value: "week",
+        label: "Daily",
     },
     {
         value: "month",
-        label: "This Month",
-    },
-    {
-        value: "year",
-        label: "This Year",
+        label: "Monthly",
     },
 ];
 
 export default function RevenuePage() {
     const [getAllOrders, { data: orders }] = useLazyGetAllOrderQuery();
-    const [value, setValue] = useState("today");
-    const [slot, setSlot] = useState("week");
-    const revenue = getRevenue(orders?.data, { slot });
+    const [value, setValue] = useState("week");
+    const [slot, setSlot] = useState("day");
+    const revenue = getTotalRevenue(orders?.data, { slot });
+    const salesRevenue = getTotalRevenue(orders?.data, { slot: value });
+    const salesProfit = getTotalProfit(orders?.data, { value });
 
     useEffect(() => {
         getAllOrders();
@@ -97,6 +95,18 @@ export default function RevenuePage() {
                                 >
                                     Week
                                 </Button>
+                                <Button
+                                    size="small"
+                                    onClick={() => setSlot("day")}
+                                    color={
+                                        slot === "day" ? "primary" : "secondary"
+                                    }
+                                    variant={
+                                        slot === "day" ? "outlined" : "text"
+                                    }
+                                >
+                                    Day
+                                </Button>
                             </Stack>
                         </Grid>
                     </Grid>
@@ -109,8 +119,8 @@ export default function RevenuePage() {
                                 <Typography variant="h3">
                                     $
                                     {revenue?.reduce(
-                                        (acc, e) =>
-                                            acc + Number(Object.values(e)),
+                                        (sum, e) =>
+                                            sum + Number(Object.values(e)),
                                         0
                                     )}
                                 </Typography>
@@ -195,9 +205,17 @@ export default function RevenuePage() {
                             <Typography variant="h6" color="secondary">
                                 Net Profit
                             </Typography>
-                            <Typography variant="h4">$1560</Typography>
+                            <Typography variant="h4">
+                                {salesProfit?.reduce(
+                                    (sum, e) => sum + Number(Object.values(e)),
+                                    0
+                                )}
+                            </Typography>
                         </Stack>
-                        <SalesColumnChart />
+                        <SalesColumnChart
+                            revenue={salesRevenue}
+                            profit={salesProfit}
+                        />
                     </MainCard>
                 </Grid>
             </Grid>

@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 
-// material-ui
 import { useTheme } from "@mui/material/styles";
 
-// third-party
 import ReactApexChart from "react-apexcharts";
 
-// chart options
 const columnChartOptions = {
     chart: {
         type: "bar",
@@ -29,9 +26,6 @@ const columnChartOptions = {
         width: 8,
         colors: ["transparent"],
     },
-    xaxis: {
-        categories: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    },
     yaxis: {
         title: {
             text: "$ (thousands)",
@@ -43,7 +37,7 @@ const columnChartOptions = {
     tooltip: {
         y: {
             formatter(val) {
-                return `$ ${val} thousands`;
+                return `$${val}`;
             },
         },
     },
@@ -81,7 +75,7 @@ const columnChartOptions = {
 
 // ==============================|| SALES COLUMN CHART ||============================== //
 
-const SalesColumnChart = () => {
+const SalesColumnChart = ({ revenue, profit }) => {
     const theme = useTheme();
 
     const { primary, secondary } = theme.palette.text;
@@ -91,16 +85,16 @@ const SalesColumnChart = () => {
     const primaryMain = theme.palette.primary.main;
     const successDark = theme.palette.success.dark;
 
-    const [series] = useState([
+    const series = [
         {
             name: "Net Profit",
-            data: [180, 90, 135, 114, 120, 145],
+            data: profit?.map((e) => Object.values(e))?.flat() ?? [],
         },
         {
             name: "Revenue",
-            data: [120, 45, 78, 150, 168, 99],
+            data: revenue?.map((e) => Object.values(e))?.flat() ?? [],
         },
-    ]);
+    ];
 
     const [options, setOptions] = useState(columnChartOptions);
 
@@ -121,6 +115,7 @@ const SalesColumnChart = () => {
                         ],
                     },
                 },
+                categories: revenue?.map((e) => Object.keys(e))?.flat() ?? [],
             },
             yaxis: {
                 labels: {
@@ -143,7 +138,7 @@ const SalesColumnChart = () => {
                 },
             },
         }));
-    }, [primary, secondary, line, warning, primaryMain, successDark]);
+    }, [primary, secondary, line, warning, primaryMain, successDark, revenue]);
 
     return (
         <div id="chart">
