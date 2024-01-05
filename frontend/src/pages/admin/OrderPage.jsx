@@ -103,7 +103,7 @@ export default function OrderPage() {
                         className="w-[50px] h-[50px] bg-center bg-cover rounded-md border-[1px] border-primary-light"
                         style={{
                             backgroundImage: `url(${
-                                user.avatar ??
+                                user?.avatar ??
                                 "https://res.cloudinary.com/dlzyiprib/image/upload/v1694617729/e-commerces/user/kumz90hy8ufomdgof8ik.jpg"
                             })`,
                         }}

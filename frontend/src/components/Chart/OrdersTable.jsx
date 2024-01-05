@@ -130,7 +130,7 @@ const OrderStatus = ({ status }) => {
 };
 
 export default function OrderTable({orders}) {
-    const [order] = useState("asc");
+    const [order] = useState("desc");
     const [orderBy] = useState("trackingNo");
     const [selected] = useState([]);
     const rows = orders?.slice(1, 10)?.map((order) => {

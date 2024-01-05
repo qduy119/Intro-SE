@@ -84,7 +84,9 @@ export const getTotalOrder = (orders, { slot }) => {
                 order.status === "Success"
             ) {
                 const hourIn = orderDay.getHours();
-                totalOrder[hourIn] += 1;
+                if (hourIn >= 9 && hourIn <= 20) {
+                    totalOrder[hourIn] += 1;
+                }
             }
             return totalOrder;
         }, initialOrder);
@@ -159,7 +161,9 @@ export const getTotalRevenue = (orders, { slot }) => {
                 order.status === "Success"
             ) {
                 const hourIn = orderDay.getHours();
-                totalRevenue[hourIn] += order.total;
+                if (hourIn >= 9 && hourIn <= 20) {
+                    totalRevenue[hourIn] += order.total;
+                }
             }
             return totalRevenue;
         }, initialRevenue);
