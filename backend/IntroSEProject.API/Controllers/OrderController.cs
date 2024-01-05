@@ -62,6 +62,7 @@ namespace IntroSEProject.API.Controllers
             {
                 return BadRequest(new { error = $"User with id {model.UserId} does not exist" });
             }
+            model.OrderDate = DateTime.Now;
             var order = mapper.Map<Order>(model);
             try
             {
