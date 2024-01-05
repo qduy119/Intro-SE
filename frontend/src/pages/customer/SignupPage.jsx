@@ -16,32 +16,51 @@ export default function SignupPage() {
     }
     function handleSubmit(e) {
         e.preventDefault();
-        if (
-            credentials.email === "" ||
-            credentials.password === "" ||
-            credentials.confirmPassword === "" ||
-            credentials.fullName === "" ||
-            credentials.phoneNumber === ""
-        ) {
+
+        const emptyFields = ["email", "password", "confirmPassword", "fullName", "phoneNumber"];
+        const emptyFieldErrors = {};
+
+        emptyFields.forEach(field => {
+            if (!credentials[field] || credentials[field].trim() === "") {
+                emptyFieldErrors[field] = "This field is required";
+            }
+        });
+
+        if (Object.keys(emptyFieldErrors).length > 0) {
+            setErrors(emptyFieldErrors);
             return;
         }
+
         let flag = 1;
         if (credentials.password !== credentials.confirmPassword) {
-            setErrors((prev) => ({
+            setErrors(prev => ({
                 ...prev,
                 confirmPassword: "Confirm Password is incorrect",
             }));
             flag = 0;
         }
+
+        // Password validation
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-+=^]).{8,20}$/;
+        if (!passwordRegex.test(credentials.password)) {
+            setErrors(prev => ({
+                ...prev,
+                password: "Password must be 8-20 characters, include at least one lowercase letter, one uppercase letter, one digit, and one special character",
+            }));
+            flag = 0;
+        }
+
         const regex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,5}$/g;
         if (!regex.test(credentials.email)) {
-            setErrors((prev) => ({
+            setErrors(prev => ({
                 ...prev,
                 email: "Email is not valid",
             }));
             flag = 0;
         }
+
         if (!flag) return;
+
         setErrors(null);
         register({
             email: credentials.email,
@@ -50,6 +69,7 @@ export default function SignupPage() {
             phoneNumber: credentials.phoneNumber,
         });
     }
+
     useEffect(() => {
         if (isSuccess) {
             setCredentials({});
@@ -92,7 +112,11 @@ export default function SignupPage() {
                             value={credentials.email ?? ""}
                             onChange={(e) => handleChange(e)}
                         />
+                        {errors && errors.email && (
+                            <p className="font-semibold text-red-600">{errors.email}</p>
+                        )}
                     </div>
+
                     <div className="flex flex-col">
                         <label className="mb-1" htmlFor="fullName">
                             Full Name
@@ -105,7 +129,11 @@ export default function SignupPage() {
                             value={credentials.fullName ?? ""}
                             onChange={(e) => handleChange(e)}
                         />
+                        {errors && errors.fullName && (
+                            <p className="font-semibold text-red-600">{errors.fullName}</p>
+                        )}
                     </div>
+
                     <div className="flex flex-col">
                         <label className="mb-1" htmlFor="phoneNumber">
                             Phone Number
@@ -118,7 +146,11 @@ export default function SignupPage() {
                             value={credentials.phoneNumber ?? ""}
                             onChange={(e) => handleChange(e)}
                         />
+                        {errors && errors.phoneNumber && (
+                            <p className="font-semibold text-red-600">{errors.phoneNumber}</p>
+                        )}
                     </div>
+
                     <div className="flex flex-col">
                         <label className="mb-1" htmlFor="password">
                             Password
@@ -131,7 +163,11 @@ export default function SignupPage() {
                             value={credentials.password ?? ""}
                             onChange={(e) => handleChange(e)}
                         />
+                        {errors && errors.password && (
+                            <p className="font-semibold text-red-600">{errors.password}</p>
+                        )}
                     </div>
+
                     <div className="flex flex-col">
                         <label className="mb-1" htmlFor="confirm-password">
                             Confirm Password
@@ -144,17 +180,11 @@ export default function SignupPage() {
                             value={credentials.confirmPassword ?? ""}
                             onChange={(e) => handleChange(e)}
                         />
+                        {errors && errors.confirmPassword && (
+                            <p className="font-semibold text-red-600">{errors.confirmPassword}</p>
+                        )}
                     </div>
-                    {errors
-                        ? Object.values(errors).map((error, index) => (
-                              <p
-                                  key={index}
-                                  className="font-semibold text-red-600"
-                              >
-                                  {error}
-                              </p>
-                          ))
-                        : null}
+
                     {isError ? (
                         <p className="font-semibold text-red-600">
                             {error.data?.message}

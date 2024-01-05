@@ -14,23 +14,43 @@ export default function LoginPage() {
     const navigate = useNavigate();
     const [credentials, setCredentials] = useState({});
     const [emailError, setEmailError] = useState(null);
+    const [passwordError, setPasswordError] = useState(null);
     const [login, { data, isLoading, isSuccess, isError, error }] =
         useLoginMutation();
 
     function handleChange(e) {
         setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     }
+
     function handleSubmit(e) {
         e.preventDefault();
-        if (credentials.email === "" || credentials.password === "") {
+
+        // Validate empty email and password fields
+        const emptyFields = ["email", "password"];
+        const emptyFieldErrors = {};
+
+        emptyFields.forEach((field) => {
+            if (!credentials[field] || credentials[field].trim() === "") {
+                emptyFieldErrors[field] = "This field is required";
+            }
+        });
+
+        if (Object.keys(emptyFieldErrors).length > 0) {
+            setEmailError(emptyFieldErrors.email);
+            setPasswordError(emptyFieldErrors.password);
             return;
         }
+
+        // Your existing email validation code
         const regex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,5}$/g;
         if (!regex.test(credentials.email)) {
             setEmailError("Email is not valid");
+            setPasswordError(null); // Clear password error if email is invalid
             return;
         }
+
         setEmailError(null);
+        setPasswordError(null);
         login(credentials);
     }
 
@@ -80,32 +100,41 @@ export default function LoginPage() {
                                 Email
                             </label>
                             <input
-                                className="w-[100%] border-none outline-none px-3 py-2 rounded-[4px] bg-gray-200"
+                                className={`w-[100%] border-none outline-none px-3 py-2 rounded-[4px] bg-gray-200 ${
+                                    emailError ? "border-red-500" : ""
+                                }`}
                                 type="text"
                                 id="email"
                                 value={credentials.email ?? ""}
                                 onChange={(e) => handleChange(e)}
                                 placeholder="Your Email"
                             />
+                            {emailError ? (
+                                <p className="font-semibold text-red-600">
+                                    {emailError}
+                                </p>
+                            ) : null}
                         </div>
                         <div className="flex flex-col">
                             <label className="mb-1" htmlFor="password">
                                 Password
                             </label>
                             <input
-                                className="w-[100%] border-none outline-none px-3 py-2 rounded-[4px] bg-gray-200"
+                                className={`w-[100%] border-none outline-none px-3 py-2 rounded-[4px] bg-gray-200 ${
+                                    passwordError ? "border-red-500" : ""
+                                }`}
                                 type="password"
                                 id="password"
                                 value={credentials.password ?? ""}
                                 onChange={(e) => handleChange(e)}
                                 placeholder="Your Password"
                             />
+                            {passwordError ? (
+                                <p className="font-semibold text-red-600">
+                                    {passwordError}
+                                </p>
+                            ) : null}
                         </div>
-                        {emailError ? (
-                            <p className="font-semibold text-red-600">
-                                {emailError}
-                            </p>
-                        ) : null}
                         {isError ? (
                             <p className="font-semibold text-red-600">
                                 {error.data?.message}
@@ -121,7 +150,6 @@ export default function LoginPage() {
                             />
                         </button>
                     </div>
-
                     <p className="text-small-regular text-light-2 text-center mt-2">
                         Don{"'"}t have an account yet?
                         <Link
