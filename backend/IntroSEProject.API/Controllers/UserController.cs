@@ -39,20 +39,6 @@ namespace IntroSEProject.API.Controllers
                 registerModel.Password = passwordHash;
                 User user = mapper.Map<User>(registerModel);
 
-                //var token = Guid.NewGuid().ToString();
-                //user.EmailConfirmToken = token;
-
-                
-                //var apiBaseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
-                //var pageUrl = $"{registerModel.EmailConfirmSuccessPage}";
-                //var link = $"{apiBaseUrl}/confirm-email?emailConfirm={token}&pageUrl={pageUrl}";
-                //var response = await emailService.SendEmailAsync(user.Email, "Email Confirm", link);
-
-                //if (!response.IsSuccessStatusCode)
-                //{
-                //    return Forbid();
-                //}
-
                 await context.AddAsync(user);
                 await context.SaveChangesAsync();
                 return Ok();
@@ -63,20 +49,6 @@ namespace IntroSEProject.API.Controllers
             }
         }
 
-        //[HttpGet("/confirm-email")]
-        //public async Task<IActionResult> ConfirmEmail(string emailConfirm, string pageUrl)
-        //{
-        //    var user = await context.Users.Where(x => x.EmailConfirmToken == emailConfirm)
-        //        .FirstOrDefaultAsync();
-        //    if (user == null)
-        //    {
-        //        return BadRequest(new {error = "Email Confirmation Failed"});
-        //    }
-        //    user.EmailConfirmed = true;
-        //    user.EmailConfirmToken = string.Empty;
-        //    await context.SaveChangesAsync();
-        //    return Redirect(pageUrl);
-        //}
 
         [HttpPost]
         [Route("/authenticate")]
@@ -85,13 +57,8 @@ namespace IntroSEProject.API.Controllers
             var user = await context.Users.SingleOrDefaultAsync(x => x.Email == credential.Email);
             if (user != null && BCrypt.Net.BCrypt.Verify(credential.Password, user.Password))
             {
-                //if  (user.EmailConfirmed == false)
-                //{
-                //    return Ok(new { message = "The email hasn't been confirmed" });
-                //}
                 (string accessToken, DateTime accessTokenExpiresAt) = tokenManager.CreateAccessToken(user);
                 (string refreshToken, DateTime refreshTokenExpiresAt) = tokenManager.CreateRefreshToken(user);
-                //SetAccessTokenCookie(accessToken, accessTokenExpiresAt);
                 SetRefreshTokenCookie(refreshToken, refreshTokenExpiresAt);
 
                 return Ok(new {
@@ -164,30 +131,30 @@ namespace IntroSEProject.API.Controllers
             return Ok(pager);
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Edit([FromRoute] int id, [FromBody] User model)
-        {
-            var user = await context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+        //[Authorize(Roles = "Admin")]
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> Edit([FromRoute] int id, [FromBody] User model)
+        //{
+        //    var user = await context.Users.FindAsync(id);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            try
-            {
-                await context.SaveChangesAsync();
-                return Ok(user);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!context.Users.Any(e => e.Id == id))
-                {
-                    return NotFound();
-                }
-                throw;
-            }
-        }
+        //    try
+        //    {
+        //        await context.SaveChangesAsync();
+        //        return Ok(user);
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!context.Users.Any(e => e.Id == id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        throw;
+        //    }
+        //}
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
@@ -203,18 +170,6 @@ namespace IntroSEProject.API.Controllers
             return Ok(user);
         }
 
-        //private void SetAccessTokenCookie(string token, DateTime expiresAt)
-        //{
-        //    Response.Cookies.Append("access_token", token, 
-        //        new CookieOptions
-        //    {
-        //        HttpOnly = true,
-        //        Expires = expiresAt,
-        //        SameSite = SameSiteMode.None,
-        //        Secure = true
-        //        });
-
-        //}
         private void SetRefreshTokenCookie(string token, DateTime expiresAt)
         {
             Response.Cookies.Append("refresh_token", token,
@@ -225,6 +180,37 @@ namespace IntroSEProject.API.Controllers
                     SameSite = SameSiteMode.None,
                     Secure = true
                 });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Edit([FromRoute] int id, [FromBody] User model)
+        {
+            var user = await context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                user.Email = model.Email;
+                user.PhoneNumber = model.PhoneNumber;
+                user.FullName = model.FullName;
+                user.Gender = model.Gender;
+                user.DateOfBirth = model.DateOfBirth;
+                user.Avatar = model.Avatar;
+                await context.SaveChangesAsync();
+                return Ok(user);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!context.Users.Any(e => e.Id == id))
+                {
+                    return NotFound();
+                }
+                throw;
+            }
         }
     }
 }
